@@ -6,7 +6,7 @@ const Hero = () => {
     <div className="bg-white text-gray-800">
       {/* Hero Section */}
       <section className="bg-pink-100 py-20">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
               Comfort & Confidence
@@ -49,6 +49,7 @@ const Hero = () => {
         </div>
       </section>
 
+      {/*About Section */}
       <section className="bg-pink-100 pb-10">
         <div className="max-w-7xl mx-auto px-6">
           {/* Heading */}
@@ -127,6 +128,126 @@ const Hero = () => {
                     Sustainable and responsible production.
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/*Product Section */}
+      <section className="py-16 bg-pink-100">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Heading */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-800">
+              Our Products
+            </h2>
+            <p className="text-gray-600 mt-3 max-w-2xl mx-auto">
+              Discover Lumora’s range of high-quality sanitary napkins designed
+              for comfort, protection, and confidence throughout the day.
+            </p>
+          </div>
+
+          {/* Products Grid */}
+          <div className="grid md:grid-cols-4 gap-8">
+            {/* Product 1 */}
+            <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group">
+              <div className="flex justify-center mb-4">
+                <img
+                  src="/product.jpeg"
+                  alt="Lumora Regular Pads"
+                  className="h-48 object-contain group-hover:scale-105 transition"
+                />
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 text-center">
+                Lumora Regular Pads
+              </h3>
+
+              <p className="text-gray-600 text-sm text-center mt-2">
+                Comfortable everyday protection with soft breathable layers.
+              </p>
+
+              <div className="flex justify-center mt-4">
+                <button className="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                  View Product
+                </button>
+              </div>
+            </div>
+
+            {/* Product 2 */}
+            <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group">
+              <div className="flex justify-center mb-4">
+                <img
+                  src="/product1.jpeg"
+                  alt="Lumora XL Pads"
+                  className="h-48 object-contain group-hover:scale-105 transition"
+                />
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 text-center">
+                Lumora XL Protection
+              </h3>
+
+              <p className="text-gray-600 text-sm text-center mt-2">
+                Extra-long pads designed for overnight safety and maximum
+                absorption.
+              </p>
+
+              <div className="flex justify-center mt-4">
+                <button className="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                  View Product
+                </button>
+              </div>
+            </div>
+
+            {/* Product 3 */}
+            <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group">
+              <div className="flex justify-center mb-4">
+                <img
+                  src="/product2.jpeg"
+                  alt="Lumora Ultra Pads"
+                  className="h-48 object-contain group-hover:scale-105 transition"
+                />
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 text-center">
+                Lumora Ultra Comfort
+              </h3>
+
+              <p className="text-gray-600 text-sm text-center mt-2">
+                Ultra-thin sanitary pads with superior absorbency and comfort.
+              </p>
+
+              <div className="flex justify-center mt-4">
+                <button className="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                  View Product
+                </button>
+              </div>
+            </div>
+
+            {/* Product 3 */}
+            <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group">
+              <div className="flex justify-center mb-4">
+                <img
+                  src="/product3.jpeg"
+                  alt="Lumora Ultra Pads"
+                  className="h-48 object-contain group-hover:scale-105 transition"
+                />
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 text-center">
+                Lumora Ultra Comfort
+              </h3>
+
+              <p className="text-gray-600 text-sm text-center mt-2">
+                Ultra-thin sanitary pads with superior absorbency and comfort.
+              </p>
+
+              <div className="flex justify-center mt-4">
+                <button className="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                  View Product
+                </button>
               </div>
             </div>
           </div>
