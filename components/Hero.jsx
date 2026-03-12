@@ -24,9 +24,7 @@ const Hero = () => {
           </p>
 
           <p className="mt-6 text-gray-600 text-lg">
-            Lumora India provides high-quality sanitary napkins designed for
-            maximum comfort, protection, and hygiene. Stay confident and active
-            every day with safe and reliable feminine care.
+            Lumora India is a well established platform for the sanitary napkins.
           </p>
 
           <div className="mt-8 flex gap-4">
