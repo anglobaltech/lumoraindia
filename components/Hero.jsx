@@ -17,6 +17,10 @@ const Hero = () => {
             every day with safe and reliable feminine care.
           </p>
 
+          <p className="mt-6 text-gray-600 text-lg">
+            Lumora India is a well established platform for the sanitary napkins.
+          </p>
+
           <div className="mt-8 flex gap-4">
             <Link
               href="/products"
