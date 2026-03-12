@@ -7,7 +7,7 @@ const Header = () => {
       <div className="flex justify-between items-center">
 
         <h1 className="text-green-400 text-xl font-bold">
-          Lumora India.
+          Lumora India
         </h1>
 
         <nav>
@@ -31,6 +31,11 @@ const Header = () => {
             </li>
 
             <li>
+              <Link href="/contact-us" className="hover:text-white">
+                Contact Us
+              </Link>
+            </li>
+             <li>
               <Link href="/contact-us" className="hover:text-white">
                 Contact Us
               </Link>

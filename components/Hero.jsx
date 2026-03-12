@@ -7,15 +7,9 @@ const Hero = () => {
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
         <div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
-            Comfort & Confidence
+            Comfort & Confidence Relief
             <span className="text-pink-500"> Every Day</span>
           </h1>
-
-          <p className="mt-6 text-gray-600 text-lg">
-            Lumora India provides high-quality sanitary napkins designed for
-            maximum comfort, protection, and hygiene. Stay confident and active
-            every day with safe and reliable feminine care.
-          </p>
 
           <p className="mt-6 text-gray-600 text-lg">
             Lumora India provides high-quality sanitary napkins designed for
