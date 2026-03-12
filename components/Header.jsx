@@ -1,14 +1,16 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
 
 const Header = () => {
   return (
     <header className="bg-gray-900 text-white px-8 py-4">
       <div className="flex justify-between items-center">
-
-        <h1 className="text-green-400 text-xl font-bold">
-          Lumora India
-        </h1>
+        
+        <Link href="/">
+          <h1 className="text-pink-400 text-xl font-extrabold cursor-pointer hover:text-pink-500 transition">
+            Lumora India
+          </h1>
+        </Link>
 
         <nav>
           <ul className="flex gap-8 text-green-300">
@@ -35,17 +37,11 @@ const Header = () => {
                 Contact Us
               </Link>
             </li>
-             <li>
-              <Link href="/contact-us" className="hover:text-white">
-                Contact Us
-              </Link>
-            </li>
           </ul>
         </nav>
-
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
