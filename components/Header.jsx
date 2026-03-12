@@ -35,6 +35,11 @@ const Header = () => {
                 Contact Us
               </Link>
             </li>
+             <li>
+              <Link href="/contact-us" className="hover:text-white">
+                Contact Us
+              </Link>
+            </li>
           </ul>
         </nav>
 
