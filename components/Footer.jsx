@@ -3,12 +3,18 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-10">
-      <div className="max-w-6xl mx-auto px-8 py-10 grid md:grid-cols-3 gap-8">
+    <footer className="bg-gray-900 py-5 text-white mt-2">
+      <div className="max-w-6xl mx-auto px-5 py-2 grid md:grid-cols-3 gap-8">
         
         {/* Logo / About */}
         <div>
-          <h2 className="text-green-400 text-xl font-bold">MyWebsite</h2>
+        <Link href="/">
+          <img
+            src="/logo2.png"
+            alt="Lumora India Logo"
+            className="h-20 w-auto cursor-pointer"
+          />
+        </Link>
           <p className="mt-3 text-sm">
             We provide high quality products and services to help grow your
             business and make life easier.
