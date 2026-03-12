@@ -7,7 +7,7 @@ const Hero = () => {
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
         <div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
-            Comfort & Confidence
+            Comfort & Confidence Relief
             <span className="text-pink-500"> Every Day</span>
           </h1>
 
