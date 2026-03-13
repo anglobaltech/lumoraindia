@@ -79,7 +79,7 @@ const Hero = () => {
             {/* Text Content */}
             <div>
               <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-                Our Commitment
+                Our Lumora India Commitment
               </h3>
 
               <p className="text-gray-600 mb-4 leading-relaxed">
@@ -91,7 +91,7 @@ const Hero = () => {
 
               <p className="text-gray-600 mb-6 leading-relaxed">
                 We focus on innovation, quality materials, and eco-friendly
-                practices to create products that not only support women's
+                practices to create products that not only support womens
                 health but also care for the environment.
               </p>
 
@@ -108,7 +108,7 @@ const Hero = () => {
 
                 <div className="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer">
                   <h4 className="font-semibold text-pink-600">
-                    High Protection
+                    High Protection Safety
                   </h4>
                   <p className="text-sm text-gray-600">
                     Advanced absorbent technology for safety.
