@@ -108,7 +108,7 @@ const Hero = () => {
 
                 <div className="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer">
                   <h4 className="font-semibold text-pink-600">
-                    High Protection
+                    High Protection Safety
                   </h4>
                   <p className="text-sm text-gray-600">
                     Advanced absorbent technology for safety.
