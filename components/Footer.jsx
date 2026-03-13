@@ -9,6 +9,7 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -17,17 +18,13 @@ const Footer = () => {
         
         {/* Company Info */}
         <div>
-  <Link href="/" className="flex items-center gap-3">
-    <img
-      src="/logo2.png"
-      alt="Lumora India Logo"
-      className="h-16 w-auto cursor-pointer"
-    />
-
-    <h1 className="text-xl font-semibold text-pink-300">
-      Lumora India
-    </h1>
-  </Link>
+          <Link href="/">
+            <img
+              src="/logo2.png"
+              alt="Lumora India Logo"
+              className="h-16 w-auto cursor-pointer"
+            />
+          </Link>
 
   <p className="mt-4 text-sm leading-relaxed">
     Lumora India provides premium quality products and reliable
