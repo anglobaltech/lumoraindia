@@ -353,7 +353,7 @@ const Page = () => {
 
             {contactItems.map(({ icon: Icon, label, value, sub, color }) => (
               <div className="c-card" key={label}>
-                <div className={`c-icon bg-gradient-to-br ${color}`}>
+                <div className={`c-icon bg-linear-to-br ${color}`}>
                   <Icon size={16} />
                 </div>
                 <div>

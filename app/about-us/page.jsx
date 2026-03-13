@@ -2,10 +2,10 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="bg-white text-gray-800">
+    <div className="bg-pink-100 text-gray-800">
 
       {/* Hero Section */}
-      <section className="py-20 bg-linear-to-r from-pink-50 to-purple-50">
+      <section className="py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             About Lumora India
@@ -52,7 +52,7 @@ const page = () => {
       </section>
 
       {/* Mission */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
 
           <h2 className="text-3xl font-bold mb-6">
@@ -74,7 +74,7 @@ const page = () => {
 
           <div>
             <img
-              src="/product.jpg"
+              src="/product.jpeg"
               alt="lumoraindia products"
               className="rounded-xl shadow-lg"
             />
@@ -97,7 +97,7 @@ const page = () => {
       </section>
 
       {/* Sustainability */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20">
         <div className="max-w-5xl mx-auto px-6 text-center">
 
           <h2 className="text-3xl font-bold mb-6">
