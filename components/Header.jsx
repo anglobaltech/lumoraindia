@@ -10,6 +10,7 @@ const Header = () => {
             src="/logo2.png"
             alt="Lumora India Logo"
             className="h-18 w-auto cursor-pointer"
+            className="h-20 w-auto cursor-pointer"
           />
         </Link>
 
