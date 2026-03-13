@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Hero = () => {
   return (
@@ -40,9 +41,11 @@ const Hero = () => {
             </div>
           </div>
           <div className="flex justify-center">
-            <img
+            <Image
               src="/1.png"
               alt="Lumora Sanitary Napkins"
+              height={100}
+              width={100}
               className="w-80 md:w-96 rounded-2xl"
             />
           </div>
@@ -69,9 +72,11 @@ const Hero = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Image */}
             <div className="flex justify-center">
-              <img
+              <Image
                 src="/2.png"
                 alt="Lumora Sanitary Napkins"
+                height={100}
+                width={100}
                 className="w-80 md:w-96 border border-gray-200 rounded-2xl shadow-lg"
               />
             </div>
@@ -153,9 +158,11 @@ const Hero = () => {
             {/* Product 1 */}
             <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group">
               <div className="flex justify-center mb-4">
-                <img
+                <Image
                   src="/product.jpeg"
                   alt="Lumora Regular Pads"
+                  height={100}
+                  width={100}
                   className="h-48 object-contain group-hover:scale-105 transition"
                 />
               </div>
@@ -167,20 +174,24 @@ const Hero = () => {
               <p className="text-gray-600 text-sm text-center mt-2">
                 Comfortable everyday protection with soft breathable layers.
               </p>
-
-              <div className="flex justify-center mt-4">
-                <button className="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+            
+              <div className="flex justify-center cursor-pointer mt-4">
+                <Link href="/products">
+                <button className="bg-pink-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                   View Product
                 </button>
+                </Link>
               </div>
             </div>
 
             {/* Product 2 */}
             <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group">
               <div className="flex justify-center mb-4">
-                <img
+                <Image
                   src="/product1.jpeg"
                   alt="Lumora XL Pads"
+                  height={100}
+                  width={100}
                   className="h-48 object-contain group-hover:scale-105 transition"
                 />
               </div>
@@ -195,18 +206,22 @@ const Hero = () => {
               </p>
 
               <div className="flex justify-center mt-4">
-                <button className="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                <Link href="/products">
+                <button className="bg-pink-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                   View Product
                 </button>
+                </Link>
               </div>
             </div>
 
             {/* Product 3 */}
             <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group">
               <div className="flex justify-center mb-4">
-                <img
+                <Image
                   src="/product2.jpeg"
                   alt="Lumora Ultra Pads"
+                  height={100}
+                  width={100}
                   className="h-48 object-contain group-hover:scale-105 transition"
                 />
               </div>
@@ -220,18 +235,22 @@ const Hero = () => {
               </p>
 
               <div className="flex justify-center mt-4">
-                <button className="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                <Link href="/products">
+                <button className="bg-pink-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                   View Product
                 </button>
+                </Link>
               </div>
             </div>
 
             {/* Product 3 */}
             <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group">
               <div className="flex justify-center mb-4">
-                <img
+                <Image
                   src="/product3.jpeg"
                   alt="Lumora Ultra Pads"
+                  height={100}
+                  width={100}
                   className="h-48 object-contain group-hover:scale-105 transition"
                 />
               </div>
@@ -245,9 +264,11 @@ const Hero = () => {
               </p>
 
               <div className="flex justify-center mt-4">
-                <button className="bg-pink-500 text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
+                <Link href="/products">
+                <button className="bg-pink-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-pink-600 transition">
                   View Product
                 </button>
+                </Link>
               </div>
             </div>
           </div>
