@@ -47,7 +47,7 @@ const page = () => {
               alt="about The lumoraindia"
               height={100}
               width={100}
-              className="rounded-xl shadow-lg"
+              className="rounded-xl shadow-lg h-auto"
             />
           </div>
 
