@@ -33,7 +33,7 @@ const Footer = () => {
 
           {/* Social Icons */}
           <div className="flex gap-4 mt-5">
-            <a href="#" className="hover:text-green-400 transition">
+            {/* <a href="#" className="hover:text-green-400 transition">
               <Facebook size={20} />
             </a>
             <a href="#" className="hover:text-green-400 transition">
@@ -44,7 +44,7 @@ const Footer = () => {
             </a>
             <a href="#" className="hover:text-green-400 transition">
               <Twitter size={20} />
-            </a>
+            </a> */}
           </div>
         </div>
 
