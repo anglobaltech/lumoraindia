@@ -8,7 +8,7 @@ const page = () => {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            About Lumora India
+            About Lumora Indiaaa
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Empowering women through comfort, confidence, and care. Our mission
