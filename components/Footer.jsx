@@ -55,7 +55,7 @@ const Footer = () => {
           </h3>
           <ul className="space-y-3 text-sm">
             <li>
-              <Link href="/" className="hover:text-green-400 transition">
+              <Link href="/" className="hover:text-pink-400 transition">
                 Home
               </Link>
             </li>
