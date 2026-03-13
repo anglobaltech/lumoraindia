@@ -9,6 +9,7 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -18,9 +19,11 @@ const Footer = () => {
         {/* Company Info */}
         <div>
           <Link href="/">
-            <img
+            <Image
               src="/logo2.png"
               alt="Lumora India Logo"
+              height={100}
+              width={100}
               className="h-16 w-auto cursor-pointer"
             />
           </Link>
