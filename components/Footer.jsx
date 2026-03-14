@@ -9,6 +9,7 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -17,9 +18,12 @@ const Footer = () => {
         {/* Company Info */}
         <div>
           <Link href="/" className="flex items-center gap-3">
-            <img
+            <Image
               src="/logo2.png"
               alt="Lumora India Logo"
+              height={100}
+              width={100}
+
               className="h-16 w-auto cursor-pointer"
             />
 
@@ -28,15 +32,17 @@ const Footer = () => {
             </h1>
           </Link>
 
-          <p className="mt-4 text-sm leading-relaxed">
-            Lumora India provides premium quality products and reliable services
-            designed to support businesses and simplify everyday solutions for
-            our customers.
-          </p>
+  <p className="mt-4 text-sm leading-relaxed">
+    Lumora India provides premium quality products and reliable
+    services designed to support businesses and simplify everyday
+    solutions for our customers.
+  </p>
 
-          {/* Social Icons */}
-          <div className="flex gap-4 mt-5">{/* icons here */}</div>
-        </div>
+  {/* Social Icons */}
+  <div className="flex gap-4 mt-5">
+    {/* icons here */}
+  </div>
+</div>
 
         {/* Quick Links */}
         <div>
@@ -92,8 +98,7 @@ const Footer = () => {
             </p>
 
             <p className="flex items-center gap-2">
-              <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153,
-              Noida, Uttar Pradesh 201304
+              <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153, Noida, Uttar Pradesh 201304
             </p>
           </div>
         </div>
