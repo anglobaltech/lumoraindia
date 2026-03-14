@@ -15,17 +15,21 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-6 py-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-        
         {/* Company Info */}
         <div>
-          <Link href="/">
+          <Link href="/" className="flex items-center gap-3">
             <Image
               src="/logo2.png"
               alt="Lumora India Logo"
               height={100}
               width={100}
+
               className="h-16 w-auto cursor-pointer"
             />
+
+            <h1 className="text-xl font-semibold text-pink-300">
+              Lumora India
+            </h1>
           </Link>
 
   <p className="mt-4 text-sm leading-relaxed">
@@ -42,9 +46,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-white font-semibold text-lg mb-4">
-            Quick Links
-          </h3>
+          <h3 className="text-white font-semibold text-lg mb-4">Quick Links</h3>
           <ul className="space-y-3 text-sm">
             <li>
               <Link href="/" className="hover:text-pink-300 transition">
@@ -84,25 +86,26 @@ const Footer = () => {
 
         {/* Contact Info */}
         <div>
-          <h3 className="text-white font-semibold text-lg mb-4">
-            Contact Us
-          </h3>
+          <h3 className="text-white font-semibold text-lg mb-4">Contact Us</h3>
 
           <div className="space-y-3 text-sm">
             <p className="flex items-center gap-2">
+              <Mail size={18} /> info@lumoraindia.com
               <Mail size={18} /> info@lumoraindia.com
             </p>
 
             <p className="flex items-center gap-2">
               <Phone size={18} /> +91 7782069184
+              <Phone size={18} /> +91 7782069184
             </p>
 
             <p className="flex items-center gap-2">
               <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153, Noida, Uttar Pradesh 201304
+              <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153,
+              Noida, Uttar Pradesh 201304
             </p>
           </div>
         </div>
-
       </div>
 
       {/* Bottom Footer */}
