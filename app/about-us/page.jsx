@@ -41,8 +41,8 @@ const page = () => {
             <Image
               src="/lumora.jpg"
               alt="about The lumoraindia"
-              height={100}
-              width={500}
+              height={600}
+              width={600}
               className="rounded-xl shadow-lg"
             />
           </div>
