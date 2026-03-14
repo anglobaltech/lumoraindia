@@ -28,28 +28,17 @@ const Footer = () => {
             />
           </Link>
 
-          <p className="mt-4 text-sm leading-relaxed">
-            Lumora India provides premium quality products and reliable
-            services designed to support businesses and simplify everyday
-            solutions for our customers.
-          </p>
+  <p className="mt-4 text-sm leading-relaxed">
+    Lumora India provides premium quality products and reliable
+    services designed to support businesses and simplify everyday
+    solutions for our customers.
+  </p>
 
-          {/* Social Icons */}
-          <div className="flex gap-4 mt-5">
-            {/* <a href="#" className="hover:text-green-400 transition">
-              <Facebook size={20} />
-            </a>
-            <a href="#" className="hover:text-green-400 transition">
-              <Instagram size={20} />
-            </a>
-            <a href="#" className="hover:text-green-400 transition">
-              <Linkedin size={20} />
-            </a>
-            <a href="#" className="hover:text-green-400 transition">
-              <Twitter size={20} />
-            </a> */}
-          </div>
-        </div>
+  {/* Social Icons */}
+  <div className="flex gap-4 mt-5">
+    {/* icons here */}
+  </div>
+</div>
 
         {/* Quick Links */}
         <div>
@@ -58,22 +47,22 @@ const Footer = () => {
           </h3>
           <ul className="space-y-3 text-sm">
             <li>
-              <Link href="/" className="hover:text-pink-400 transition">
+              <Link href="/" className="hover:text-pink-300 transition">
                 Home
               </Link>
             </li>
             <li>
-              <Link href="/about" className="hover:text-green-400 transition">
+              <Link href="/about" className="hover:text-pink-300 transition">
                 About Us
               </Link>
             </li>
             <li>
-              <Link href="/products" className="hover:text-green-400 transition">
+              <Link href="/products" className="hover:text-pink-300 transition">
                 Products
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-green-400 transition">
+              <Link href="/contact" className="hover:text-pink-300 transition">
                 Contact Us
               </Link>
             </li>
@@ -101,15 +90,15 @@ const Footer = () => {
 
           <div className="space-y-3 text-sm">
             <p className="flex items-center gap-2">
-              <Mail size={18} /> support@lumoraindia.com
+              <Mail size={18} /> info@lumoraindia.com
             </p>
 
             <p className="flex items-center gap-2">
-              <Phone size={18} /> +91 9876543210
+              <Phone size={18} /> +91 7782069184
             </p>
 
             <p className="flex items-center gap-2">
-              <MapPin size={18} /> India
+              <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153, Noida, Uttar Pradesh 201304
             </p>
           </div>
         </div>
