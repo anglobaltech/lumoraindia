@@ -6,54 +6,132 @@ const Hero = () => {
   return (
     <div className="bg-white text-gray-800">
       {/* Hero Section */}
-      <section className="bg-pink-100 min-h-[90%] py-16 md:py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <h1 className="text-5xl sm:text-5xl md:text-5xl font-bold text-gray-800 leading-tight">
-              Comfort & Confidence
-              <span className="text-pink-500"> Every Day</span>
-            </h1>
+<section className="bg-pink-100 min-h-screen flex items-center py-16">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-center">
 
-            <p className="mt-6 text-gray-600 text-base md:text-lg">
-              Lumora India provides high-quality sanitary napkins designed for
-              maximum comfort, protection, and hygiene. Stay confident and
-              active every day with safe and reliable feminine care.
-            </p>
+    {/* LEFT CONTENT */}
+    <div className="space-y-8">
 
-            <p className="mt-4 text-gray-600 text-base md:text-lg">
-              Lumora India is a well established platform for the sanitary
-              napkins.
-            </p>
+      {/* Heading */}
+      <div>
+        <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 leading-tight">
+          Comfort & Confidence
+          <span className="text-pink-500 block">Every Day</span>
+        </h1>
 
-            <div className="mt-8 flex flex-wrap gap-5">
-              <Link
-                href="/products"
-                className="bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition duration-200"
-              >
-                View Products
-              </Link>
+        <p className="mt-5 text-gray-600 text-base md:text-lg leading-relaxed">
+          Lumora India offers premium quality sanitary napkins designed
+          for superior comfort, hygiene, and reliable protection. Crafted
+          with breathable cotton layers and advanced absorbent technology.
+        </p>
 
-              <Link
-                href="/about-us"
-                className="border border-pink-500 text-pink-500 px-6 py-3 rounded-lg hover:bg-pink-200 transition duration-200"
-              >
-                Learn More
-              </Link>
-            </div>
-          </div>
+        <p className="mt-4 text-gray-600 text-base md:text-lg leading-relaxed">
+          Whether it's daily protection or heavy flow days, Lumora ensures
+          rash-free comfort, dryness, and confidence throughout the day.
+        </p>
+      </div>
 
-          <div className="flex justify-center md:justify-end mt-8 md:mt-0">
-            <Image
-              src="/1.png"
-              alt="Lumora Sanitary Napkins"
-              height={400}
-              width={400}
-              className="w-64 sm:w-80 md:w-96 rounded-2xl object-contain"
-            />
-          </div>
+      {/* Buttons */}
+      <div className="flex flex-wrap gap-4">
+
+        <Link
+          href="/products"
+          className="bg-pink-500 text-white px-7 py-3 rounded-lg font-semibold shadow-md
+          hover:bg-pink-600 hover:shadow-xl hover:-translate-y-1 transition duration-300"
+        >
+          View Products
+        </Link>
+
+        <Link
+          href="/about-us"
+          className="border border-pink-500 text-pink-500 px-7 py-3 rounded-lg font-semibold
+          hover:bg-pink-200 hover:shadow-md hover:-translate-y-1 transition duration-300"
+        >
+          Learn More
+        </Link>
+
+      </div>
+
+      {/* Trust Badges */}
+      <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
+
+        <div className="bg-white px-4 py-3 rounded-lg shadow-sm 
+        hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
+          ✔ Dermatologically Tested
         </div>
-      </section>
 
+        <div className="bg-white px-4 py-3 rounded-lg shadow-sm 
+        hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
+          ✔ 100% Rash Free
+        </div>
+
+        <div className="bg-white px-4 py-3 rounded-lg shadow-sm 
+        hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
+          ✔ Leak Protection
+        </div>
+
+        <div className="bg-white px-4 py-3 rounded-lg shadow-sm 
+        hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
+          ✔ Breathable Cotton Layer
+        </div>
+
+      </div>
+
+      {/* Stats */}
+      <div className="flex gap-10 pt-4">
+
+        <div className="group cursor-pointer">
+          <h3 className="text-2xl font-bold text-pink-500 group-hover:scale-110 transition">
+            10K+
+          </h3>
+          <p className="text-sm text-gray-600">Happy Customers</p>
+        </div>
+
+        <div className="group cursor-pointer">
+          <h3 className="text-2xl font-bold text-pink-500 group-hover:scale-110 transition">
+            99%
+          </h3>
+          <p className="text-sm text-gray-600">Leak Protection</p>
+        </div>
+
+        <div className="group cursor-pointer">
+          <h3 className="text-2xl font-bold text-pink-500 group-hover:scale-110 transition">
+            24/7
+          </h3>
+          <p className="text-sm text-gray-600">Support</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT SIDE */}
+    <div className="relative flex justify-center">
+
+      {/* Image Container */}
+      <div className="relative bg-white p-8 rounded-3xl shadow-xl 
+      hover:shadow-2xl hover:-translate-y-2 transition duration-500 group">
+
+        <Image
+          src="/1.png"
+          alt="Lumora Sanitary Napkins"
+          width={420}
+          height={420}
+          className="object-contain transition-transform duration-500 group-hover:scale-105"
+        />
+
+        {/* Bestseller Badge */}
+        <div className="absolute -top-4 -left-4 bg-pink-500 text-white text-xs px-4 py-1 rounded-full shadow
+        group-hover:scale-110 transition">
+          Bestseller
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
       {/* About Section */}
       <section className="bg-pink-100 py-20">
         <div className="max-w-7xl mx-auto px-6  sm:px-8 lg:px-12">
