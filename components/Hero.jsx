@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <div className="bg-white text-gray-800">
       {/* Hero Section */}
-      <section className="bg-pink-100 py-16 md:py-10">
+      <section className="bg-pink-100 min-h-screen py-16 md:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center">
           <div>
             <h1 className="text-5xl sm:text-5xl md:text-5xl font-bold text-gray-800 leading-tight">
