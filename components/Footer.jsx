@@ -89,17 +89,22 @@ const Footer = () => {
           <h3 className="text-white font-semibold text-lg mb-4">Contact Us</h3>
 
           <div className="space-y-3 text-sm">
-            <p className="flex items-center gap-2">
+            <Link href="mailto:info@lumoraindia.com" target="blank">
+            <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
               <Mail size={18} /> info@lumoraindia.com
             </p>
+            </Link>
 
-            <p className="flex items-center gap-2">
+            <Link href="tel:+917782069184" target="blank">
+            <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
               <Phone size={18} /> +91 7782069184
             </p>
-
-            <p className="flex items-center gap-2">
+            </Link>
+            <Link href="https://maps.app.goo.gl/eJtCwdnp1PWWMNGt5" target="blank">
+            <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
               <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153, Noida, Uttar Pradesh 201304
             </p>
+            </Link>
           </div>
         </div>
       </div>
