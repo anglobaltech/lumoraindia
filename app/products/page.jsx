@@ -128,7 +128,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </section>
+    </section> 
   );
 };
 
