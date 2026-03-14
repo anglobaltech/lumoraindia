@@ -148,7 +148,7 @@ const Hero = () => {
           </div>
 
           {/* Content Grid */}
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 mt-25 gap-12 items-center">
             {/* Image */}
             <div className="flex justify-center">
               <Image
@@ -156,7 +156,7 @@ const Hero = () => {
                 alt="Lumora Sanitary Napkins"
                 height={400}
                 width={400}
-                className="w-64 sm:w-80 md:w-96 border border-gray-200 rounded-2xl shadow-lg object-contain"
+                className="w-64 sm:w-80 md:w-120 border border-gray-200 rounded-2xl shadow-lg object-contain"
               />
             </div>
 
