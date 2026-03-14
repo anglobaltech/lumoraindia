@@ -1,5 +1,7 @@
+
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 const page = () => {
   return (
@@ -20,7 +22,7 @@ const page = () => {
 
       {/* About Content */}
       <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl font-bold mb-6">Our Journey!</h2>
 
@@ -49,7 +51,7 @@ const page = () => {
         </div>
       </section>
 
-<section className="py-20 bg-pink-50">
+<section className="py-20 ">
   <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
 
     <div>
@@ -57,7 +59,7 @@ const page = () => {
         Our Mission
       </h2>
 
-      <p className="mt-6 text-gray-600 text-lg leading-relaxed">
+      <p className="mt-6 text-gray-600  leading-relaxed">
         At <span className="font-semibold text-pink-500">Lumora India</span>,
         our mission is to provide women with safe, comfortable, and reliable
         menstrual care products. We are committed to designing sanitary
@@ -65,7 +67,7 @@ const page = () => {
         and long-lasting comfort so women can live confidently every day.
       </p>
 
-      <p className="mt-4 text-gray-600 text-lg leading-relaxed">
+      <p className="mt-4 text-gray-600  leading-relaxed">
         We believe that every woman deserves access to hygienic and affordable
         feminine care. Through innovation, quality, and awareness, we strive
         to make menstrual health simple, safe, and empowering for women
@@ -109,27 +111,63 @@ const page = () => {
 
       {/* Products */}
       <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <Image
-              src="/product.jpeg"
-              alt="lumoraindia products"
-              height={150}
-              width={150}
-              className="rounded-xl h-full w-full shadow-lg"
-            />
-          </div>
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 justify-center items-center">
+            <div className="bg-pink-50 p-8 rounded-3xl shadow-md">
+              <Image
+                src="/product3.jpeg"
+                alt="Ultra Soft Sanitary Napkins"
+                width={450}
+                height={450}
+                className="rounded-2xl object-contain"
+              />
+            </div>
 
-          <div>
-            <h2 className="text-3xl font-bold mb-6">Our Products</h2>
+   <div>
 
-            <p className="text-gray-600 leading-relaxed">
-              Designed with modern technology and premium materials, our
-              sanitary pads provide superior absorbency, breathability, and
-              protection. Every product is dermatologically tested and free from
-              harmful chemicals.
-            </p>
-          </div>
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+        Our Product
+      </h2>
+
+      <p className="mt-4 text-gray-600 text-lg leading-relaxed">
+        Lumora India sanitary napkins are designed to provide maximum comfort,
+        hygiene, and protection during your menstrual cycle. Our advanced
+        absorbent technology ensures dryness while maintaining softness
+        for sensitive skin.
+      </p>
+
+      {/* Feature List */}
+      <div className="mt-8 space-y-4">
+
+        <div className="flex items-start gap-3">
+          <span className="text-pink-500 text-xl">✔</span>
+          <p className="text-gray-700">Leak-proof protection for heavy flow days</p>
+        </div>
+
+        <div className="flex items-start gap-3">
+          <span className="text-pink-500 text-xl">✔</span>
+          <p className="text-gray-700">Ultra soft cotton surface for comfort</p>
+        </div>
+
+        <div className="flex items-start gap-3">
+          <span className="text-pink-500 text-xl">✔</span>
+          <p className="text-gray-700">Anti-bacterial layer for better hygiene</p>
+        </div>
+
+        <div className="flex items-start gap-3">
+          <span className="text-pink-500 text-xl">✔</span>
+          <p className="text-gray-700">High absorbency technology</p>
+        </div>
+
+      </div>
+
+      {/* Button */}
+      <Link href="/products" >
+      <button className="mt-8 bg-pink-500 cursor-pointer text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition">
+        View Product
+      </button>
+      </Link>
+
+    </div>
         </div>
       </section>
 
@@ -201,8 +239,8 @@ const page = () => {
 </section>
 
       {/* Sustainability */}
-      <section className="py-20">
-        <div className="max-w-5xl mx-auto px-6 text-center">
+      <section className="py-8" >
+        <div className="max-w-5xl py-5 mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-6">
             Commitment to Sustainability
           </h2>
@@ -213,11 +251,8 @@ const page = () => {
             create products that care for both women and the planet.
           </p>
         </div>
-      </section>
-
-      {/* Community */}
-      <section className="py-20">
-        <div className="max-w-5xl mx-auto px-6 text-center">
+         {/* Community */}
+                <div className="max-w-5xl py-10 mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-6">Empowering Women</h2>
 
           <p className="text-gray-600">
@@ -227,6 +262,7 @@ const page = () => {
           </p>
         </div>
       </section>
+
     </div>
   );
 };

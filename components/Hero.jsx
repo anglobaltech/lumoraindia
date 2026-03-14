@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <div className="bg-white text-gray-800">
       {/* Hero Section */}
-      <section className="bg-pink-100 min-h-screen py-16 md:py-10">
+      <section className="bg-pink-100 min-h-[90%] py-16 md:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center">
           <div>
             <h1 className="text-5xl sm:text-5xl md:text-5xl font-bold text-gray-800 leading-tight">
@@ -55,8 +55,8 @@ const Hero = () => {
       </section>
 
       {/* About Section */}
-      <section className="bg-pink-100 py-10">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      <section className="bg-pink-100 py-20">
+        <div className="max-w-7xl mx-auto px-6  sm:px-8 lg:px-12">
           {/* Heading */}
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl md:text-5xl pb-1 font-bold text-gray-800">
@@ -71,7 +71,7 @@ const Hero = () => {
           </div>
 
           {/* Content Grid */}
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 mt-25 gap-12 items-center">
             {/* Image */}
             <div className="flex justify-center">
               <Image
@@ -79,7 +79,7 @@ const Hero = () => {
                 alt="Lumora Sanitary Napkins"
                 height={400}
                 width={400}
-                className="w-64 sm:w-80 md:w-96 border border-gray-200 rounded-2xl shadow-lg object-contain"
+                className="w-64 sm:w-80 md:w-120 border border-gray-200 rounded-2xl shadow-lg object-contain"
               />
             </div>
 
@@ -184,13 +184,13 @@ const Hero = () => {
                 key={product.name}
                 className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:bg-pink-100 transition duration-300 group flex flex-col"
               >
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center  mb-4">
                   <Image
                     src={product.src}
                     alt={product.alt}
                     height={200}
                     width={200}
-                    className="h-44 w-full object-contain group-hover:scale-105 transition duration-300"
+                    className="h-44 w-full object-fill rounded-lg  group-hover:scale-105 transition duration-300"
                   />
                 </div>
 
