@@ -19,25 +19,25 @@ const Header = () => {
         <nav className="font-bold text-lg">
           <ul className="flex gap-8 text-white">
             <li>
-              <Link href="/" className="hover:text-pink-300">
+              <Link href="/" className="hover:text-pink-500">
                 Home
               </Link>
             </li>
 
             <li>
-              <Link href="/about-us" className="hover:text-pink-300">
+              <Link href="/about-us" className="hover:text-pink-500">
                 About Us
               </Link>
             </li>
 
             <li>
-              <Link href="/products" className="hover:text-pink-300">
+              <Link href="/products" className="hover:text-pink-500">
                 Products
               </Link>
             </li>
 
             <li>
-              <Link href="/contact-us" className="hover:text-pink-300">
+              <Link href="/contact-us" className="hover:text-pink-500">
                 Contact Us
               </Link>
             </li>
