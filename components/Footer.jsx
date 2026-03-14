@@ -91,18 +91,14 @@ const Footer = () => {
           <div className="space-y-3 text-sm">
             <p className="flex items-center gap-2">
               <Mail size={18} /> info@lumoraindia.com
-              <Mail size={18} /> info@lumoraindia.com
             </p>
 
             <p className="flex items-center gap-2">
-              <Phone size={18} /> +91 7782069184
               <Phone size={18} /> +91 7782069184
             </p>
 
             <p className="flex items-center gap-2">
               <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153, Noida, Uttar Pradesh 201304
-              <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153,
-              Noida, Uttar Pradesh 201304
             </p>
           </div>
         </div>
