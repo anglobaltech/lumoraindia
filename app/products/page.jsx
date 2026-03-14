@@ -71,22 +71,22 @@ const Page = () => {
             </h3>
 
             <div className="flex gap-4 mb-8 flex-wrap">
-              <button className="px-6 py-3 rounded-xl cursor-pointer bg-pink-500 text-white font-medium shadow hover:bg-pink-600 transition">
+              <button className="px-6 py-3 rounded-xl bg-pink-500 text-white font-medium shadow hover:bg-pink-600 transition">
                 7 Pads
               </button>
 
-              <button className="px-6 py-3 rounded-xl cursor-pointer bg-pink-100 text-gray-800 font-medium hover:bg-pink-200 transition">
+              <button className="px-6 py-3 rounded-xl bg-pink-100 text-gray-800 font-medium hover:bg-pink-200 transition">
                 14 Pads
               </button>
 
-              <button className="px-6 py-3 rounded-xl cursor-pointer bg-pink-100 text-gray-800 font-medium hover:bg-pink-200 transition">
+              <button className="px-6 py-3 rounded-xl bg-pink-100 text-gray-800 font-medium hover:bg-pink-200 transition">
                 28 Pads
               </button>
             </div>
 
             {/* Order Button */}
             <Link href="https://wa.me/917782069184" target="_blank">
-              <button className="flex items-center cursor-pointer gap-2 bg-green-500 text-white px-7 py-3 rounded-xl font-semibold hover:bg-green-600 transition shadow-md">
+              <button className="flex items-center gap-2 bg-green-500 text-white px-7 py-3 rounded-xl font-semibold hover:bg-green-600 transition shadow-md">
                 <MessageCircle size={20} />
                 Order on WhatsApp
               </button>
