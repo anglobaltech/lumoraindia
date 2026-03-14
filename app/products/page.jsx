@@ -86,7 +86,7 @@ const Page = () => {
 
             {/* Order Button */}
             <Link href="https://wa.me/917782069184" target="_blank">
-              <button className="flex items-center gap-2 cursor-pointer bg-green-500 text-white px-7 py-3 rounded-xl font-semibold hover:bg-green-600 transition shadow-md">
+              <button className="flex items-center cursor-pointer gap-2 bg-green-500 text-white px-7 py-3 rounded-xl font-semibold hover:bg-green-600 transition shadow-md">
                 <MessageCircle size={20} />
                 Order on WhatsApp
               </button>
