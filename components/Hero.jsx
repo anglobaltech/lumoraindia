@@ -1,16 +1,88 @@
+"use client"
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { Droplets, HeartPulse, ShieldCheck, Sparkles } from "lucide-react";
+
+
+// why choose lumora india
+  const features = [
+    {
+      icon: <ShieldCheck size={42} />,
+      title: "Advanced Leak Protection",
+      desc: "Lumora sanitary napkins use multi-layer absorbent technology to prevent leakage and keep you dry and comfortable throughout the day.",
+    },
+    {
+      icon: <HeartPulse size={42} />,
+      title: "Skin Friendly Cotton",
+      desc: "Soft breathable cotton surface protects sensitive skin and ensures irritation-free comfort during long hours of use.",
+    },
+    {
+      icon: <Droplets size={42} />,
+      title: "High Absorbency Core",
+      desc: "Deep absorbent layers quickly lock moisture and help maintain hygiene while preventing odor and wetness.",
+    },
+    {
+      icon: <Sparkles size={42} />,
+      title: "Trusted Hygiene Quality",
+      desc: "Lumora India focuses on premium women's hygiene products designed for safety, comfort and confidence every day.",
+    },
+  ];
+
+// products
+const products = [
+  {
+    id: 1,
+    name: "Ultra Comfort Sanitary Pads",
+    price: "₹199",
+    oldPrice: "₹249",
+    image: "/product1.png",
+  },
+  {
+    id: 2,
+    name: "Extra Long Night Protection",
+    price: "₹249",
+    oldPrice: "₹299",
+    image: "/product2.png",
+  },
+  {
+    id: 3,
+    name: "Cotton Soft Day Pads",
+    price: "₹179",
+    oldPrice: "₹219",
+    image: "/product3.png",
+  },
+  {
+    id: 4,
+    name: "Rash Free Hygiene Pads",
+    price: "₹199",
+    oldPrice: "₹249",
+    image: "/product4.png",
+  },
+];
 
 const Hero = () => {
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: "ease-in-out",
+    });
+  }, []);
+
+
   return (
     <div className="bg-white text-gray-800">
-      {/* Hero Section */}
-<section className="bg-pink-100 min-h-screen flex items-center py-16">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-center">
+
+<section className="bg-pink-100 min-h-screen flex items-center py-">
+  <div className="max-w-8xl mx-auto  sm:px-6  grid md:grid-cols-2 gap-16 items-center">
 
     {/* LEFT CONTENT */}
-    <div className="space-y-8">
+    <div className="space-y-8 pl-10">
 
       {/* Heading */}
       <div>
@@ -26,7 +98,7 @@ const Hero = () => {
         </p>
 
         <p className="mt-4 text-gray-600 text-base md:text-lg leading-relaxed">
-          Whether it's daily protection or heavy flow days, Lumora ensures
+          Whether it is daily protection or heavy flow days, Lumora ensures
           rash-free comfort, dryness, and confidence throughout the day.
         </p>
       </div>
@@ -55,23 +127,19 @@ const Hero = () => {
       {/* Trust Badges */}
       <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
 
-        <div className="bg-white px-4 py-3 rounded-lg shadow-sm 
-        hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
+        <div className="bg-white px-4 py-3 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
           ✔ Dermatologically Tested
         </div>
 
-        <div className="bg-white px-4 py-3 rounded-lg shadow-sm 
-        hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
+        <div className="bg-white px-4 py-3 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
           ✔ 100% Rash Free
         </div>
 
-        <div className="bg-white px-4 py-3 rounded-lg shadow-sm 
-        hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
+        <div className="bg-white px-4 py-3 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
           ✔ Leak Protection
         </div>
 
-        <div className="bg-white px-4 py-3 rounded-lg shadow-sm 
-        hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
+        <div className="bg-white px-4 py-3 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
           ✔ Breathable Cotton Layer
         </div>
 
@@ -132,9 +200,10 @@ const Hero = () => {
 
   </div>
 </section>
+
       {/* About Section */}
-      <section className="bg-pink-100 py-20">
-        <div className="max-w-7xl mx-auto px-6  sm:px-8 lg:px-12">
+      <section className="bg-pink-100 py-10">
+        <div className="max-w-7xl mx-auto px-5   ">
           {/* Heading */}
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl md:text-5xl pb-1 font-bold text-gray-800">
@@ -149,21 +218,21 @@ const Hero = () => {
           </div>
 
           {/* Content Grid */}
-          <div className="grid md:grid-cols-2 mt-25 gap-12 items-center">
+          <div className="grid md:grid-cols-2 mt-20  items-center">
             {/* Image */}
-            <div className="flex justify-center">
+            <div className="flex md:justify-start justify-center">
               <Image
                 src="/2.png"
                 alt="Lumora Sanitary Napkins"
                 height={400}
                 width={400}
-                className="w-64 sm:w-80 md:w-120 border border-gray-200 rounded-2xl shadow-lg object-contain"
+                className="w-70 sm:w-80 md:w-120 border border-gray-200 rounded-2xl shadow-lg object-contain"
               />
             </div>
 
             {/* Text Content */}
-            <div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+            <div className="px-[-10]">
+              <h3 className="text-center md:text-left py-7 text-2xl md:text-3xl md:py-0 font-semibold text-gray-800 mb-4">
                 Our Lumora India Commitment
               </h3>
 
@@ -176,7 +245,7 @@ const Hero = () => {
 
               <p className="text-gray-600 mb-6 leading-relaxed">
                 We focus on innovation, quality materials, and eco-friendly
-                practices to create products that not only support women's
+                practices to create products that not only support women&apos;s
                 health but also care for the environment.
               </p>
 
@@ -216,6 +285,60 @@ const Hero = () => {
         </div>
       </section>
 
+{/*   why choose lumora india */}
+
+    <section className="relative py-24 bg-linear-to-b from-pink-50 via-white to-purple-50 overflow-hidden">
+      <div className="absolute top-0 left-0 w-72 h-72 bg-pink-200 rounded-full blur-3xl opacity-30"></div>
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-30"></div>
+      <div className="max-w-7xl mx-auto px-6 relative">
+
+        <div className="text-center mb-16" data-aos="fade-up">
+          <h2 className="text-center text-base text-pink-500">Why Lumora India?</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
+            Why Choose <span className="text-pink-500 italic">Lumora India</span>
+          </h2>
+          <h2 className=" bg-linear-to-l from-purple-600 to-blue-700 bg-clip-text text-transparent font-bold italic py-2 text-3xl">Organic Sanitary Napkin</h2>
+
+          <p className="mt-10 text-gray-600 max-w-2xl mx-auto text-lg">
+            Lumora India provides premium women hygiene products designed for
+            comfort, protection, and confidence during every stage of your day.
+          </p>
+
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+          {features.map((item, index) => (
+            <div
+              key={index}
+              data-aos="zoom-in"
+              data-aos-delay={index * 150}
+              className="group relative bg-white rounded-3xl p-8 shadow-lg 
+              hover:shadow-2xl transition duration-500 hover:-translate-y-3"
+            >
+
+              <div className="absolute inset-0 rounded-3xl bg-linear-to-r from-pink-400 to-purple-400 opacity-0 group-hover:opacity-10 transition"></div>
+
+              <div className="flex justify-center mb-6 text-pink-500 group-hover:scale-110 transition">
+                {item.icon}
+              </div>
+
+              <h3 className="text-xl font-semibold text-gray-800 mb-3 text-center">
+                {item.title}
+              </h3>
+
+              <p className="text-gray-600 text-sm text-center leading-relaxed">
+                {item.desc}
+              </p>
+
+            </div>
+          ))}
+
+        </div>
+
+      </div>
+    </section>
+
       {/* Product Section */}
       <section className="py-10 bg-pink-100">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -225,7 +348,7 @@ const Hero = () => {
               Our Products
             </h2>
             <p className="text-gray-600 mt-3 max-w-2xl mx-auto text-base md:text-lg">
-              Discover Lumora's range of high-quality sanitary napkins designed
+              Discover Lumora&apos;s range of high-quality sanitary napkins designed
               for comfort, protection, and confidence throughout the day.
             </p>
           </div>
