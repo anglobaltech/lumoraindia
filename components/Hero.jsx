@@ -78,6 +78,8 @@ const Hero = () => {
   return (
     <div className="bg-white text-gray-800">
 
+  
+
 <section className="bg-pink-100 min-h-screen flex items-center py-">
   <div className="max-w-8xl mx-auto  sm:px-6  grid md:grid-cols-2 gap-16 items-center">
 
@@ -98,7 +100,7 @@ const Hero = () => {
               </p>
 
               <p className="mt-4 text-gray-600 text-base md:text-lg leading-relaxed">
-                Whether it's daily protection or heavy flow days, Lumora ensures
+                Whether it&apos;s daily protection or heavy flow days, Lumora ensures
                 rash-free comfort, dryness, and confidence throughout the day.
               </p>
             </div>
@@ -196,7 +198,7 @@ const Hero = () => {
   </div>
 </section>
       {/* About Section */}
-      <section className="bg-pink-100 py-20">
+      <section className="bg-pink-50 py-10">
         <div className="max-w-7xl mx-auto px-6  sm:px-8 lg:px-12">
           {/* Heading */}
           <div className="text-center mb-12">
@@ -281,7 +283,7 @@ const Hero = () => {
 
 {/*   why choose lumora india */}
 
-    <section className="relative py-24 bg-pink-100  overflow-hidden">
+    <section className="relative py-10 bg-pink-50  overflow-hidden">
       <div className="absolute top-0 left-0 w-72 h-72 bg-pink-200 rounded-full blur-3xl opacity-30"></div>
       <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-30"></div>
       <div className="max-w-7xl mx-auto px-6 relative">
@@ -291,7 +293,7 @@ const Hero = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
             Why Choose <span className="text-pink-500 italic">Lumora India</span>
           </h2>
-          <h2 className="text-gray-500 font-semibold italic py-2 text-xl">Organic Sanitary Napkin</h2>
+          <h2 className="text-blue-600 font-bold italic py-2 text-3xl">Organic Sanitary Napkin</h2>
 
           <p className="mt-10 text-gray-600 max-w-2xl mx-auto text-lg">
             Lumora India provides premium women hygiene products designed for
@@ -444,8 +446,6 @@ const Hero = () => {
           </div>
         </div>
       </section>
-
-      {/* Customer Review and customer feedback */}
     
     </div>
   );
