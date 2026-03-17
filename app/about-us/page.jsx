@@ -345,7 +345,7 @@ const page = () => {
 
       {/* Sustainability */}
       <section className="py-16 bg-linear-to-br from-pink-50 via-white to-purple-50">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10">
           {/* Sustainability Card */}
           <div
             className="group bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-md 
