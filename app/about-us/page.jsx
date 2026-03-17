@@ -1,9 +1,77 @@
-
+"use client";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
+const slides = [
+  {
+    id: 1,
+    title: "Healthier Community For Women",
+    desc: "Premium sanitary napkins designed for modern women, offering superior comfort, leak protection, and breathable cotton layers that keep you fresh, confident, and protected throughout the day..",
+    image: "/4.jpeg",
+    features: [
+      "Dermatologically Tested",
+      "Ultra Soft Cotton Layer",
+      "Leak Lock Protection",
+      "Breathable Comfort",
+    ],
+  },
+  {
+    id: 2,
+    title: "Comfort & Protection Technology",
+    desc: "Advanced absorbent sanitary pads with leak-lock technology and odor control that provide long-lasting dryness, rash-free comfort, and reliable protection during heavy flow and everyday use.",
+    image: "/12.jpeg",
+    features: [
+      "Super Absorbent Core",
+      "Odor Control Layer",
+      "Rash Free Design",
+      "All Day Freshness",
+    ],
+  },
+  {
+    id: 3,
+    title: "Innovation In Women Hygiene",
+    desc: "Innovative women hygiene products crafted with skin-friendly materials, antibacterial protection, and extra-long coverage to ensure safe, comfortable, and confident protection during every menstrual cycle.",
+    image: "/15.jpeg",
+    features: [
+      "Skin Friendly Material",
+      "Anti Bacterial Protection",
+      "Secure Fit Design",
+      "Extra Long Coverage",
+    ],
+  },
+];
 const page = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [current, setCurrent] = useState(0);
+
+  const nextSlide = () => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,
+    });
+
+    const slider = setInterval(() => {
+      nextSlide();
+    }, 5000);
+
+    return () => clearInterval(slider);
+  }, []);
+
+  const slide = slides[current];
+
   return (
     <div className="bg-pink-100 text-gray-800">
       {/* Hero Section */}
@@ -51,195 +119,209 @@ const page = () => {
         </div>
       </section>
 
-<section className="py-20 ">
-  <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+      <section className="py-20 ">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Our Mission
+            </h2>
 
-    <div>
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-        Our Mission
-      </h2>
+            <p className="mt-6 text-gray-600  leading-relaxed">
+              At{" "}
+              <span className="font-semibold text-pink-500">Lumora India</span>,
+              our mission is to provide women with safe, comfortable, and
+              reliable menstrual care products. We are committed to designing
+              sanitary napkins that offer superior protection, skin-friendly
+              materials, and long-lasting comfort so women can live confidently
+              every day.
+            </p>
 
-      <p className="mt-6 text-gray-600  leading-relaxed">
-        At <span className="font-semibold text-pink-500">Lumora India</span>,
-        our mission is to provide women with safe, comfortable, and reliable
-        menstrual care products. We are committed to designing sanitary
-        napkins that offer superior protection, skin-friendly materials,
-        and long-lasting comfort so women can live confidently every day.
-      </p>
+            <p className="mt-4 text-gray-600  leading-relaxed">
+              We believe that every woman deserves access to hygienic and
+              affordable feminine care. Through innovation, quality, and
+              awareness, we strive to make menstrual health simple, safe, and
+              empowering for women across India.
+            </p>
+          </div>
 
-      <p className="mt-4 text-gray-600  leading-relaxed">
-        We believe that every woman deserves access to hygienic and affordable
-        feminine care. Through innovation, quality, and awareness, we strive
-        to make menstrual health simple, safe, and empowering for women
-        across India.
-      </p>
+          <div className="bg-white p-8 rounded-2xl shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              What Drives Us
+            </h3>
 
-    </div>
+            <ul className="space-y-4 text-gray-600">
+              <li className="flex items-start gap-3">
+                <span className="text-pink-500 text-xl">✔</span>
+                Safe and hygienic menstrual care products
+              </li>
 
-    <div className="bg-white p-8 rounded-2xl shadow-lg">
-      <h3 className="text-xl font-semibold text-gray-800 mb-4">
-        What Drives Us
-      </h3>
+              <li className="flex items-start gap-3">
+                <span className="text-pink-500 text-xl">✔</span>
+                Comfortable protection for every woman
+              </li>
 
-      <ul className="space-y-4 text-gray-600">
+              <li className="flex items-start gap-3">
+                <span className="text-pink-500 text-xl">✔</span>
+                Affordable feminine hygiene solutions
+              </li>
 
-        <li className="flex items-start gap-3">
-          <span className="text-pink-500 text-xl">✔</span>
-          Safe and hygienic menstrual care products
-        </li>
-
-        <li className="flex items-start gap-3">
-          <span className="text-pink-500 text-xl">✔</span>
-          Comfortable protection for every woman
-        </li>
-
-        <li className="flex items-start gap-3">
-          <span className="text-pink-500 text-xl">✔</span>
-          Affordable feminine hygiene solutions
-        </li>
-
-        <li className="flex items-start gap-3">
-          <span className="text-pink-500 text-xl">✔</span>
-          Promoting awareness about menstrual health
-        </li>
-
-      </ul>
-    </div>
-
-  </div>
-</section>
+              <li className="flex items-start gap-3">
+                <span className="text-pink-500 text-xl">✔</span>
+                Promoting awareness about menstrual health
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
       {/* Products */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 justify-center items-center">
-            <div className="bg-pink-50 p-8 rounded-3xl shadow-md">
+
+      <section className="relative py-28 bg-linear-to-b from-pink-50 via-white to-purple-50 overflow-hidden">
+        <div className="absolute top-0 left-0 w-72 h-72 bg-pink-200 rounded-full blur-3xl opacity-30"></div>
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-30"></div>
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+          <div key={slide.image} data-aos="fade-right">
+            <div className="rounded-3xl overflow-hidden shadow-2xl md:h-120 md:w-120 border border-pink-100">
               <Image
-                src="/product3.jpeg"
-                alt="Ultra Soft Sanitary Napkins"
-                width={450}
-                height={450}
-                className="rounded-2xl object-contain"
+                src={slide.image}
+                alt="women hygiene"
+                width={300}
+                height={250}
+                className="object-cover w-full h-full "
               />
             </div>
+          </div>
 
-   <div>
+          <div key={slide.title} className="space-y-8" data-aos="fade-left">
+            <div className="flex items-center gap-3 text-gray-500">
+              <span className="text-4xl font-bold text-pink-600">
+                {String(current + 1).padStart(2, "0")}
+              </span>
+              <span>/ {slides.length}</span>
+            </div>
 
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-        Our Product
-      </h2>
+            <h2 className="text-4xl md:text-5xl font-semibold text-gray-800 leading-tight">
+              {slide.title}
+            </h2>
 
-      <p className="mt-4 text-gray-600 text-lg leading-relaxed">
-        Lumora India sanitary napkins are designed to provide maximum comfort,
-        hygiene, and protection during your menstrual cycle. Our advanced
-        absorbent technology ensures dryness while maintaining softness
-        for sensitive skin.
-      </p>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              {slide.desc}
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              {slide.features.map((feature, index) => (
+                <div
+                  key={index}
+                  className="bg-white/70 backdrop-blur-lg border border-white/40 px-4 py-3 rounded-xl shadow-sm hover:shadow-lg transition"
+                  data-aos="zoom-in"
+                  data-aos-delay={index * 100}
+                >
+                  ✔ {feature}
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-4 pt-2">
+              <Link href="/contact">
+                <button className="px-8 py-3 bg-pink-500 cursor-pointer text-white rounded-full shadow-lg hover:scale-105 transition">
+                  Contact For Order
+                </button>
+              </Link>
+              <Link href="/products">
+                <button className="px-8 py-3 cursor-pointer border border-pink-500 text-pink-500 rounded-full hover:bg-pink-500 hover:text-white transition">
+                  View Products
+                </button>
+              </Link>
+            </div>
 
-      {/* Feature List */}
-      <div className="mt-8 space-y-4">
+            {/* Controls */}
 
-        <div className="flex items-start gap-3">
-          <span className="text-pink-500 text-xl">✔</span>
-          <p className="text-gray-700">Leak-proof protection for heavy flow days</p>
-        </div>
+            <div className="flex gap-4 pt-4">
+              <button
+                onClick={prevSlide}
+                className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-pink-100"
+              >
+                ←
+              </button>
 
-        <div className="flex items-start gap-3">
-          <span className="text-pink-500 text-xl">✔</span>
-          <p className="text-gray-700">Ultra soft cotton surface for comfort</p>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <span className="text-pink-500 text-xl">✔</span>
-          <p className="text-gray-700">Anti-bacterial layer for better hygiene</p>
-        </div>
-
-        <div className="flex items-start gap-3">
-          <span className="text-pink-500 text-xl">✔</span>
-          <p className="text-gray-700">High absorbency technology</p>
-        </div>
-
-      </div>
-
-      {/* Button */}
-      <Link href="/products" >
-      <button className="mt-8 bg-pink-500 cursor-pointer text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition">
-        View Product
-      </button>
-      </Link>
-
-    </div>
+              <button
+                onClick={nextSlide}
+                className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-pink-100"
+              >
+                →
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* why choose lumoraindia page */}
 
       <section className="py-16 bg-pink-50">
-  <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900">
+              Why Choose Lumora India?
+            </h2>
+            <p className="text-gray-600 mt-3">
+              Designed for comfort, hygiene and all-day protection
+            </p>
+          </div>
 
-    <div className="text-center mb-12">
-      <h2 className="text-3xl font-bold text-gray-900">
-        Why Choose Lumora India?
-      </h2>
-      <p className="text-gray-600 mt-3">
-        Designed for comfort, hygiene and all-day protection
-      </p>
-    </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
+              <div className="text-pink-500 text-3xl mb-3">🛡️</div>
+              <h3 className="font-semibold text-lg">Leak Proof Protection</h3>
+              <p className="text-gray-600 text-sm mt-2">
+                Advanced absorbent layers keep you dry and protected during
+                heavy flow.
+              </p>
+            </div>
 
-    <div className="grid md:grid-cols-3 gap-8">
-      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
-        <div className="text-pink-500 text-3xl mb-3">🛡️</div>
-        <h3 className="font-semibold text-lg">Leak Proof Protection</h3>
-        <p className="text-gray-600 text-sm mt-2">
-          Advanced absorbent layers keep you dry and protected during heavy flow.
-        </p>
-      </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
+              <div className="text-pink-500 text-3xl mb-3">🌸</div>
+              <h3 className="font-semibold text-lg">Ultra Soft Comfort</h3>
+              <p className="text-gray-600 text-sm mt-2">
+                Soft cotton surface ensures maximum comfort for sensitive skin.
+              </p>
+            </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
-        <div className="text-pink-500 text-3xl mb-3">🌸</div>
-        <h3 className="font-semibold text-lg">Ultra Soft Comfort</h3>
-        <p className="text-gray-600 text-sm mt-2">
-          Soft cotton surface ensures maximum comfort for sensitive skin.
-        </p>
-      </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
+              <div className="text-pink-500 text-3xl mb-3">🦠</div>
+              <h3 className="font-semibold text-lg">Anti-Bacterial Layer</h3>
+              <p className="text-gray-600 text-sm mt-2">
+                Helps prevent bacteria growth and reduces unwanted odour.
+              </p>
+            </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
-        <div className="text-pink-500 text-3xl mb-3">🦠</div>
-        <h3 className="font-semibold text-lg">Anti-Bacterial Layer</h3>
-        <p className="text-gray-600 text-sm mt-2">
-          Helps prevent bacteria growth and reduces unwanted odour.
-        </p>
-      </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
+              <div className="text-pink-500 text-3xl mb-3">💧</div>
+              <h3 className="font-semibold text-lg">High Absorption</h3>
+              <p className="text-gray-600 text-sm mt-2">
+                Multiple absorbent layers quickly lock in fluid and prevent
+                leakage.
+              </p>
+            </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
-        <div className="text-pink-500 text-3xl mb-3">💧</div>
-        <h3 className="font-semibold text-lg">High Absorption</h3>
-        <p className="text-gray-600 text-sm mt-2">
-          Multiple absorbent layers quickly lock in fluid and prevent leakage.
-        </p>
-      </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
+              <div className="text-pink-500 text-3xl mb-3">🌿</div>
+              <h3 className="font-semibold text-lg">Skin Friendly</h3>
+              <p className="text-gray-600 text-sm mt-2">
+                Breathable materials keep skin irritation free and comfortable.
+              </p>
+            </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
-        <div className="text-pink-500 text-3xl mb-3">🌿</div>
-        <h3 className="font-semibold text-lg">Skin Friendly</h3>
-        <p className="text-gray-600 text-sm mt-2">
-          Breathable materials keep skin irritation free and comfortable.
-        </p>
-      </div>
-
-      <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
-        <div className="text-pink-500 text-3xl mb-3">📏</div>
-        <h3 className="font-semibold text-lg">Extra Long Pads</h3>
-        <p className="text-gray-600 text-sm mt-2">
-          Extra coverage gives confidence and protection day and night.
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
+            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition">
+              <div className="text-pink-500 text-3xl mb-3">📏</div>
+              <h3 className="font-semibold text-lg">Extra Long Pads</h3>
+              <p className="text-gray-600 text-sm mt-2">
+                Extra coverage gives confidence and protection day and night.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Sustainability */}
-      <section className="py-8" >
+      <section className="py-8">
         <div className="max-w-5xl py-5 mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-6">
             Commitment to Sustainability
@@ -251,8 +333,8 @@ const page = () => {
             create products that care for both women and the planet.
           </p>
         </div>
-         {/* Community */}
-                <div className="max-w-5xl py-10 mx-auto px-6 text-center">
+        {/* Community */}
+        <div className="max-w-5xl py-10 mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-6">Empowering Women</h2>
 
           <p className="text-gray-600">
@@ -262,7 +344,6 @@ const page = () => {
           </p>
         </div>
       </section>
-
     </div>
   );
 };
