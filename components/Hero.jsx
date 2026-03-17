@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Droplets, HeartPulse, ShieldCheck, Sparkles } from "lucide-react";
+import { Droplets, HeartPulse, ShieldCheck, Sparkles,Star } from "lucide-react";
 
 
 // why choose lumora india
@@ -77,6 +77,8 @@ const Hero = () => {
 
   return (
     <div className="bg-white text-gray-800">
+
+  
 
 <section className="bg-pink-100 min-h-screen flex items-center py-">
   <div className="max-w-8xl mx-auto  sm:px-6  grid md:grid-cols-2 gap-16 items-center">
@@ -172,7 +174,7 @@ const Hero = () => {
           <div className="relative flex justify-center">
             {/* Image Container */}
             <div
-              className="relative bg-white p-8 rounded-3xl shadow-xl 
+              className="relative bg-white p-8 rounded-3xl cursor-pointer shadow-xl 
       hover:shadow-2xl hover:-translate-y-2 transition duration-500 group"
             >
               <Image
@@ -196,7 +198,7 @@ const Hero = () => {
   </div>
 </section>
       {/* About Section */}
-      <section className="bg-pink-100 py-20">
+      <section className="bg-pink-50 py-10">
         <div className="max-w-7xl mx-auto px-6  sm:px-8 lg:px-12">
           {/* Heading */}
           <div className="text-center mb-12">
@@ -281,16 +283,17 @@ const Hero = () => {
 
 {/*   why choose lumora india */}
 
-    <section className="relative py-24 bg-linear-to-b from-pink-50 via-white to-purple-50 overflow-hidden">
+    <section className="relative py-10 bg-pink-50  overflow-hidden">
       <div className="absolute top-0 left-0 w-72 h-72 bg-pink-200 rounded-full blur-3xl opacity-30"></div>
       <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-30"></div>
       <div className="max-w-7xl mx-auto px-6 relative">
 
         <div className="text-center mb-16" data-aos="fade-up">
+          {/* <h2 className="text-center text-base text-pink-500">Why Lumora India?</h2> */}
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
             Why Choose <span className="text-pink-500 italic">Lumora India</span>
           </h2>
-          <h2 className=" bg-linear-to-l from-purple-600 to-blue-700 bg-clip-text text-transparent font-bold italic py-2 text-3xl">Organic Sanitary Napkin</h2>
+          <h2 className="text-blue-600 font-bold italic py-2 text-3xl">Organic Sanitary Napkin</h2>
 
           <p className="mt-10 text-gray-600 max-w-2xl mx-auto text-lg">
             Lumora India provides premium women hygiene products designed for
@@ -299,7 +302,7 @@ const Hero = () => {
 
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid md:grid-cols-2 cursor-pointer lg:grid-cols-4 gap-10">
 
           {features.map((item, index) => (
             <div
@@ -341,35 +344,35 @@ const Hero = () => {
               Our Products
             </h2>
             <p className="text-gray-600 mt-3 max-w-2xl mx-auto text-base md:text-lg">
-              Discover Lumora&apos;s range of high-quality sanitary napkins designed
+              Discover Lumora's range of high-quality sanitary napkins designed
               for comfort, protection, and confidence throughout the day.
             </p>
           </div>
 
           {/* Product Benefits */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-14 text-center">
-            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
+            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg cursor-pointer transform transition duration-500 hover:scale-110">
               <h4 className="font-semibold text-gray-800">Ultra Absorbent</h4>
               <p className="text-sm text-gray-600 mt-1">
                 Advanced absorption technology keeps you dry for longer hours.
               </p>
             </div>
 
-            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
+            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg cursor-pointer transform transition duration-500 hover:scale-110">
               <h4 className="font-semibold text-gray-800">Rash Free Comfort</h4>
               <p className="text-sm text-gray-600 mt-1">
                 Soft breathable cotton layer prevents irritation.
               </p>
             </div>
 
-            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
+            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg cursor-pointer transform transition duration-500 hover:scale-110">
               <h4 className="font-semibold text-gray-800">Leak Protection</h4>
               <p className="text-sm text-gray-600 mt-1">
                 Side barriers provide strong protection against leaks.
               </p>
             </div>
 
-            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
+            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg cursor-pointer transform transition duration-500 hover:scale-110">
               <h4 className="font-semibold text-gray-800">Skin Friendly</h4>
               <p className="text-sm text-gray-600 mt-1">
                 Designed with safe materials suitable for sensitive skin.
@@ -416,7 +419,7 @@ const Hero = () => {
                     alt={product.alt}
                     height={200}
                     width={200}
-                    className="h-44 w-full object-contain group-hover:scale-110 transition duration-300"
+                    className="h-44 w-full object-contain group-hover:scale-110 cursor-pointer transition duration-300"
                   />
                 </div>
 
@@ -443,8 +446,7 @@ const Hero = () => {
           </div>
         </div>
       </section>
-
-      {/*  */}
+    
     </div>
   );
 };
