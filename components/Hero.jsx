@@ -437,7 +437,7 @@ const Hero = () => {
                 <div className="flex justify-center mt-5">
                   <Link href="/products">
                     <button className="bg-pink-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-pink-600 hover:shadow-md transition">
-                      View Product
+                      Buy Now
                     </button>
                   </Link>
                 </div>
