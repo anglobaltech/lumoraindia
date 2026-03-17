@@ -64,6 +64,7 @@ const products = [
   },
 ];
 
+
 const Hero = () => {
 
   useEffect(() => {
