@@ -148,7 +148,7 @@ const Hero = () => {
           </div>
 
           {/* Content Grid */}
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 mt-25 gap-12 items-center">
             {/* Image */}
             <div className="flex justify-center">
               <Image
@@ -156,7 +156,7 @@ const Hero = () => {
                 alt="Lumora Sanitary Napkins"
                 height={400}
                 width={400}
-                className="w-64 sm:w-80 md:w-96 border border-gray-200 rounded-2xl shadow-lg object-contain"
+                className="w-64 sm:w-80 md:w-120 border border-gray-200 rounded-2xl shadow-lg object-contain"
               />
             </div>
 
@@ -294,14 +294,13 @@ const Hero = () => {
                 key={product.name}
                 className="bg-pink-50 p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition duration-300 group flex flex-col"
               >
-                {/* Image */}
                 <div className="flex justify-center mb-4">
                   <Image
                     src={product.src}
                     alt={product.alt}
                     height={200}
                     width={200}
-                    className="h-44 w-full object-contain group-hover:scale-110 transition duration-300"
+                    className="h-44 w-full object-contain group-hover:scale-105 transition duration-300"
                   />
                 </div>
 
