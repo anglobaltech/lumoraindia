@@ -98,7 +98,7 @@ const Hero = () => {
               </p>
 
               <p className="mt-4 text-gray-600 text-base md:text-lg leading-relaxed">
-                Whether it's daily protection or heavy flow days, Lumora ensures
+                Whether it&apos;s daily protection or heavy flow days, Lumora ensures
                 rash-free comfort, dryness, and confidence throughout the day.
               </p>
             </div>
@@ -287,7 +287,6 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto px-6 relative">
 
         <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="text-center text-base text-pink-500">Why Lumora India?</h2>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
             Why Choose <span className="text-pink-500 italic">Lumora India</span>
           </h2>

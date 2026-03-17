@@ -183,13 +183,11 @@ const page = () => {
 
       {/* Products */}
 
-<section className="relative py-28 bg-linear-to-b from-pink-50 via-white to-purple-50 overflow-hidden">
+<section className="relative py-16  bg-linear-to-b from-pink-50 via-white to-purple-50 overflow-hidden">
 
-      <div className="absolute top-0 left-0 w-72 h-72 bg-pink-200 rounded-full blur-3xl opacity-30"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-30"></div>
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+      <div className="max-w-7xl mx-auto p-10 md:p-0 grid md:grid-cols-2 items-center">
         <div key={slide.image} data-aos="fade-right">
-          <div className="rounded-3xl overflow-hidden shadow-2xl md:h-120 md:w-120 border border-pink-100">
+          <div className="rounded-3xl overflow-hidden shadow-2xl   md:h-135 md:w-135 border border-pink-100">
             <Image
               src={slide.image}
               alt="women hygiene"
@@ -202,14 +200,14 @@ const page = () => {
 
         <div key={slide.title} className="space-y-8" data-aos="fade-left">
 
-          <div className="flex items-center gap-3 text-gray-500">
+          {/* <div className="flex items-center  text-gray-500">
             <span className="text-4xl font-bold text-pink-600">
               {String(current + 1).padStart(2, "0")}
             </span>
             <span>/ {slides.length}</span>
-          </div>
+          </div> */}
 
-          <h2 className="text-4xl md:text-5xl font-semibold text-gray-800 leading-tight">
+          <h2 className="text-3xl pt-9 md:p-0 md:text-5xl font-semibold text-gray-800 leading-tight">
             {slide.title}
           </h2>
 
