@@ -344,27 +344,55 @@ const page = () => {
       </section>
 
       {/* Sustainability */}
-      <section className="py-8">
-        <div className="max-w-5xl py-5 mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-6">
-            Commitment to Sustainability
-          </h2>
+      <section className="py-16 bg-linear-to-br from-pink-50 via-white to-purple-50">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10">
+          {/* Sustainability Card */}
+          <div
+            className="group bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-md 
+    hover:shadow-2xl hover:-translate-y-3 transition duration-500 cursor-pointer border border-pink-100"
+          >
+            {/* Icon */}
+            <div className="text-4xl mb-4 text-pink-500 group-hover:scale-110 transition">
+              🌱
+            </div>
 
-          <p className="text-gray-600">
-            We are dedicated to reducing our environmental footprint through
-            eco-friendly materials and sustainable packaging. Our goal is to
-            create products that care for both women and the planet.
-          </p>
-        </div>
-        {/* Community */}
-        <div className="max-w-5xl py-10 mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-6">Empowering Women</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+              Commitment to Sustainability
+            </h2>
 
-          <p className="text-gray-600">
-            Through education, awareness campaigns, and partnerships, we work to
-            break the stigma around menstruation and promote a supportive
-            environment where women feel confident and empowered.
-          </p>
+            <p className="text-gray-600 leading-relaxed">
+              We are dedicated to reducing our environmental footprint through
+              eco-friendly materials and sustainable packaging. Our goal is to
+              create products that care for both women and the planet.
+            </p>
+
+            {/* Hover Line */}
+            <div className="mt-6 h-1 w-0 bg-pink-500 group-hover:w-full transition-all duration-500"></div>
+          </div>
+
+          {/* Empowering Women Card */}
+          <div
+            className="group bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-md 
+    hover:shadow-2xl hover:-translate-y-3 transition duration-500 cursor-pointer border border-purple-100"
+          >
+            {/* Icon */}
+            <div className="text-4xl mb-4 text-purple-500 group-hover:scale-110 transition">
+              💜
+            </div>
+
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+              Empowering Women
+            </h2>
+
+            <p className="text-gray-600 leading-relaxed">
+              Through education, awareness campaigns, and partnerships, we work
+              to break the stigma around menstruation and promote a supportive
+              environment where women feel confident and empowered.
+            </p>
+
+            {/* Hover Line */}
+            <div className="mt-6 h-1 w-0 bg-purple-500 group-hover:w-full transition-all duration-500"></div>
+          </div>
         </div>
       </section>
     </div>
