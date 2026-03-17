@@ -29,26 +29,24 @@ export default function Page() {
   }, []);
 
   return (
-    <section className="py-16 px-6 bg-[#f8f6f3]">
+    <main className="py-16 px-6 bg-[#f8f6f3]">
 
       {/* TOP TITLE */}
-      <div className="max-w-7xl mx-auto text-center mb-12">
+      <section className="max-w-7xl mx-auto text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-          Ultra Soft Sanitary Napkins
+          Explore Our Premium
         </h1>
-        <p className="text-pink-500 text-lg mt-2 font-medium">
-          Rash Free • Leak Protection Pads
+        <p className="text-pink-500 text-4xl mt-2 font-medium">
+          Hygiene Products
         </p>
-      </div>
+      </section>
 
-      {/* MAIN PRODUCT SECTION */}
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+      {/* product section */}
+      <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
 
-        {/* LEFT SIDE */}
-        <div className="flex gap-6" data-aos="fade-right">
+        <div className="flex gap-6" >
 
-          {/* Thumbnails */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4" data-aos="fade-right">
             {images.map((item, index) => (
               <Image
                 key={index}
@@ -63,30 +61,28 @@ export default function Page() {
             ))}
           </div>
 
-          {/* Main Image with Zoom */}
           <div className="bg-white p-6 rounded-2xl shadow-md overflow-hidden">
             <Image
               src={selectedImage.imageUrl}
               alt={selectedImage.alt}
               width={400}
               height={400}
-              className="rounded-xl object-contain transition-transform duration-300 hover:scale-110"
+              className="rounded-xl object-contain transition-transform duration-300 hover:scale-105"
             />
           </div>
 
         </div>
 
-        {/* RIGHT SIDE */}
-        <div className="flex flex-col gap-5" data-aos="fade-left">
+          <div data-aos="fade-left" className="flex flex-col gap-5">
+            <h2 className="text-2xl md:text-2xl font-semibold text-gray-900">
+              Lumora Ultra Soft Sanitary Pads, Rash-Free Comfort
+            </h2>
 
-          <h2 className="text-2xl md:text-3xl font-bold">
-            Lumora Ultra Soft Sanitary Pads
-          </h2>
+            <div className="flex items-center gap-2">
+              <div className="text-yellow-500 text-lg">★★★★☆</div>
+              <p className="text-sm text-gray-600">(4.8 • 120 Reviews)</p>
+            </div>
 
-          {/* Rating */}
-          <div className="text-yellow-500">★★★★☆ (4.8 • 120 Reviews)</div>
-
-          {/* PRICE */}
           <div className="flex items-center gap-3">
             <span className="text-2xl font-bold text-gray-900">
               ₹{selectedPack.price}
@@ -104,9 +100,8 @@ export default function Page() {
             </span>
           </div>
 
-          {/* PACK SELECT */}
-          <div>
-            <h3 className="font-semibold mb-2">Select Pack</h3>
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-2">Select Pack</h3>
 
             <div className="flex gap-3">
               {packs.map((pack, index) => (
@@ -125,32 +120,27 @@ export default function Page() {
             </div>
           </div>
 
-          {/* BUTTONS */}
-          <div className="flex gap-3 mt-4">
+            <div className="flex gap-3 mt-4">
+              <button className="w-36 text-sm cursor-pointer bg-pink-100 text-pink-700 px-4 py-2 rounded-lg hover:bg-pink-200 transition">
+                Add to Cart
+              </button>
 
-            <button className="flex-1 text-sm bg-pink-100 text-pink-700 px-4 py-2 rounded-lg hover:bg-pink-200 transition">
-              Add to Cart
-            </button>
+              <button className="w-36 text-sm bg-pink-600 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-pink-700 hover:scale-105 transition-all duration-200">
+                Buy Now
+              </button>
+            </div>
 
-            <button className="flex-1 text-sm bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 hover:scale-105 transition">
-              Buy Now
-            </button>
-
-          </div>
-
-          {/* EXTRA INFO */}
           <div className="text-sm text-gray-500 mt-3">
             🚚 Free Delivery • 💖 Skin Friendly • 🌿 Rash Free • 🔒 Safe Use
           </div>
 
         </div>
 
-      </div>
+      </section>
 
-      {/* DESCRIPTION + FEATURES */}
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 mt-16">
+      {/*product description and feature*/}
+      <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 mt-16">
 
-        {/* LEFT - DESCRIPTION */}
         <div data-aos="fade-right">
           <h2 className="text-2xl mb-5 font-semibold">Description</h2>
 
@@ -168,7 +158,6 @@ export default function Page() {
           </p>
         </div>
 
-        {/* RIGHT - FEATURES */}
         <div data-aos="fade-left">
           <h2 className="text-2xl font-semibold mb-5">Key Features</h2>
 
@@ -197,8 +186,8 @@ export default function Page() {
           </div>
         </div>
 
-      </div>
+      </section>
 
-    </section>
+    </main>
   );
 }
