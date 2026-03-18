@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { ChevronDown, Droplets, HeartPulse, ShieldCheck, Sparkles, Star } from "lucide-react";
+import { Activity, ChevronDown, Droplets, HeartPulse, ShieldCheck, Smile, Sparkles, Star } from "lucide-react";
 
 
 // why choose lumora india
@@ -113,6 +113,30 @@ const faqs = [
     question: "Does it control odor?",
     answer:
       "Yes, it is designed with odor-control technology that helps you stay fresh and confident throughout the day.",
+  },
+];
+
+// benefits
+const benefits = [
+  {
+    icon: <Smile className="w-8 h-8 text-pink-500" />,
+    title: "Stay Confident All Day",
+    desc: "Feel fresh and confident wherever you go, without worries.",
+  },
+  {
+    icon: <ShieldCheck className="w-8 h-8 text-pink-500" />,
+    title: "No Irritation",
+    desc: "Soft cotton layer keeps your skin rash-free and comfortable.",
+  },
+  {
+    icon: <Droplets className="w-8 h-8 text-pink-500" />,
+    title: "Long-lasting Dryness",
+    desc: "Advanced absorption technology keeps you dry for hours.",
+  },
+  {
+    icon: <Activity className="w-8 h-8 text-pink-500" />,
+    title: "Freedom to Move",
+    desc: "Move freely with leak-proof protection and perfect fit.",
   },
 ];
 
@@ -500,6 +524,45 @@ const Hero = () => {
         </div>
       </section>
 
+{/* benefit section */}
+    <section className="bg-gray-700 py-16">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        <div className="text-center mb-12" data-aos="fade-up">
+          <h2 className="text-3xl md:text-4xl font-bold text-white">
+            Why You&apos;ll Love <span className="text-pink-500 italic">Lumora India</span> 
+          </h2>
+          <p className="text-white mt-3 text-lg">
+            Comfort, protection, and confidence — all in one.
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {benefits.map((item, index) => (
+            <div
+              key={index}
+              data-aos="zoom-in"
+              className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group"
+            >
+              <div className="mb-4 flex items-center justify-center w-14 h-14 rounded-full bg-pink-100 group-hover:bg-pink-200 transition">
+                {item.icon}
+              </div>
+
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                {item.title}
+              </h3>
+
+              <p className="text-gray-600 text-sm">
+                {item.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+
+
       {/* FAQ Section */}
       <section className="bg-linear-to-r from-pink-50 to-pink-100 py-16 px-4">
         <div className="max-w-4xl mx-auto">
@@ -509,7 +572,7 @@ const Hero = () => {
               Frequently Asked <span className="text-pink-500">Questions</span>
             </h2>
             <p className="text-gray-600 mt-3">
-              Clear your common doubts — feel confident & safe 💖
+              Clear your common doubts — feel confident & safe
             </p>
           </div>
 
@@ -559,6 +622,8 @@ const Hero = () => {
 
         </div>
       </section>
+
+
 
     </div>
   );
