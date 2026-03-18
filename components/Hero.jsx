@@ -224,7 +224,7 @@ const Hero = () => {
     });
   }, []);
 
-  
+
 
 
   return (
@@ -591,43 +591,43 @@ const Hero = () => {
         </div>
       </section>
 
-{/* benefit section */}
-    <section className="bg-gray-700 py-16">
-      <div className="max-w-7xl mx-auto px-6">
-        
-        <div className="text-center mb-12" data-aos="fade-up">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
-            Why You&apos;ll Love <span className="text-pink-500 italic">Lumora India</span> 
-          </h2>
-          <p className="text-white mt-3 text-lg">
-            Comfort, protection, and confidence — all in one.
-          </p>
-        </div>
+      {/* benefit section */}
+      <section className="bg-gray-700 py-16">
+        <div className="max-w-7xl mx-auto px-6">
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {benefits.map((item, index) => (
-            <div
-              key={index}
-              data-aos="zoom-in"
-              className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group"
-            >
-              <div className="mb-4 flex items-center justify-center w-14 h-14 rounded-full bg-pink-100 group-hover:bg-pink-200 transition">
-                {item.icon}
+          <div className="text-center mb-12" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              Why You&apos;ll Love <span className="text-pink-500 italic">Lumora India</span>
+            </h2>
+            <p className="text-white mt-3 text-lg">
+              Comfort, protection, and confidence — all in one.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {benefits.map((item, index) => (
+              <div
+                key={index}
+                data-aos="zoom-in"
+                className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group"
+              >
+                <div className="mb-4 flex items-center justify-center w-14 h-14 rounded-full bg-pink-100 group-hover:bg-pink-200 transition">
+                  {item.icon}
+                </div>
+
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  {item.title}
+                </h3>
+
+                <p className="text-gray-600 text-sm">
+                  {item.desc}
+                </p>
               </div>
+            ))}
+          </div>
 
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                {item.title}
-              </h3>
-
-              <p className="text-gray-600 text-sm">
-                {item.desc}
-              </p>
-            </div>
-          ))}
         </div>
-
-      </div>
-    </section>
+      </section>
 
 
       {/* FAQ Section */}
@@ -666,8 +666,8 @@ const Hero = () => {
 
                   <ChevronDown
                     className={`shrink-0 transition-transform duration-300 ${activeIndex === index
-                        ? "rotate-180 text-pink-500"
-                        : "text-gray-400"
+                      ? "rotate-180 text-pink-500"
+                      : "text-gray-400"
                       }`}
                     size={20}
                   />
@@ -675,8 +675,8 @@ const Hero = () => {
 
                 <div
                   className={`px-5  overflow-hidden border-t border-gray-300 transition-all duration-300 ${activeIndex === index
-                      ? "max-h-40 py-3 opacity-100"
-                      : "max-h-0 opacity-0"
+                    ? "max-h-40 py-3 opacity-100"
+                    : "max-h-0 opacity-0"
                     }`}
                 >
                   <p className="text-gray-600   leading-relaxed">
@@ -692,64 +692,64 @@ const Hero = () => {
 
       {/* customer reviews */}
 
-    <section className="py-20 bg-linear-to-b from-pink-50 via-white to-pink-100">
-      <div className="max-w-7xl mx-auto px-6">
+      <section className="py-20 bg-linear-to-b from-pink-50 via-white to-pink-100">
+        <div className="max-w-7xl mx-auto px-6">
 
-    <div className="text-center mb-" data-aos="fade-up">
-  <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
-    Experience <span className="text-pink-500">Loved</span>  & Trusted
-  </h2>
-  <p className="text-gray-600 mt-4 text-lg">
-    See why women trust Lumora for soft, leak-proof protection, all-day comfort, and irritation-free periods.
-  </p>
-</div>
+          <div className="text-center mb-" data-aos="fade-up">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
+              Experience <span className="text-pink-500">Loved</span>  & Trusted
+            </h2>
+            <p className="text-gray-600 mt-4 text-lg">
+              See why women trust Lumora for soft, leak-proof protection, all-day comfort, and irritation-free periods.
+            </p>
+          </div>
 
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          spaceBetween={30}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
-          breakpoints={{
-            0: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1200: { slidesPerView: 3 },
-          }}
-        >
-          {testimonials.map((item, index) => {
-            const firstLetter = item.name.charAt(0);
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            spaceBetween={30}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            pagination={{ clickable: true }}
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1200: { slidesPerView: 3 },
+            }}
+          >
+            {testimonials.map((item, index) => {
+              const firstLetter = item.name.charAt(0);
 
-            return (
-              <SwiperSlide key={index}>
-                <div
-                  data-aos="zoom-in"
-                  className="h-full backdrop-blur-lg bg-white/70 border my-10 border-pink-100 p-8 rounded-3xl shadow-lg hover:shadow-2xl hover:scale-105 transition duration-500"
-                >
-                  <div className="flex items-center gap-3 mb-5">
-                    
-                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-200 text-pink-700 font-bold text-lg">
-                      {firstLetter}
+              return (
+                <SwiperSlide key={index}>
+                  <div
+                    data-aos="zoom-in"
+                    className="h-full backdrop-blur-lg bg-white/70 border my-10 border-pink-100 p-8 rounded-3xl shadow-lg hover:shadow-2xl hover:scale-105 transition duration-500"
+                  >
+                    <div className="flex items-center gap-3 mb-5">
+
+                      <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-200 text-pink-700 font-bold text-lg">
+                        {firstLetter}
+                      </div>
+
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          {item.name}
+                        </h3>
+                        <span className="text-xs text-green-600 font-medium">
+                          ✔ Verified Purchase
+                        </span>
+                      </div>
                     </div>
-
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {item.name}
-                      </h3>
-                      <span className="text-xs text-green-600 font-medium">
-                        ✔ Verified Purchase
-                      </span>
-                    </div>
+                    <p className="text-gray-700 text-base leading-relaxed">
+                      {item.review}
+                    </p>
                   </div>
-                  <p className="text-gray-700 text-base leading-relaxed">
-                    {item.review}
-                  </p>
-                </div>
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
 
-      </div>
-    </section>
+        </div>
+      </section>
 
 
     </div>
