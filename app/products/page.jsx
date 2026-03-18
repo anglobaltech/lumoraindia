@@ -29,20 +29,22 @@ export default function Page() {
   }, []);
 
   return (
-    <main className="py-16 px-6 bg-[#f8f6f3]">
+    <main className=" bg-[#f8f6f3]">
 
       {/* TOP TITLE */}
-      <section className="max-w-7xl mx-auto text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+      <section className="bg-linear-to-b from-pink-100 to-white py-16 px-6 h-50 w-full">
+      <div className="max-w-7xl mx-auto  text-center mb-12">
+        <h1 className="text-3xl md:text-5xl font-bold text-gray-900">
           Explore Our Premium
         </h1>
         <p className="text-pink-500 text-4xl mt-2 font-medium">
           Hygiene Products
         </p>
+      </div>
       </section>
 
       {/* product section */}
-      <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+      <section className="max-w-7xl mx-auto mt-10 grid md:grid-cols-2 gap-12">
 
         <div className="flex gap-6" >
 
@@ -139,9 +141,9 @@ export default function Page() {
       </section>
 
       {/*product description and feature*/}
-      <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 mt-16">
+      <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 py-16">
 
-        <div data-aos="fade-right">
+        <div >
           <h2 className="text-2xl mb-5 font-semibold">Description</h2>
 
           <p className="mb-5 text-gray-600 leading-relaxed">
@@ -158,7 +160,7 @@ export default function Page() {
           </p>
         </div>
 
-        <div data-aos="fade-left">
+        <div>
           <h2 className="text-2xl font-semibold mb-5">Key Features</h2>
 
           <div className="flex flex-col gap-4 text-gray-700">
