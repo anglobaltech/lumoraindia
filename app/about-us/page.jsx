@@ -74,7 +74,7 @@ const page = () => {
     <div className="bg-pink-50 text-gray-800">
       <section className="relative w-full h-56  overflow-hidden">
         <Image
-          src="/bg.jpeg" 
+          src="/bg.jpeg"
           alt="About Lumora India"
           fill
           priority
@@ -185,7 +185,6 @@ const page = () => {
           </div>
 
           <div key={slide.title} className="space-y-8" data-aos="fade-left">
-          
             <h2 className="text-4xl md:text-5xl font-semibold text-gray-800 leading-tight">
               {slide.title}
             </h2>
@@ -306,55 +305,164 @@ const page = () => {
         </div>
       </section>
 
-      {/* Sustainability */}
-      <section className="py-16 ">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10">
-          {/* Sustainability Card */}
-          <div
-            className="group bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-md 
-    hover:shadow-2xl hover:-translate-y-3 transition duration-500 cursor-pointer border border-pink-100"
-          >
-            {/* Icon */}
-            <div className="text-4xl mb-4 text-pink-500 group-hover:scale-110 transition">
-              🌱
-            </div>
-
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-              Commitment to Sustainability
+      {/* Our Promise Section */}
+      <section className="py-20 bg-linear-to-r from-pink-50 via-white to-pink-50">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Heading */}
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Our Promise to <span className="text-pink-500">Women</span>
             </h2>
-
-            <p className="text-gray-600 leading-relaxed">
-              We are dedicated to reducing our environmental footprint through
-              eco-friendly materials and sustainable packaging. Our goal is to
-              create products that care for both women and the planet.
+            <p className="text-gray-600 mt-3 max-w-2xl mx-auto">
+              We are committed to delivering care, comfort, and confidence
+              through every product we create.
             </p>
-
-            {/* Hover Line */}
-            <div className="mt-6 h-1 w-0 bg-pink-500 group-hover:w-full transition-all duration-500"></div>
           </div>
 
-          {/* Empowering Women Card */}
-          <div
-            className="group bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-md 
-    hover:shadow-2xl hover:-translate-y-3 transition duration-500 cursor-pointer border border-purple-100"
-          >
-            {/* Icon */}
-            <div className="text-4xl mb-4 text-purple-500 group-hover:scale-110 transition">
-              💜
+          {/* Cards */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Card 1 */}
+            <div className="group bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition duration-300 hover:-translate-y-2">
+              <div className="text-4xl mb-4 transition group-hover:scale-110">
+                💖
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                Care & Comfort
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Designed with ultra-soft materials to ensure maximum comfort for
+                every woman, every day.
+              </p>
             </div>
 
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-              Empowering Women
-            </h2>
+            {/* Card 2 */}
+            <div className="group bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition duration-300 hover:-translate-y-2">
+              <div className="text-4xl mb-4 transition group-hover:scale-110">
+                🔒
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                Safety First
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Dermatologically tested and made with skin-friendly materials to
+                ensure complete hygiene and protection.
+              </p>
+            </div>
 
-            <p className="text-gray-600 leading-relaxed">
-              Through education, awareness campaigns, and partnerships, we work
-              to break the stigma around menstruation and promote a supportive
-              environment where women feel confident and empowered.
+            {/* Card 3 */}
+            <div className="group bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition duration-300 hover:-translate-y-2">
+              <div className="text-4xl mb-4 transition group-hover:scale-110">
+                🌸
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                Confidence Everyday
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Helping women stay confident, active, and worry-free during
+                every phase of their cycle.
+              </p>
+            </div>
+          </div>
+
+          {/* Bottom Highlight */}
+          <div className="mt-16 bg-white rounded-3xl p-8 md:p-12 shadow-lg text-center hover:shadow-xl transition">
+            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+              Because Every Woman Deserves the Best
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              At{" "}
+              <span className="text-pink-500 font-semibold">Lumora India</span>,
+              we believe in empowering women with products that combine
+              innovation, comfort, and trust — so you can focus on living your
+              life without limits.
             </p>
+          </div>
+        </div>
+      </section>
 
-            {/* Hover Line */}
-            <div className="mt-6 h-1 w-0 bg-purple-500 group-hover:w-full transition-all duration-500"></div>
+      {/* Testimonials Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Heading */}
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              What Women Say
+            </h2>
+            <p className="text-gray-600 mt-3">
+              Real experiences from women who trust Lumora India
+            </p>
+          </div>
+
+          {/* Cards */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Testimonial 1 */}
+            <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-2">
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                “Finally found a product that is super comfortable and
+                completely rash-free. I can go all day without worry!”
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center font-bold text-pink-600">
+                  A
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-800">
+                    Anjali Sharma
+                  </h4>
+                  <span className="text-xs text-gray-500">Delhi</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 2 */}
+            <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-2">
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                “The absorbency is amazing and I feel fresh even during heavy
+                flow days. Highly recommended!”
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center font-bold text-pink-600">
+                  P
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-800">
+                    Priya Verma
+                  </h4>
+                  <span className="text-xs text-gray-500">Mumbai</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 3 */}
+            <div className="bg-pink-50 p-6 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-2">
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                “Soft, safe, and perfect fit. Lumora has truly changed my
+                experience during periods.”
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center font-bold text-pink-600">
+                  N
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-800">
+                    Neha Gupta
+                  </h4>
+                  <span className="text-xs text-gray-500">Bangalore</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-16 text-center">
+            <p className="text-gray-600 mb-4">
+              Join thousands of women who trust Lumora India
+            </p>
+            <Link href="/products">
+              <button className="bg-pink-500 text-white px-8 py-3 rounded-full shadow-lg hover:bg-pink-600 hover:scale-105 transition">
+                Explore Products
+              </button>
+            </Link>
           </div>
         </div>
       </section>
