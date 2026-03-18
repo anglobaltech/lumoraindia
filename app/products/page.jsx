@@ -12,14 +12,14 @@ const images = [
 
 // 💰 Pack Price Data
 const packData = {
-  "7 Pads": { price: 99, oldPrice: 149 },
+  "7 Pads": { price: 119, oldPrice: 149 },
   "14 Pads": { price: 199, oldPrice: 299 },
-  "28 Pads": { price: 349, oldPrice: 499 },
+  "28 Pads": { price: 349, oldPrice: 599 },
 };
 
 export default function Page() {
   const [selectedImage, setSelectedImage] = useState(images[0].url);
-  const [selectedPack, setSelectedPack] = useState("14 Pads");
+  const [selectedPack, setSelectedPack] = useState("7 Pads");
 
   const currentPack = packData[selectedPack];
 
