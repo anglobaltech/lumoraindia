@@ -97,7 +97,7 @@ const Footer = () => {
 
             <Link href="tel:+917782069184" target="blank">
             <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
-              <Phone size={18} /> +91 7782069184
+              <Phone size={18} /> +91 77820-69184
             </p>
             </Link>
             <Link href="https://maps.app.goo.gl/eJtCwdnp1PWWMNGt5" target="blank">
