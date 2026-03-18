@@ -5,7 +5,12 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Activity, ChevronDown, Droplets, HeartPulse, ShieldCheck, Smile, Sparkles, Star } from "lucide-react";
+import { Activity, ChevronDown, Droplets, HeartPulse, Quote, ShieldCheck, Smile, Sparkles, Star } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
 
 
 // why choose lumora india
@@ -140,6 +145,63 @@ const benefits = [
   },
 ];
 
+// customer reviews
+
+const testimonials = [
+  {
+    name: "Priya Sharma",
+    review:
+      "I feel so confident using Lumora. No irritation at all and super soft. Totally love it.",
+  },
+  {
+    name: "Anjali Verma",
+    review:
+      "Very comfortable and reliable. Works really well for long hours and feels light.",
+  },
+  {
+    name: "Riya Gupta",
+    review:
+      "Best product I’ve used. I can move freely all day without any tension.",
+  },
+  {
+    name: "Neha Singh",
+    review:
+      "Good quality and no rashes. It feels very soft and safe for daily use.",
+  },
+  {
+    name: "Sneha Kapoor",
+    review:
+      "Super soft and breathable. I barely feel it throughout the day.",
+  },
+  {
+    name: "Pooja Yadav",
+    review:
+      "Absorption is great and no leakage issues. Perfect for busy days.",
+  },
+  {
+    name: "Kavya Nair",
+    review:
+      "Finally something that doesn’t cause itching. Feels premium and safe.",
+  },
+  {
+    name: "Meera Joshi",
+    review:
+      "Very comfortable overall. I can wear it for hours without worry.",
+  },
+  {
+    name: "Ishita Malhotra",
+    review:
+      "No discomfort, no stress. It keeps me fresh and confident all day.",
+  },
+  {
+    name: "Tanvi Arora",
+    review:
+      "Nice product, soft and reliable. Definitely better than many others I’ve tried.",
+  },
+];
+
+
+
 
 const Hero = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -147,6 +209,12 @@ const Hero = () => {
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
+
 
   useEffect(() => {
     AOS.init({
@@ -156,11 +224,11 @@ const Hero = () => {
     });
   }, []);
 
+  
+
 
   return (
     <div className="bg-white text-gray-800">
-
-
 
       <section className="bg-pink-100 min-h-screen flex items-center py-">
         <div className="max-w-8xl mx-auto  sm:px-6  grid md:grid-cols-2 gap-16 items-center">
@@ -360,7 +428,6 @@ const Hero = () => {
       </section>
 
       {/*   why choose lumora india */}
-
       <section className="relative py-10 bg-pink-50  overflow-hidden">
         <div className="absolute top-0 left-0 w-72 h-72 bg-pink-200 rounded-full blur-3xl opacity-30"></div>
         <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-30"></div>
@@ -587,7 +654,7 @@ const Hero = () => {
 
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full flex items-center gap-4 p-3 text-left"
+                  className="w-full flex cursor-pointer items-center gap-4 p-3 text-left"
                 >
                   <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-pink-100 text-pink-600 text-sm font-semibold">
                     {faq.id}
@@ -623,6 +690,66 @@ const Hero = () => {
         </div>
       </section>
 
+      {/* customer reviews */}
+
+    <section className="py-20 bg-linear-to-b from-pink-50 via-white to-pink-100">
+      <div className="max-w-7xl mx-auto px-6">
+
+    <div className="text-center mb-" data-aos="fade-up">
+  <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
+    Experience <span className="text-pink-500">Loved</span>  & Trusted
+  </h2>
+  <p className="text-gray-600 mt-4 text-lg">
+    See why women trust Lumora for soft, leak-proof protection, all-day comfort, and irritation-free periods.
+  </p>
+</div>
+
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          spaceBetween={30}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          breakpoints={{
+            0: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1200: { slidesPerView: 3 },
+          }}
+        >
+          {testimonials.map((item, index) => {
+            const firstLetter = item.name.charAt(0);
+
+            return (
+              <SwiperSlide key={index}>
+                <div
+                  data-aos="zoom-in"
+                  className="h-full backdrop-blur-lg bg-white/70 border my-10 border-pink-100 p-8 rounded-3xl shadow-lg hover:shadow-2xl hover:scale-105 transition duration-500"
+                >
+                  <div className="flex items-center gap-3 mb-5">
+                    
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-200 text-pink-700 font-bold text-lg">
+                      {firstLetter}
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {item.name}
+                      </h3>
+                      <span className="text-xs text-green-600 font-medium">
+                        ✔ Verified Purchase
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-gray-700 text-base leading-relaxed">
+                    {item.review}
+                  </p>
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+
+      </div>
+    </section>
 
 
     </div>
