@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { ShieldCheck, Droplets, HeartPulse } from "lucide-react";
+import { Droplets, HeartPulse,RefreshCcw, ShieldCheck, PackageCheck, Ban, Phone } from "lucide-react";
 
 const images = [
   { imageUrl: "/product1.jpeg", alt: "Soft Pads" },
@@ -15,9 +15,9 @@ const images = [
 ];
 
 const packs = [
-  { label: "7 Pads", price: 99, oldPrice: 149 },
-  { label: "14 Pads", price: 199, oldPrice: 299 },
-  { label: "28 Pads", price: 349, oldPrice: 499 },
+  { label: "7 Pads", price: 99, oldPrice: 119 },
+  { label: "14 Pads", price: 199, oldPrice: 249 },
+  { label: "28 Pads", price: 349, oldPrice: 459 },
 ];
 
 export default function Page() {
@@ -30,24 +30,21 @@ export default function Page() {
 
   return (
     <main className=" bg-[#f8f6f3]">
-
       {/* TOP TITLE */}
       <section className="bg-linear-to-b from-pink-100 to-white py-16 px-6 h-50 w-full">
-      <div className="max-w-7xl mx-auto  text-center mb-12">
-        <h1 className="text-3xl md:text-5xl font-bold text-gray-900">
-          Explore Our Premium
-        </h1>
-        <p className="text-pink-500 text-4xl mt-2 font-medium">
-          Hygiene Products
-        </p>
-      </div>
+        <div className="max-w-7xl mx-auto  text-center mb-12">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900">
+            Explore Our Premium
+          </h1>
+          <p className="text-pink-500 text-4xl mt-2 font-medium">
+            Hygiene Products
+          </p>
+        </div>
       </section>
 
       {/* product section */}
       <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
-
-        <div className="flex gap-6" >
-
+        <div className="flex gap-6">
           <div className="flex flex-col gap-4" data-aos="fade-right">
             {images.map((item, index) => (
               <Image
@@ -140,7 +137,6 @@ export default function Page() {
 
       {/*product description and feature*/}
       <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 mt-16">
-
         <div data-aos="fade-right">
           <h2 className="text-2xl mb-5 font-semibold">Description</h2>
 
