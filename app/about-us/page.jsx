@@ -45,7 +45,6 @@ const slides = [
   },
 ];
 const page = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [current, setCurrent] = useState(0);
 
   const nextSlide = () => {
@@ -56,7 +55,6 @@ const page = () => {
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -73,45 +71,16 @@ const page = () => {
   const slide = slides[current];
 
   return (
-    <div className="bg-pink-100 text-gray-800">
-      {/* Hero Section */}
-      {/* 🔥 TOP IMAGE BANNER */}
+    <div className="bg-pink-50 text-gray-800">
       <section className="relative w-full h-56  overflow-hidden">
-        {/* Background Image */}
         <Image
-          src="/bg.jpeg" // 👈 put your image in public folder
+          src="/bg.jpeg" 
           alt="About Lumora India"
           fill
           priority
           className="object-cover object-top"
         />
-
-        {/* Overlay */}
-        {/* <div className="absolute inset-0 bg-black/10 flex items-center justify-center px-6 text-center">
-          <div>
-            <h1 className="text-black text-3xl md:text-5xl font-bold">
-              About Lumora India
-            </h1>
-            <p className="text-gray-600 mt-4 max-w-2xl mx-auto text-sm md:text-lg">
-              Empowering women through comfort, confidence, and care with
-              premium hygiene solutions.
-            </p>
-          </div>
-        </div> */}
       </section>
-
-      {/* <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            About us Lumora India
-          </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Empowering women through comfort, confidence, and care. Our mission
-            is to create innovative hygiene solutions that ensure protection,
-            comfort, and wellbeing every day.
-          </p>
-        </div>
-      </section> */}
 
       {/* About Content */}
       <section className="py-20">
@@ -201,7 +170,7 @@ const page = () => {
 
       {/* Products */}
 
-      <section className="relative py-16  bg-linear-to-b from-pink-50 via-white to-purple-50 overflow-hidden">
+      <section className="relative py-16  overflow-hidden">
         <div className="max-w-7xl mx-auto p-10 md:p-0 grid md:grid-cols-2 items-center">
           <div key={slide.image} data-aos="fade-right">
             <div className="rounded-3xl overflow-hidden shadow-2xl   md:h-135 md:w-135 border border-pink-100">
@@ -216,13 +185,7 @@ const page = () => {
           </div>
 
           <div key={slide.title} className="space-y-8" data-aos="fade-left">
-            <div className="flex items-center gap-3 text-gray-500">
-              <span className="text-4xl font-bold text-pink-600">
-                {String(current + 1).padStart(2, "0")}
-              </span>
-              <span>/ {slides.length}</span>
-            </div>
-
+          
             <h2 className="text-4xl md:text-5xl font-semibold text-gray-800 leading-tight">
               {slide.title}
             </h2>
@@ -278,7 +241,7 @@ const page = () => {
 
       {/* why choose lumoraindia page */}
 
-      <section className="py-16 bg-pink-50">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900">
@@ -344,7 +307,7 @@ const page = () => {
       </section>
 
       {/* Sustainability */}
-      <section className="py-16 bg-linear-to-br from-pink-50 via-white to-purple-50">
+      <section className="py-16 ">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10">
           {/* Sustainability Card */}
           <div
