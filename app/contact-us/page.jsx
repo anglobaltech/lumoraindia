@@ -17,7 +17,7 @@ const Page = () => {
       icon: Phone,
       label: "Call Us",
       value: "+91 7782069184",
-      sub: "Mon–Sat, 10am–6pm IST",
+      sub: "Mon–Sat, 09:30 AM – 6:30 PM IST",
       href: "tel:+917782069184",
     },
     {
@@ -38,7 +38,7 @@ const Page = () => {
       icon: Clock,
       label: "Business Hours",
       value: "Mon – Saturday",
-      sub: "10:00 AM – 6:00 PM IST",
+      sub: "09:30 AM – 6:30 PM IST",
       href: null,
     },
   ];
