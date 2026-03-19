@@ -26,22 +26,22 @@ const Header = () => {
         <nav className="hidden md:block font-semibold text-lg">
           <ul className="flex gap-8">
             <li>
-              <Link href="/" className="hover:text-pink-500 transition">
+              <Link href="/" className="hover:text-pink-400 transition">
                 Home
               </Link>
             </li>
             <li>
-              <Link href="/about-us" className="hover:text-pink-500 transition">
+              <Link href="/about-us" className="hover:text-pink-400 transition">
                 About Us
               </Link>
             </li>
             <li>
-              <Link href="/products" className="hover:text-pink-500 transition">
+              <Link href="/products" className="hover:text-pink-400 transition">
                 Products
               </Link>
             </li>
             <li>
-              <Link href="/contact-us" className="hover:text-pink-500 transition">
+              <Link href="/contact-us" className="hover:text-pink-400 transition">
                 Contact Us
               </Link>
             </li>
