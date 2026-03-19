@@ -63,54 +63,57 @@ const Page = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    if (!form.name || !form.email || !form.phone || !form.message) {
-      setStatus({
-        type: "error",
-        message: "Please fill all fields ⚠️",
-      });
-      return;
-    }
 
-    const templateParams = {
-      user_name: form.name,
-      user_email: form.email,
-      phone: form.phone,
-      message: form.message,
-    };
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-    emailjs
-      .send(
-        "service_ui1v6r4",
-        "template_j8bgske",
-        templateParams,
-        "umJ95Yvy1wxcOO8xG"
-      )
-      .then(
-        () => {
-          setStatus({
-            type: "success",
-            message: "Thanks for reaching out! Your message has been sent successfully✅. We’ll connect with you shortly.",
-          });
+  if (!form.name || !form.email || !form.phone || !form.message) {
+    setStatus({
+      type: "error",
+      message: "Please fill all fields ⚠️",
+    });
+    return;
+  }
 
-          setForm({
-            name: "",
-            email: "",
-            phone: "",
-            message: "",
-          });
-        },
-        () => {
-          setStatus({
-            type: "error",
-            message: "Failed to send message ❌",
-          });
-        }
-      );
+  const templateParams = {
+    user_name: form.name,
+    user_email: form.email,
+    phone: form.phone,
+    message: form.message,
   };
 
+  emailjs
+    .send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+      templateParams,
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+    )
+    .then(
+      () => {
+        setStatus({
+          type: "success",
+          message:
+            "Thanks for reaching out! Your message has been sent successfully ✅. We’ll connect with you shortly.",
+        });
+
+        setForm({
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      },
+      (error) => {
+        console.error(error);
+        setStatus({
+          type: "error",
+          message: "Failed to send message ❌",
+        });
+      }
+    );
+};
   const [status, setStatus] = useState({
     type: "", // "success" or "error"
     message: "",
