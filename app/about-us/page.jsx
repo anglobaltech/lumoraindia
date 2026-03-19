@@ -82,88 +82,144 @@ const page = () => {
         />
       </section>
 
-      {/* About Content */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+      {/* 🌸 ABOUT / JOURNEY */}
+      <section className="py-10 bg-linear-to-b from-pink-50 to-white">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+          {/* Text */}
           <div>
-            <h2 className="text-3xl font-bold mb-6">Our Journey!</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
+              Our <span className="text-pink-500">Journey</span>
+            </h2>
 
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Our journey began with a simple but powerful idea — to create
-              sanitary products that provide exceptional protection while
-              improving women’s health and confidence.
+            <div className="w-16 h-1 bg-pink-500 mt-4 mb-6 rounded-full"></div>
+
+            <p className="text-gray-600 text-lg leading-relaxed mb-5">
+              Our journey began with a simple yet powerful vision — to redefine
+              feminine hygiene with care, comfort, and confidence.
             </p>
 
-            <p className="text-gray-600 leading-relaxed">
-              We focus on innovation, quality materials, and thoughtful design
-              to ensure that every woman feels comfortable and secure during
-              menstruation.
+            <p className="text-gray-600 text-lg leading-relaxed mb-5">
+              At{" "}
+              <span className="font-semibold text-pink-500">Lumora India</span>,
+              we understand that every woman deserves products that not only
+              protect but also empower her to live freely without discomfort or
+              worry.
             </p>
+
+            <p className="text-gray-600 text-lg leading-relaxed">
+              With innovation, premium materials, and thoughtful design, we
+              ensure every product reflects safety, softness, and trust.
+            </p>
+
+            {/* Highlight Points */}
+            {/* <div className="grid grid-cols-2 gap-4 mt-8">
+              {[
+                "Dermatologically Safe",
+                "Ultra Soft Comfort",
+                "Leak Protection",
+                "Skin Friendly",
+              ].map((item) => (
+                <div className="bg-white px-4 py-3 rounded-xl shadow-sm text-sm font-medium text-gray-700 hover:shadow-md transition">
+                  ✔ {item}
+                </div>
+              ))}
+            </div> */}
           </div>
 
-          <div>
-            <Image
-              src="/lumora.jpg"
-              alt="about The lumoraindia"
-              height={600}
-              width={600}
-              className="rounded-xl shadow-lg"
-            />
-          </div>
+          {/* Image */}
+         <div className="relative group overflow-hidden rounded-3xl">
+
+  {/* Glow Background */}
+  <div className="absolute inset-0 bg-pink-200 blur-3xl opacity-30 rounded-full group-hover:opacity-50 transition duration-500"></div>
+
+  {/* Image Container (Fixed Height) */}
+  <div className="relative h-87.5 sm:h-112.5 md:h-125 w-full overflow-hidden rounded-3xl">
+
+    <Image
+      src="/15.jpeg"
+      alt="Lumora India"
+      fill
+      className="object-cover transition duration-700 ease-in-out 
+                 group-hover:scale-110 group-hover:rotate-1"
+    />
+
+    {/* Overlay on Hover */}
+    <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent 
+                    opacity-0 group-hover:opacity-100 transition duration-500"></div>
+
+    {/* Text on Hover */}
+    <div className="absolute bottom-5 left-5 text-white opacity-0 group-hover:opacity-100 transition duration-500">
+      <p className="text-lg font-semibold tracking-wide">
+        Lumora India
+      </p>
+      <p className="text-sm text-gray-200">
+        Comfort • Care • Confidence
+      </p>
+    </div>
+
+  </div>
+</div>
         </div>
       </section>
 
-      <section className="py-20 ">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Our Mission
-            </h2>
-
-            <p className="mt-6 text-gray-600  leading-relaxed">
-              At{" "}
-              <span className="font-semibold text-pink-500">Lumora India</span>,
-              our mission is to provide women with safe, comfortable, and
-              reliable menstrual care products. We are committed to designing
-              sanitary napkins that offer superior protection, skin-friendly
-              materials, and long-lasting comfort so women can live confidently
-              every day.
-            </p>
-
-            <p className="mt-4 text-gray-600  leading-relaxed">
-              We believe that every woman deserves access to hygienic and
-              affordable feminine care. Through innovation, quality, and
-              awareness, we strive to make menstrual health simple, safe, and
-              empowering for women across India.
-            </p>
-          </div>
-
-          <div className="bg-white p-8 rounded-2xl shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+      {/* 💖 MISSION */}
+      <section className="py-15 bg-white">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+          {/* Left Card */}
+          <div className="bg-linear-to-br from-pink-50 to-pink-100 p-10 rounded-3xl shadow-lg border border-pink-100">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">
               What Drives Us
             </h3>
 
-            <ul className="space-y-4 text-gray-600">
-              <li className="flex items-start gap-3">
-                <span className="text-pink-500 text-xl">✔</span>
-                Safe and hygienic menstrual care products
-              </li>
-
-              <li className="flex items-start gap-3">
-                <span className="text-pink-500 text-xl">✔</span>
-                Comfortable protection for every woman
-              </li>
-
-              <li className="flex items-start gap-3">
-                <span className="text-pink-500 text-xl">✔</span>
-                Affordable feminine hygiene solutions
-              </li>
-
-              <li className="flex items-start gap-3">
-                <span className="text-pink-500 text-xl">✔</span>
-                Promoting awareness about menstrual health
-              </li>
+            <ul className="space-y-5 text-gray-700">
+              {[
+                "Safe and hygienic menstrual care products",
+                "Comfortable protection for every woman",
+                "Affordable feminine hygiene solutions",
+                "Spreading awareness about menstrual health",
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="text-pink-500 text-xl">✔</span>
+                  <span className="text-base">{item}</span>
+                </li>
+              ))}
             </ul>
+          </div>
+
+          {/* Right Content */}
+          <div>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
+              Our <span className="text-pink-500">Mission</span>
+            </h2>
+
+            <div className="w-16 h-1 bg-pink-500 mt-4 mb-6 rounded-full"></div>
+
+            <p className="text-gray-600 text-lg leading-relaxed mb-5">
+              At{" "}
+              <span className="font-semibold text-pink-500">Lumora India</span>,
+              our mission is to empower women with safe, reliable, and
+              comfortable menstrual care solutions.
+            </p>
+
+            <p className="text-gray-600 text-lg leading-relaxed mb-5">
+              We design products that offer superior protection, breathable
+              comfort, and skin-friendly materials — so women can feel confident
+              every single day.
+            </p>
+
+            <p className="text-gray-600 text-lg leading-relaxed">
+              We believe menstrual hygiene should never be a barrier. Through
+              innovation, accessibility, and awareness, we are committed to
+              making feminine care simple, safe, and empowering for every woman
+              across India.
+            </p>
+
+            {/* Quote Box */}
+            <div className="mt-8 p-5 bg-pink-50 border-l-4 border-pink-500 rounded-lg shadow-sm">
+              <p className="text-gray-700 italic">
+                “Empowering women begins with comfort, confidence, and care.”
+              </p>
+            </div>
           </div>
         </div>
       </section>
