@@ -184,97 +184,119 @@ setTimeout(() => {
       </section>
 
     {/* map and contact form */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="grid md:grid-cols-2 gap-10">
-          <div className="rounded-2xl overflow-hidden border border-pink-100 shadow-sm">
-            <iframe
-              src="https://www.google.com/maps?q=Urbtech+NPX+Sector+153+Noida&output=embed"
-              width="100%"
-              height="400"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
+     {/* map and contact form */}
+<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+  <div className="grid md:grid-cols-2 gap-10 items-stretch">
 
-          <div className="rounded-2xl  border border-pink-100 shadow-sm bg-linear-to-b from-pink-50 to-white">
-              <div className="max-w-3xl mx-auto">
-                <form
-                  onSubmit={handleSubmit}
-                  className="bg-white p-8 rounded-2xl shadow-xl space-y-6"
-                >
-                  <h1 className="text-2xl font-bold items-center text-center">Contact With Us</h1>
-                  <div className="flex flex-row items-center gap-4 justify-center">
-                    <div className="flex-1">
-                      <input
-                        type="text"
-                        name="name"
-                        required
-                        value={form.name}
-                        onChange={handleChange}
-                        placeholder="Enter your full name"
-                        className="w-full border border-gray-200 rounded-xl  px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
-                      />
-                    </div>
+    {/* Map */}
+    <div className="relative rounded-3xl overflow-hidden shadow-lg group">
+      <div className="absolute inset-0 bg-linear-to-tr from-pink-200/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 z-10"></div>
+      <iframe
+        src="https://www.google.com/maps?q=Urbtech+NPX+Sector+153+Noida&output=embed"
+        width="100%"
+        height="100%"
+        className="min-h-100 w-full grayscale-20 group-hover:grayscale-0 transition duration-500"
+        style={{ border: 0 }}
+        allowFullScreen
+        loading="lazy"
+      />
+    </div>
 
-                    <div className="flex-1">
-                      <input
-                        type="tel"
-                        name="phone"
-                        required
-                        value={form.phone}
-                        onChange={handleChange}
-                        placeholder="Enter your phone number"
-                        className="w-full border border-gray-200 rounded-xl px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
-                      />
-                    </div>
+    {/* Form */}
+    <div className="relative rounded-3xl p-px bg-linear-to-br from-pink-200 via-pink-100 to-white shadow-lg">
+      <div className="rounded-3xl bg-white/80 backdrop-blur-xl p-8 h-full">
+        <div className="max-w-3xl mx-auto">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6"
+          >
+            <h1 className="text-3xl font-bold text-center text-gray-800">
+              Contact With Us
+            </h1>
+            <p className="text-center text-gray-500 text-sm">
+              We’d love to hear from you. Fill out the form below.
+            </p>
 
-                  </div>
-
-                  <div>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="Enter your email"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
-                    />
-                  </div>
-
-                  <div>
-                    <textarea
-                      name="message"
-                      rows="3"
-                      required
-                      value={form.message}
-                      onChange={handleChange}
-                      placeholder="How Can We Help You?"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200"
-                    ></textarea>
-                  </div>
-
-                  {status.message && (
-                    <p
-                      className={`text-sm text-left font-medium ${status.type === "success" ? "text-green-600" : "text-red-500"
-                        }`}
-                    >
-                      {status.message}
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="w-full bg-pink-500 cursor-pointer text-white py-3 rounded-xl font-semibold hover:bg-pink-600 transition duration-300 shadow-md"
-                  >
-                    Submit
-                  </button>
-                </form>
+            {/* Name + Phone */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Full Name"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 transition shadow-sm"
+                />
               </div>
-          </div>
+
+              <div className="flex-1 relative">
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  value={form.phone}
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 transition shadow-sm"
+                />
+              </div>
+            </div>
+
+            {/* Email */}
+            <div className="relative">
+              <input
+                type="email"
+                name="email"
+                required
+                value={form.email}
+                onChange={handleChange}
+                placeholder="Email Address"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 transition shadow-sm"
+              />
+            </div>
+
+            {/* Message */}
+            <div className="relative">
+              <textarea
+                name="message"
+                rows="3"
+                required
+                value={form.message}
+                onChange={handleChange}
+                placeholder="How can we help you?"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 bg-white/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 transition shadow-sm resize-none"
+              ></textarea>
+            </div>
+
+            {/* Status */}
+            {status.message && (
+              <p
+                className={`text-sm font-medium ${
+                  status.type === "success"
+                    ? "text-green-600"
+                    : "text-red-500"
+                }`}
+              >
+                {status.message}
+              </p>
+            )}
+
+            {/* Button */}
+            <button
+              type="submit"
+              className="w-full bg-linear-to-r from-pink-500 to-pink-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition duration-300"
+            >
+              Submit Message
+            </button>
+          </form>
         </div>
-      </section>
+      </div>
+    </div>
+
+  </div>
+</section>
     </main>
   );
 };
