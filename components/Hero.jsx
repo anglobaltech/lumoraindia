@@ -233,10 +233,8 @@ const Hero = () => {
       <section className="bg-pink-100 min-h-screen flex items-center py-">
         <div className="max-w-8xl mx-auto  sm:px-6  grid md:grid-cols-2 gap-16 items-center">
 
-          {/* LEFT CONTENT */}
           <div className="space-y-8 pl-10">
 
-            {/* Heading */}
             <div>
               <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 leading-tight">
                 Comfort & Confidence
@@ -255,7 +253,6 @@ const Hero = () => {
               </p>
             </div>
 
-            {/* Buttons */}
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/products"
@@ -272,7 +269,6 @@ const Hero = () => {
               </Link>
             </div>
 
-            {/* Trust Badges */}
             <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
 
               <div className="bg-white px-4 py-3 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
@@ -293,7 +289,6 @@ const Hero = () => {
 
             </div>
 
-            {/* Stats */}
             <div className="flex gap-10 pt-4">
               <div className="group cursor-pointer">
                 <h3 className="text-2xl font-bold text-pink-500 group-hover:scale-110 transition">
@@ -318,9 +313,8 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* RIGHT SIDE */}
           <div className="relative flex justify-center">
-            {/* Image Container */}
+
             <div
               className="relative bg-white p-8 rounded-3xl cursor-pointer shadow-xl hover:shadow-2xl hover:-translate-y-2 transition duration-500 group"
             >
@@ -332,7 +326,6 @@ const Hero = () => {
                 className="object-contain transition-transform duration-500 group-hover:scale-105"
               />
 
-              {/* Bestseller Badge */}
               <div className="absolute -top-4 -left-4 bg-pink-500 text-white text-xs px-4 py-1 rounded-full shadowgroup-hover:scale-110 transition">
                 Bestseller
               </div>
@@ -346,7 +339,7 @@ const Hero = () => {
       {/* About Section */}
       <section className="bg-pink-50 py-10">
         <div className="max-w-7xl mx-auto px-6  sm:px-8 lg:px-12">
-          {/* Heading */}
+
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl md:text-5xl pb-1 font-bold text-gray-800">
               About Lumora India
@@ -359,7 +352,6 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* Content Grid */}
           <div className="grid md:grid-cols-2 mt-20  items-center">
             {/* Image */}
             <div className="flex md:justify-start justify-center">
@@ -372,7 +364,6 @@ const Hero = () => {
               />
             </div>
 
-            {/* Text Content */}
             <div className="px-[-10]">
               <h3 className="text-center md:text-left py-7 text-2xl md:text-3xl md:py-0 font-semibold text-gray-800 mb-4">
                 Our Lumora India Commitment
@@ -391,7 +382,7 @@ const Hero = () => {
                 health but also care for the environment.
               </p>
 
-              {/* Highlights */}
+
               <div className="grid grid-cols-2 gap-4">
                 {[
                   {
@@ -434,7 +425,7 @@ const Hero = () => {
         <div className="max-w-7xl mx-auto px-6 relative">
 
           <div className="text-center mb-16" data-aos="fade-up">
-            {/* <h2 className="text-center text-base text-pink-500">Why Lumora India?</h2> */}
+            
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
               Why Choose <span className="text-pink-500 italic">Lumora India</span>
             </h2>
@@ -482,7 +473,7 @@ const Hero = () => {
       {/* Product Section */}
       <section className="py-16 bg-pink-100 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
-          {/* Heading */}
+        
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800">
               Our Products
@@ -493,7 +484,6 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* Product Benefits */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-14 text-center">
             <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg cursor-pointer transform transition duration-500 hover:scale-110">
               <h4 className="font-semibold text-gray-800">Ultra Absorbent</h4>
@@ -524,7 +514,6 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
@@ -556,7 +545,6 @@ const Hero = () => {
                 key={product.name}
                 className="bg-pink-50 p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition duration-300 group flex flex-col"
               >
-                {/* Image */}
                 <div className="flex justify-center mb-4">
                   <Image
                     src={product.src}
@@ -567,17 +555,14 @@ const Hero = () => {
                   />
                 </div>
 
-                {/* Title */}
                 <h3 className="text-lg font-semibold text-gray-800 text-center">
                   {product.name}
                 </h3>
 
-                {/* Description */}
                 <p className="text-gray-600 text-sm text-center mt-2 flex-1">
                   {product.desc}
                 </p>
 
-                {/* Button */}
                 <div className="flex justify-center mt-5">
                   <Link href="/products">
                     <button className="bg-pink-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-pink-600 hover:shadow-md transition">
@@ -750,6 +735,7 @@ const Hero = () => {
 
         </div>
       </section>
+      
 
 
     </div>

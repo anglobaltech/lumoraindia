@@ -1,5 +1,9 @@
 "use client";
 import React from "react";
+import { useEffect, useState } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import emailjs from "@emailjs/browser";
 import {
   Phone,
   Mail,
@@ -43,8 +47,83 @@ const Page = () => {
     },
   ];
 
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (!form.name || !form.email || !form.phone || !form.message) {
+    setStatus({
+      type: "error",
+      message: "Please fill all fields ⚠️",
+    });
+    return;
+  }
+
+  const templateParams = {
+    user_name: form.name,
+    user_email: form.email,
+    phone: form.phone,
+    message: form.message,
+  };
+
+  emailjs
+    .send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+      templateParams,
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+    )
+    .then(
+      () => {
+        setStatus({
+          type: "success",
+          message:
+            "Thanks for reaching out! Your message has been sent successfully ✅. We’ll connect with you shortly.",
+        });
+
+        setForm({
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      },
+      (error) => {
+        console.error(error);
+        setStatus({
+          type: "error",
+          message: "Failed to send message ❌",
+        });
+      }
+    );
+};
+  const [status, setStatus] = useState({
+    type: "", // "success" or "error"
+    message: "",
+  });
+setTimeout(() => {
+  setStatus({ type: "", message: "" });
+}, 6000);
+
   return (
-    <div className="bg-pink-50 min-h-screen text-gray-800">
+    <main className="bg-pink-50 min-h-screen text-gray-800">
 
       {/* Hero */}
       <section className="bg-pink-100 py-20 border-b border-pink-200">
@@ -104,11 +183,9 @@ const Page = () => {
         </div>
       </section>
 
-      {/* Map + Company Info */}
+    {/* map and contact form */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="grid md:grid-cols-2 gap-10">
-
-          {/* Map */}
           <div className="rounded-2xl overflow-hidden border border-pink-100 shadow-sm">
             <iframe
               src="https://www.google.com/maps?q=Urbtech+NPX+Sector+153+Noida&output=embed"
@@ -120,73 +197,85 @@ const Page = () => {
             />
           </div>
 
-          {/* Info Panel */}
-          <div className="bg-white rounded-2xl border border-pink-100 shadow-sm p-8 flex flex-col justify-between">
+          <div className="rounded-2xl  border border-pink-100 shadow-sm bg-linear-to-b from-pink-50 to-white">
+              <div className="max-w-3xl mx-auto">
+                <form
+                  onSubmit={handleSubmit}
+                  className="bg-white p-8 rounded-2xl shadow-xl space-y-6"
+                >
+                  <h1 className="text-2xl font-bold items-center text-center">Contact With Us</h1>
+                  <div className="flex flex-row items-center gap-4 justify-center">
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        value={form.name}
+                        onChange={handleChange}
+                        placeholder="Enter your full name"
+                        className="w-full border border-gray-200 rounded-xl  px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                      />
+                    </div>
 
-            <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Lumora <span className="text-pink-500">India</span>
-              </h2>
+                    <div className="flex-1">
+                      <input
+                        type="tel"
+                        name="phone"
+                        required
+                        value={form.phone}
+                        onChange={handleChange}
+                        placeholder="Enter your phone number"
+                        className="w-full border border-gray-200 rounded-xl px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                      />
+                    </div>
 
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Lumora India is dedicated to providing premium-quality sanitary
-                napkins designed for comfort, hygiene, and protection.  
-                Contact us for product inquiries, distribution opportunities,
-                or business collaborations.
-              </p>
-            </div>
+                  </div>
 
-            {/* Address */}
-            <div className="bg-pink-50 rounded-xl p-5 border border-pink-100 mt-6">
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-pink-500 mt-1" />
-                <div>
-                  <p className="text-sm font-semibold text-gray-800">
-                    S-63, 7th Floor, Urbtech NPX
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Sector-153, Noida, Uttar Pradesh – 201310
-                  </p>
-                </div>
-              </div>
-            </div>
+                  <div>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="Enter your email"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                    />
+                  </div>
 
-            {/* Social */}
-            <div className="mt-6">
-              <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-3">
-                Follow Us
-              </p>
+                  <div>
+                    <textarea
+                      name="message"
+                      rows="3"
+                      required
+                      value={form.message}
+                      onChange={handleChange}
+                      placeholder="How Can We Help You?"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                    ></textarea>
+                  </div>
 
-              <div className="flex gap-3">
-                {[
-                  { icon: Instagram, href: "https://instagram.com" },
-                  { icon: Facebook, href: "https://facebook.com" },
-                  { icon: Twitter, href: "https://twitter.com" },
-                ].map(({ icon: Icon, href }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full border border-pink-200 bg-pink-50 flex items-center justify-center hover:bg-pink-500 hover:border-pink-500 hover:text-white text-pink-500 transition"
+                  {status.message && (
+                    <p
+                      className={`text-sm text-left font-medium ${status.type === "success" ? "text-green-600" : "text-red-500"
+                        }`}
+                    >
+                      {status.message}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="w-full bg-pink-500 cursor-pointer text-white py-3 rounded-xl font-semibold hover:bg-pink-600 transition duration-300 shadow-md"
                   >
-                    <Icon className="w-4 h-4" />
-                  </a>
-                ))}
+                    Submit
+                  </button>
+                </form>
               </div>
-            </div>
-
-            {/* CTA */}
-            <Link
-              href="/products"
-              className="mt-8 inline-flex items-center justify-center bg-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-pink-600 transition text-sm"
-            >
-              Explore Our Products
-            </Link>
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 
