@@ -5,7 +5,17 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import {Activity, ChevronDown, Droplets, HeartPulse, Quote, ShieldCheck, Smile, Sparkles, Star,} from "lucide-react";
+import {
+  Activity,
+  ChevronDown,
+  Droplets,
+  HeartPulse,
+  Quote,
+  ShieldCheck,
+  Smile,
+  Sparkles,
+  Star,
+} from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
@@ -13,82 +23,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 
-{
-  /* Top bg-slider-image */
-}
-const HeroSlider = () => {
-  const slides = [
-    "/bg.png",
-    "/bg1.jpg",
-    "/bg2.jpg",
-    "/bg3.jpeg",
-    "/bg4.jpeg",
-  ];
-
-  return (
-  <div className="w-full overflow-hidden relative">
-    <Swiper
-      modules={[Autoplay, EffectFade, Pagination]}
-      autoplay={{ delay: 3000, disableOnInteraction: false }}
-      effect="fade"
-      loop={true}
-      pagination={{ clickable: true }}
-      className="w-full"
-    >
-      {slides.map((img, index) => (
-        <SwiperSlide key={index}>
-          {/* 
-            Mobile:   full image visible, no crop  → object-contain
-            Desktop:  fills width, slight crop ok  → object-cover
-            Use a fixed aspect ratio so image never cuts on any screen
-          */}
-          <div className="relative w-full aspect-4/3 sm:aspect-video lg:aspect-21/9">
-            <Image
-              src={img}
-              alt={`Slide ${index}`}
-              fill
-              sizes="100vw"
-              className="object-contain object-center"
-              priority={index === 0}
-            />
-
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
-
-            {/* Content */}
-            <div className="absolute inset-0 flex flex-col items-center justify-end pb-10 sm:pb-14 md:pb-16 text-center px-6 sm:px-10 z-10">
-              <Link
-                href="/products"
-                className="bg-pink-500 text-white px-7 py-3 sm:px-9 sm:py-3.5 rounded-full font-semibold text-sm sm:text-base hover:bg-pink-600 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg shadow-pink-900/40"
-              >
-                Shop Now
-              </Link>
-            </div>
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-
-    <style jsx global>{`
-      .swiper-pagination-bullet {
-        background: white !important;
-        opacity: 0.5 !important;
-        width: 8px !important;
-        height: 8px !important;
-      }
-      .swiper-pagination-bullet-active {
-        background: #ec4899 !important;
-        opacity: 1 !important;
-        width: 24px !important;
-        border-radius: 4px !important;
-      }
-      .swiper-pagination {
-        bottom: 16px !important;
-      }
-    `}</style>
-  </div>
-);
-};
+const images = ["/1.png", "/4.jpeg", "/8.jpeg", "/4.jpeg"];
 
 // why choose lumora india
 const features = [
@@ -291,109 +226,138 @@ const Hero = () => {
 
   return (
     <div className="bg-white text-gray-800">
-      <HeroSlider />
+      <section className="bg-linear-to-br from-pink-100 via-white to-pink-50 min-h-screen flex items-start pt-16 pb-6">
+        <div className="max-w-7xl mx-auto  sm:px-6 grid md:grid-cols-2 gap-25 items-center">
+          {/* LEFT CONTENT */}
+          <div className="space-y-5 md:space-y-6 max-w-xl">
 
-      <section className="bg-pink-100 min-h-screen flex items-center py-10">
-        <div className="max-w-8xl mx-auto  sm:px-6  grid md:grid-cols-2 gap-16 items-center">
-          <div className="space-y-10 pl-10">
-            <div>
+            {/* HEADING */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-800 leading-tight">
+              <span className="whitespace-nowrap">Comfort & Confidence</span>
+              <span className="text-pink-500 block">Every Day</span>
+            </h1>
 
-              <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 leading-tight">
-                Comfort & Confidence
-                <span className="text-pink-500 block">Every Day</span>
-              </h1>
+            {/* DESCRIPTION */}
+            <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-lg">
+              Lumora India offers premium sanitary solutions crafted with
+              breathable cotton layers and advanced absorbent technology for
+              all-day comfort and hygiene.
+            </p>
 
-              <p className="mt-5 text-gray-600 text-base md:text-lg leading-relaxed">
-                Lumora India offers premium quality sanitary napkins designed
-                for superior comfort, hygiene, and reliable protection. Crafted
-                with breathable cotton layers and advanced absorbent technology.
-              </p>
-
-              <p className="mt-4 text-gray-600 text-base md:text-lg leading-relaxed">
-                Whether it&apos;s daily protection or heavy flow days, Lumora
-                ensures rash-free comfort, dryness, and confidence throughout
-                the day.
-              </p>
+            {/* MINI BENEFITS (NEW - COMPACT) */}
+            <div className="flex flex-wrap gap-2 text-xs sm:text-sm">
+              {[
+                "Ultra Thin",
+                "Odor Control",
+                "Skin Friendly",
+                "High Absorbency",
+              ].map((item, i) => (
+                <span
+                  key={i}
+                  className="bg-white px-3 py-1 rounded-full shadow-sm border border-gray-100"
+                >
+                  {item}
+                </span>
+              ))}
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            {/* BUTTONS */}
+            <div className="flex flex-wrap gap-3 pt-1">
               <Link
                 href="/products"
-                className="bg-pink-500 text-white px-7 py-3 rounded-lg font-semibold shadow-md hover:bg-pink-600 hover:shadow-xl hover:-translate-y-1 transition duration-300"
+                className="bg-pink-500 text-white px-6 py-2.5 rounded-full text-sm sm:text-base font-semibold shadow-md hover:bg-pink-600 hover:scale-105 transition"
               >
-                View Products
+                Shop Now
               </Link>
 
               <Link
                 href="/about-us"
-                className="border border-pink-500 text-pink-500 px-7 py-3 rounded-lg font-semibold hover:bg-pink-200 hover:shadow-md hover:-translate-y-1 transition duration-300"
+                className="border border-pink-500 text-pink-500 px-6 py-2.5 rounded-full text-sm sm:text-base font-semibold hover:bg-pink-100 hover:scale-105 transition"
               >
                 Learn More
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
-              <div className="bg-white px-4 py-3 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
-                ✔ Dermatologically Tested
-              </div>
-
-              <div className="bg-white px-4 py-3 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
-                ✔ 100% Rash Free
-              </div>
-
-              <div className="bg-white px-4 py-3 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
-                ✔ Leak Protection
-              </div>
-
-              <div className="bg-white px-4 py-3 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300 cursor-pointer">
-                ✔ Breathable Cotton Layer
-              </div>
+            {/* FEATURES */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm pt-2">
+              {[
+                "Dermatologically Tested",
+                "100% Rash Free",
+                "Leak Protection",
+                "Breathable Cotton Layer",
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="bg-white px-4 py-2.5 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
+                >
+                  ✔ {item}
+                </div>
+              ))}
             </div>
 
-            <div className="flex gap-10 pt-4">
-              <div className="group cursor-pointer">
-                <h3 className="text-2xl font-bold text-pink-500 group-hover:scale-110 transition">
-                  10K+
-                </h3>
-                <p className="text-sm text-gray-600">Happy Customers</p>
-              </div>
+            {/* TRUST STRIP (NEW - SMALL & CLEAN) */}
+            <div className="flex flex-wrap gap-3 pt-2 text-xs text-gray-500">
+              <span className="bg-white px-3 py-1 rounded-full shadow-sm">
+                ISO Certified
+              </span>
+              <span className="bg-white px-3 py-1 rounded-full shadow-sm">
+                100% Safe
+              </span>
+              <span className="bg-white px-3 py-1 rounded-full shadow-sm">
+                Made in India
+              </span>
+            </div>
 
-              <div className="group cursor-pointer">
-                <h3 className="text-2xl font-bold text-pink-500 group-hover:scale-110 transition">
-                  99%
-                </h3>
-                <p className="text-sm text-gray-600">Leak Protection</p>
-              </div>
-
-              <div className="group cursor-pointer">
-                <h3 className="text-2xl font-bold text-pink-500 group-hover:scale-110 transition">
-                  24/7
-                </h3>
-                <p className="text-sm text-gray-600">Support</p>
-              </div>
+            {/* STATS */}
+            <div className="flex flex-wrap gap-6 pt-3">
+              {[
+                { value: "10K+", label: "Customers" },
+                { value: "99%", label: "Protection" },
+                { value: "24/7", label: "Support" },
+              ].map((stat, i) => (
+                <div key={i} className="group">
+                  <h3 className="text-lg sm:text-xl font-bold text-pink-500 group-hover:scale-110 transition">
+                    {stat.value}
+                  </h3>
+                  <p className="text-xs text-gray-600">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="relative flex justify-center">
-            <div className="relative bg-white p-8 rounded-3xl cursor-pointer shadow-xl hover:shadow-2xl hover:-translate-y-2 transition duration-500 group">
-              <Image
-                src="/1.png"
-                alt="Lumora Sanitary Napkins"
-                width={420}
-                height={420}
-                className="object-contain transition-transform duration-500 group-hover:scale-105"
-              />
+          {/* RIGHT SIDE SLIDER */}
+          <div className="flex justify-center mt-6 md:mt-0">
+            <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg h-65 sm:h-80 md:h-105">
+              {/* Glow Effect */}
+              <div className="absolute inset-0 bg-pink-400/10 blur-xl rounded-full" />
 
-              <div className="absolute -top-4 -left-4 bg-pink-500 text-white text-xs px-4 py-1 rounded-full shadowgroup-hover:scale-110 transition">
-                Bestseller
-              </div>
+              <Swiper
+                modules={[Autoplay, EffectFade]}
+                autoplay={{ delay: 2000, disableOnInteraction: false }}
+                effect="fade"
+                loop={true}
+                className="h-full rounded-2xl"
+              >
+                {images.map((img, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="relative bg-white h-full rounded-2xl shadow-md flex items-center justify-center p-4">
+                      <Image src={img} alt="Product" fill />
+
+                      {/* Badge */}
+                      <div className="absolute top-3 left-3 bg-pink-500 text-white text-[10px] sm:text-xs px-2.5 py-1 rounded-full shadow">
+                        Bestseller
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section className="bg-pink-50 py-10">
+      <section className="bg-pink-50 py-5">
         <div className="max-w-7xl mx-auto px-6  sm:px-8 lg:px-12">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl md:text-5xl pb-1 font-bold text-gray-800">
