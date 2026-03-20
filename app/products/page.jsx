@@ -4,7 +4,15 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Droplets, HeartPulse,RefreshCcw, ShieldCheck, PackageCheck, Ban, Phone } from "lucide-react";
+import {
+  Droplets,
+  HeartPulse,
+  RefreshCcw,
+  ShieldCheck,
+  PackageCheck,
+  Ban,
+  Phone,
+} from "lucide-react";
 
 const images = [
   { imageUrl: "/product1.jpeg", alt: "Soft Pads" },
@@ -177,6 +185,95 @@ export default function Page() {
             <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm hover:scale-105 transition">
               <ShieldCheck className="text-pink-500" />
               <p>Leak-proof protection even during heavy flow</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="max-w-7xl mx-auto mt-20 px-4 sm:px-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-snug pb-5 text-center">
+          Why Choose <span className="text-pink-500">Lumora</span>?
+        </h2>
+
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { icon: "💖", text: "Skin Friendly Material" },
+            { icon: "🛡️", text: "Leak-Proof Protection" },
+            { icon: "🌿", text: "Breathable Cotton Layer" },
+            { icon: "🚚", text: "Fast Delivery" },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white p-5 rounded-xl text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition"
+            >
+              <p className="text-3xl mb-2">{item.icon}</p>
+              <p className="text-sm font-medium text-gray-700">{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="max-w-7xl mx-auto mt-20 px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
+        {/* LEFT CONTENT */}
+        <div className="space-y-5">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-snug">
+            Designed for <span className="text-pink-500">Modern Women</span>
+          </h2>
+
+          <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+            Lumora sanitary pads are thoughtfully engineered to support your
+            active lifestyle with superior comfort, protection, and hygiene.
+            Feel confident every day with advanced technology designed for you.
+          </p>
+
+          {/* FEATURES LIST */}
+          <ul className="space-y-3 text-sm sm:text-base">
+            {[
+              "Keeps you dry for long hours",
+              "Prevents rashes and irritation",
+              "Odor control for freshness",
+              "Secure fit for all-day confidence",
+            ].map((item, i) => (
+              <li
+                key={i}
+                className="flex items-center gap-3 bg-white px-4 py-2.5 rounded-lg shadow-sm 
+          hover:shadow-md hover:-translate-y-1 hover:bg-pink-50 
+          transition-all duration-300 cursor-pointer group"
+              >
+                <span className="text-pink-500 text-lg group-hover:scale-110 transition">
+                  ✔
+                </span>
+                <span className="text-gray-700 group-hover:text-gray-900">
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* RIGHT IMAGE CARD */}
+        <div className="flex justify-center py-10">
+          <div className="relative group w-full max-w-sm sm:max-w-md">
+            {/* Glow Effect */}
+            <div className="absolute inset-0 bg-pink-400/20 blur-2xl rounded-3xl opacity-70 group-hover:opacity-100 transition duration-500" />
+
+            {/* Card */}
+            <div
+              className="relative bg-white p-6 rounded-3xl shadow-md 
+      hover:shadow-xl hover:-translate-y-2 transition-all duration-500"
+            >
+              <Image
+                src="/product1.jpeg"
+                alt="Benefits"
+                width={320}
+                height={320}
+                className="mx-auto object-contain transition-transform duration-500 group-hover:scale-105"
+              />
+
+              {/* Badge */}
+              <div className="absolute top-4 left-4 bg-pink-500 text-white text-xs px-3 py-1 rounded-full shadow">
+                Premium Quality
+              </div>
             </div>
           </div>
         </div>
