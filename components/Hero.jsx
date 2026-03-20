@@ -227,7 +227,7 @@ const Hero = () => {
   return (
     <div className="bg-white text-gray-800">
       <section className="bg-linear-to-br from-pink-100 via-white to-pink-50 min-h-screen flex items-start pt-16 pb-6">
-        <div className="max-w-7xl mx-auto  sm:px-6 grid md:grid-cols-2 gap-25 items-center">
+        <div className="max-w-8xl mx-auto  sm:px-6 grid md:grid-cols-2 gap-25 items-center">
           {/* LEFT CONTENT */}
           <div className="space-y-5 md:space-y-6 max-w-xl">
 
@@ -357,11 +357,11 @@ const Hero = () => {
       </section>
 
       {/* About Section */}
-      <section className="bg-pink-50 py-5">
+      <section className="bg-pink-50 py-10">
         <div className="max-w-7xl mx-auto px-6  sm:px-8 lg:px-12">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl pb-1 font-bold text-gray-800">
-              About Lumora India
+            <h2 className="text-2xl sm:text-3xl md:text-3xl pb-1 font-bold text-gray-800">
+              About <span className="text-pink-500">Lumora India</span>
             </h2>
             <p className="text-gray-600 text-base md:text-lg mt-4 max-w-5xl mx-auto">
               Lumora India is dedicated to empowering women with high-quality
@@ -442,15 +442,15 @@ const Hero = () => {
         <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-30"></div>
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-16" data-aos="fade-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
               Why Choose{" "}
               <span className="text-pink-500 italic">Lumora India</span>
             </h2>
-            <h2 className="text-blue-600 font-bold italic py-2 text-3xl">
+            <h2 className="text-blue-600 font-bold italic py-2 text-2xl">
               Organic Sanitary Napkin
             </h2>
 
-            <p className="mt-10 text-gray-600 max-w-2xl mx-auto text-lg">
+            <p className="mt-2 text-gray-600 max-w-2xl mx-auto text-lg">
               Lumora India provides premium women hygiene products designed for
               comfort, protection, and confidence during every stage of your
               day.
@@ -488,10 +488,10 @@ const Hero = () => {
       <section className="py-16 bg-pink-100 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800">
+            <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-gray-800">
               Our Products
             </h2>
-            <p className="text-gray-600 mt-3 max-w-2xl mx-auto text-base md:text-lg">
+            <p className="text-gray-600 mt-3 max-w-2xl mx-auto text-base md:text-md">
               Discover Lumora&apos;s range of high-quality sanitary napkins
               designed for comfort, protection, and confidence throughout the
               day.
@@ -594,11 +594,11 @@ const Hero = () => {
       <section className="bg-gray-700 py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
+            <h2 className="text-2xl md:text-3xl font-bold text-white">
               Why You&apos;ll Love{" "}
               <span className="text-pink-500 italic">Lumora India</span>
             </h2>
-            <p className="text-white mt-3 text-lg">
+            <p className="text-white mt-3 text-md">
               Comfort, protection, and confidence — all in one.
             </p>
           </div>
@@ -629,10 +629,10 @@ const Hero = () => {
       <section className="bg-linear-to-r from-pink-50 to-pink-100 py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12" data-aos="fade-up">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-800">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
               Frequently Asked <span className="text-pink-500">Questions</span>
             </h2>
-            <p className="text-gray-600 mt-3">
+            <p className="text-gray-600 mt-3 text-md">
               Clear your common doubts — feel confident & safe
             </p>
           </div>
@@ -689,7 +689,7 @@ const Hero = () => {
       <section className="py-20 bg-linear-to-b from-pink-50 via-white to-pink-100">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-" data-aos="fade-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800">
+            <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
               Experience <span className="text-pink-500">Loved</span> & Trusted
             </h2>
             <p className="text-gray-600 mt-4 text-lg">
