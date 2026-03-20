@@ -5,17 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import {
-  Activity,
-  ChevronDown,
-  Droplets,
-  HeartPulse,
-  Quote,
-  ShieldCheck,
-  Smile,
-  Sparkles,
-  Star,
-} from "lucide-react";
+import {Activity, ChevronDown, Droplets, HeartPulse, Quote, ShieldCheck, Smile, Sparkles, Star,} from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
@@ -28,43 +18,76 @@ import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 }
 const HeroSlider = () => {
   const slides = [
-    "/bg.jpeg",
-    "/bg1.jpeg",
-    "/bg2.jpeg",
+    "/bg.png",
+    "/bg1.jpg",
+    "/bg2.jpg",
     "/bg3.jpeg",
     "/bg4.jpeg",
   ];
 
   return (
-    <div className="w-full h-[50vh] sm:h-[60vh] md:h-[80vh] lg:h-[90vh] overflow-hidden">
-      <Swiper
-        modules={[Autoplay, EffectFade, Pagination]}
-        autoplay={{ delay: 2000, disableOnInteraction: false }}
-        effect="fade"
-        loop={true}
-        pagination={{ clickable: true }}
-        className="h-full w-full"
-      >
-        {slides.map((img, index) => (
-          <SwiperSlide key={index}>
-            <div className="relative w-full h-full flex items-center justify-center bg-black">
-              <Image
-                src={img}
-                alt={`Slide ${index}`}
-                fill
-                sizes="100vw"
-                className="object-center sm:object-cover transition-transform duration-700 hover:scale-105"
-                priority
-              />
+  <div className="w-full overflow-hidden relative">
+    <Swiper
+      modules={[Autoplay, EffectFade, Pagination]}
+      autoplay={{ delay: 3000, disableOnInteraction: false }}
+      effect="fade"
+      loop={true}
+      pagination={{ clickable: true }}
+      className="w-full"
+    >
+      {slides.map((img, index) => (
+        <SwiperSlide key={index}>
+          {/* 
+            Mobile:   full image visible, no crop  → object-contain
+            Desktop:  fills width, slight crop ok  → object-cover
+            Use a fixed aspect ratio so image never cuts on any screen
+          */}
+          <div className="relative w-full aspect-4/3 sm:aspect-video lg:aspect-21/9">
+            <Image
+              src={img}
+              alt={`Slide ${index}`}
+              fill
+              sizes="100vw"
+              className="object-contain object-center"
+              priority={index === 0}
+            />
 
-              {/* Dark overlay */}
-              <div className="absolute inset-0 bg-black/30"></div>
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+
+            {/* Content */}
+            <div className="absolute inset-0 flex flex-col items-center justify-end pb-10 sm:pb-14 md:pb-16 text-center px-6 sm:px-10 z-10">
+              <Link
+                href="/products"
+                className="bg-pink-500 text-white px-7 py-3 sm:px-9 sm:py-3.5 rounded-full font-semibold text-sm sm:text-base hover:bg-pink-600 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg shadow-pink-900/40"
+              >
+                Shop Now
+              </Link>
             </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
-  );
+          </div>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+
+    <style jsx global>{`
+      .swiper-pagination-bullet {
+        background: white !important;
+        opacity: 0.5 !important;
+        width: 8px !important;
+        height: 8px !important;
+      }
+      .swiper-pagination-bullet-active {
+        background: #ec4899 !important;
+        opacity: 1 !important;
+        width: 24px !important;
+        border-radius: 4px !important;
+      }
+      .swiper-pagination {
+        bottom: 16px !important;
+      }
+    `}</style>
+  </div>
+);
 };
 
 // why choose lumora india
@@ -270,10 +293,11 @@ const Hero = () => {
     <div className="bg-white text-gray-800">
       <HeroSlider />
 
-      <section className="bg-pink-100 min-h-screen flex items-center">
+      <section className="bg-pink-100 min-h-screen flex items-center py-10">
         <div className="max-w-8xl mx-auto  sm:px-6  grid md:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8 pl-10">
+          <div className="space-y-10 pl-10">
             <div>
+
               <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 leading-tight">
                 Comfort & Confidence
                 <span className="text-pink-500 block">Every Day</span>
