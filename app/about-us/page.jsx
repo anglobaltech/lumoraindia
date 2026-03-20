@@ -74,7 +74,7 @@ const page = () => {
     <div className="bg-pink-50 text-gray-800">
       <section className="relative w-full h-56  overflow-hidden">
         <Image
-          src="/bg.jpeg"
+          src="/bg.png"
           alt="About Lumora India"
           fill
           priority

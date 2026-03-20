@@ -263,7 +263,7 @@ export default function Page() {
       hover:shadow-xl hover:-translate-y-2 transition-all duration-500"
             >
               <Image
-                src="/product1.jpeg"
+                src="/product3.jpeg"
                 alt="Benefits"
                 width={320}
                 height={320}
