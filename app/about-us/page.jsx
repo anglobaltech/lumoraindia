@@ -299,8 +299,8 @@ const page = () => {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">
-              Why Choose Lumora India?
+            <h2 className="text-4xl font-bold text-gray-900">
+              Why Choose <span className="text-pink-500">Lumora India?</span>
             </h2>
             <p className="text-gray-600 mt-3">
               Designed for comfort, hygiene and all-day protection
@@ -419,20 +419,6 @@ const page = () => {
               </p>
             </div>
           </div>
-
-          {/* Bottom Highlight */}
-          <div className="mt-16 bg-white rounded-3xl p-8 md:p-12 shadow-lg text-center hover:shadow-xl transition">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-              Because Every Woman Deserves the Best
-            </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              At{" "}
-              <span className="text-pink-500 font-semibold">Lumora India</span>,
-              we believe in empowering women with products that combine
-              innovation, comfort, and trust — so you can focus on living your
-              life without limits.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -442,7 +428,7 @@ const page = () => {
           {/* Heading */}
           <div className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              What Women Say
+              What Women Say About <span className="text-pink-500">Lumora</span>
             </h2>
             <p className="text-gray-600 mt-3">
               Real experiences from women who trust Lumora India
