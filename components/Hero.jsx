@@ -514,8 +514,8 @@ const Hero = () => {
       <section className="py-16 bg-pink-100 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-gray-800">
-              Our Products
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Explore Our <span className="text-pink-500">Comfort Collection</span>
             </h2>
             <p className="text-gray-600 mt-3 max-w-2xl mx-auto text-base md:text-md">
               Discover Lumora&apos;s range of high-quality sanitary napkins
@@ -572,15 +572,15 @@ const Hero = () => {
               </div>
 
               <div>
-                <h2 className="text-3xl font-semibold text-gray-900 leading-snug">
+                <h2 className="text-4xl font-semibold text-gray-900 leading-snug">
                   Ultra Thin Sanitary Pads
                 </h2>
 
-                <p className="text-gray-500">
+                <p className="text-gray-500 mt-2">
                   Soft. Rash-free. Designed for all-day comfort.
                 </p>
 
-                <div className="flex items-center gap-2 text-orange-500 text-sm">
+                <div className="flex items-center gap-2 text-orange-500 text-sm mt-2">
                   ⭐⭐⭐⭐⭐{" "}
                   <span className="text-gray-500">1,000+ Reviews</span>
                 </div>
@@ -588,7 +588,7 @@ const Hero = () => {
                 <div className="mt-5">
                   <p className="font-sm mb-1">Select Size</p>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mt-4">
                     {sizes.map((s, i) => (
                       <div
                         key={i}
@@ -607,7 +607,7 @@ const Hero = () => {
                   </div>
                 </div>
 
-                <div className="mt-1">
+                <div className="mt-3">
                   <p className="font-medium mb-3">Select Quantity</p>
 
                   <div className="flex gap-3">
@@ -628,7 +628,7 @@ const Hero = () => {
                   </div>
                 </div>
 
-                <p className="text-3xl font-bold text-gray-900">
+                <p className="text-3xl mt-2 font-bold text-gray-900">
                   ₹{totalPrice}
                 </p>
 
@@ -638,7 +638,7 @@ const Hero = () => {
                   {discount}
                 </span>
 
-                <div className="mt-2 flex gap-4">
+                <div className="mt-3 flex gap-4">
                   <button className="w-1/4 border border-gray-300 py-3 rounded-full text-gray-800 hover:bg-gray-100 transition">
                     Add to Cart
                   </button>
@@ -648,7 +648,7 @@ const Hero = () => {
                   </button>
                 </div>
 
-                <div className="mt-2 grid grid-cols-2 gap-3 text-sm text-gray-600">
+                <div className="mt-3 grid grid-cols-2 gap-3 text-sm text-gray-600">
                   <p>💧 Leak-proof</p>
                   <p>🌿 Rash-free</p>
                   <p>🚫 No fragrance</p>
