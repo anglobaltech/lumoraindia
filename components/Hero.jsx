@@ -515,8 +515,8 @@ const Hero = () => {
       <section className="py-16 bg-pink-100 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-gray-800">
-              Our Products
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Explore Our <span className="text-pink-500">Comfort Collection</span>
             </h2>
             <p className="text-gray-600 mt-3 max-w-2xl mx-auto text-base md:text-md">
               Discover Lumora&apos;s range of high-quality sanitary napkins
@@ -554,7 +554,7 @@ const Hero = () => {
               </p>
             </div>
           </div>
-          <section className="py-20 bg-[#fff8fb]">
+          <section >
             <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-center">
 
               <div className="relative">
@@ -591,12 +591,12 @@ const Hero = () => {
 
                   <p className="font-medium mb-3">Select Size</p>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
                     {sizes.map((s, i) => (
                       <div
                         key={i}
                         onClick={() => setSize(s.label.trim())}
-                        className={`cursor-pointer rounded-xl p-3 text-center border transition-all duration-200
+                        className={`w-20 cursor-pointer rounded-xl py-0.5 px-1.5 text-center border transition-all duration-200
                     ${size === s.label
                             ? "border-pink-500 bg-pink-50"
                             : "hover:border-gray-400"
@@ -617,7 +617,7 @@ const Hero = () => {
                       <button
                         key={q}
                         onClick={() => setQuantity(q)}
-                        className={`px-6 py-2 rounded-full border transition
+                        className={`px-4 py-1.5 rounded-full cursor-pointer border transition
                     ${quantity === q
                             ? "bg-pink-500 text-white border-pink-500"
                             : "bg-white text-gray-700 hover:border-pink-400"
@@ -629,7 +629,7 @@ const Hero = () => {
                   </div>
                 </div>
 
-                <p className="text-3xl font-bold text-gray-900">₹{totalPrice}</p>
+                <p className="mt-2 text-3xl font-bold text-gray-900">₹{totalPrice}</p>
 
                 <p className="line-through text-gray-400">
                   ₹{originalPrice}
@@ -639,20 +639,20 @@ const Hero = () => {
                   {discount}
                 </span>
 
-                <div className="mt-8 flex gap-4">
+                <div className="mt-4 flex gap-4">
 
-                  <button className="w-1/2 border border-gray-300 py-3 rounded-full text-gray-800 hover:bg-gray-100 transition">
+                  <button className=" w-30 border cursor-pointer border-gray-300 py-3 hover:scale-105 rounded-2xl text-gray-800 hover:bg-gray-100 transition">
                     Add to Cart
                   </button>
 
                   <button
-                    className="w-1/2 bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-full shadow-md transition"
+                    className="w-30 bg-pink-500 cursor-pointer hover:bg-pink-600 hover:scale-105 text-white py-3 rounded-2xl shadow-md transition"
                   >
                     Buy Now
                   </button>
                 </div>
 
-                <div className="mt-8 grid grid-cols-2 gap-3 text-sm text-gray-600">
+                <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-gray-600">
                   <p>💧 Leak-proof</p>
                   <p>🌿 Rash-free</p>
                   <p>🚫 No fragrance</p>
@@ -734,8 +734,8 @@ const Hero = () => {
 
                   <ChevronDown
                     className={`shrink-0 transition-transform duration-300 ${activeIndex === index
-                        ? "rotate-180 text-pink-500"
-                        : "text-gray-400"
+                      ? "rotate-180 text-pink-500"
+                      : "text-gray-400"
                       }`}
                     size={20}
                   />
@@ -743,8 +743,8 @@ const Hero = () => {
 
                 <div
                   className={`px-5  overflow-hidden border-t border-gray-300 transition-all duration-300 ${activeIndex === index
-                      ? "max-h-40 py-3 opacity-100"
-                      : "max-h-0 opacity-0"
+                    ? "max-h-40 py-3 opacity-100"
+                    : "max-h-0 opacity-0"
                     }`}
                 >
                   <p className="text-gray-600   leading-relaxed">
