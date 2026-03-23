@@ -12,6 +12,8 @@ import {
   Instagram,
   Facebook,
   Twitter,
+  PhoneCall,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -62,9 +64,18 @@ const Page = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!form.name || !form.email || !form.phone || !form.message) {
+      setStatus({
+        type: "error",
+        message: "Please fill all fields ⚠️",
+      });
+      return;
+    }
     if (!form.name || !form.email || !form.phone || !form.message) {
       setStatus({
         type: "error",
@@ -112,9 +123,12 @@ const Page = () => {
       );
   };
   const [status, setStatus] = useState({
-    type: "", // "success" or "error"
+    type: "",
     message: "",
   });
+  setTimeout(() => {
+    setStatus({ type: "", message: "" });
+  }, 6000);
   setTimeout(() => {
     setStatus({ type: "", message: "" });
   }, 6000);
