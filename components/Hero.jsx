@@ -209,8 +209,35 @@ const testimonials = [
   },
 ];
 
+const sizes = [
+  { label: "L", desc: "7 Pads" },
+  { label: "XL", desc: "14 Pads" },
+  { label: "XXL", desc: "28 Pads" },
+];
+
+const priceMap = {
+  l: 99,
+  xl: 199,
+  xxl: 349,
+};
+
+
+
 const Hero = () => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [size, setSize] = useState("XL");
+  const [quantity, setQuantity] = useState(1);
+
+  const basePrice = priceMap[size.toLowerCase()] || 0;
+
+  const totalPrice = quantity === 3 ? Math.floor(basePrice * 3 * 0.85) : basePrice;
+
+  const originalPrice = quantity === 3 ? basePrice * 3 : Math.floor(basePrice * 1.2);
+
+  const discount = quantity === 3
+    ? "15% OFF"
+    : `${Math.floor(((originalPrice - basePrice) / originalPrice) * 100)}% OFF`;
+
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -527,66 +554,114 @@ const Hero = () => {
               </p>
             </div>
           </div>
+          <section className="py-20 bg-[#fff8fb]">
+            <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-center">
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                src: "/product.jpeg",
-                alt: "Lumora Regular Pads",
-                name: "Lumora Regular Pads",
-                desc: "Comfortable everyday protection with soft breathable layers.",
-              },
-              {
-                src: "/product1.jpeg",
-                alt: "Lumora XL Pads",
-                name: "Lumora XL Protection",
-                desc: "Extra-long pads designed for overnight safety and maximum absorption.",
-              },
-              {
-                src: "/product2.jpeg",
-                alt: "Lumora Ultra Pads",
-                name: "Lumora Ultra Comfort",
-                desc: "Ultra-thin sanitary pads with superior absorbency and comfort.",
-              },
-              {
-                src: "/product3.jpeg",
-                alt: "Lumora Herbal Pads",
-                name: "Lumora Herbal Range",
-                desc: "Natural herbal-infused pads for a gentle skin-friendly experience.",
-              },
-            ].map((product) => (
-              <div
-                key={product.name}
-                className="bg-pink-50 p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition duration-300 group flex flex-col"
-              >
-                <div className="flex justify-center mb-4">
+              <div className="relative">
+                <div className="bg-white rounded-3xl p-6 shadow-xl">
                   <Image
-                    src={product.src}
-                    alt={product.alt}
+                    src="/product.jpeg"
+                    alt="product-image"
                     height={200}
                     width={200}
-                    className="h-44 w-full object-contain group-hover:scale-110 cursor-pointer transition duration-300"
+                    className="rounded-2xl w-full object-cover"
                   />
                 </div>
 
-                <h3 className="text-lg font-semibold text-gray-800 text-center">
-                  {product.name}
-                </h3>
+                <span className="absolute top-4 left-4 bg-pink-500 text-white px-4 py-1 rounded-full text-xs shadow">
+                  BEST SELLER
+                </span>
+              </div>
 
-                <p className="text-gray-600 text-sm text-center mt-2 flex-1">
-                  {product.desc}
+              <div>
+
+                <h2 className="text-4xl font-semibold text-gray-900 leading-snug">
+                  Ultra Thin Sanitary Pads
+                </h2>
+
+                <p className="text-gray-500 mt-2">
+                  Soft. Rash-free. Designed for all-day comfort.
                 </p>
 
-                <div className="flex justify-center mt-5">
-                  <Link href="/products">
-                    <button className="bg-pink-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-pink-600 hover:shadow-md transition">
-                      Buy Now
-                    </button>
-                  </Link>
+                <div className="flex items-center gap-2 mt-3 text-orange-500 text-sm">
+                  ⭐⭐⭐⭐⭐ <span className="text-gray-500">1,000+ Reviews</span>
                 </div>
+
+                <div className="mt-8">
+
+                  <p className="font-medium mb-3">Select Size</p>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {sizes.map((s, i) => (
+                      <div
+                        key={i}
+                        onClick={() => setSize(s.label.trim())}
+                        className={`cursor-pointer rounded-xl p-3 text-center border transition-all duration-200
+                    ${size === s.label
+                            ? "border-pink-500 bg-pink-50"
+                            : "hover:border-gray-400"
+                          }`}
+                      >
+                        <p className="font-semibold">{s.label}</p>
+                        <p className="text-xs text-gray-500">{s.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <p className="font-medium mb-3">Select Quantity</p>
+
+                  <div className="flex gap-3">
+                    {[1, 3].map((q) => (
+                      <button
+                        key={q}
+                        onClick={() => setQuantity(q)}
+                        className={`px-6 py-2 rounded-full border transition
+                    ${quantity === q
+                            ? "bg-pink-500 text-white border-pink-500"
+                            : "bg-white text-gray-700 hover:border-pink-400"
+                          }`}
+                      >
+                        {q} Pack {q === 3 && "🔥"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <p className="text-3xl font-bold text-gray-900">₹{totalPrice}</p>
+
+                <p className="line-through text-gray-400">
+                  ₹{originalPrice}
+                </p>
+
+                <span className="text-green-600 font-medium text-sm">
+                  {discount}
+                </span>
+
+                <div className="mt-8 flex gap-4">
+
+                  <button className="w-1/2 border border-gray-300 py-3 rounded-full text-gray-800 hover:bg-gray-100 transition">
+                    Add to Cart
+                  </button>
+
+                  <button
+                    className="w-1/2 bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-full shadow-md transition"
+                  >
+                    Buy Now
+                  </button>
+                </div>
+
+                <div className="mt-8 grid grid-cols-2 gap-3 text-sm text-gray-600">
+                  <p>💧 Leak-proof</p>
+                  <p>🌿 Rash-free</p>
+                  <p>🚫 No fragrance</p>
+                  <p>🧪 Chemical free</p>
+                </div>
+
               </div>
-            ))}
-          </div>
+            </div>
+          </section>
         </div>
       </section>
 
@@ -658,21 +733,19 @@ const Hero = () => {
                   </h3>
 
                   <ChevronDown
-                    className={`shrink-0 transition-transform duration-300 ${
-                      activeIndex === index
+                    className={`shrink-0 transition-transform duration-300 ${activeIndex === index
                         ? "rotate-180 text-pink-500"
                         : "text-gray-400"
-                    }`}
+                      }`}
                     size={20}
                   />
                 </button>
 
                 <div
-                  className={`px-5  overflow-hidden border-t border-gray-300 transition-all duration-300 ${
-                    activeIndex === index
+                  className={`px-5  overflow-hidden border-t border-gray-300 transition-all duration-300 ${activeIndex === index
                       ? "max-h-40 py-3 opacity-100"
                       : "max-h-0 opacity-0"
-                  }`}
+                    }`}
                 >
                   <p className="text-gray-600   leading-relaxed">
                     {faq.answer}
