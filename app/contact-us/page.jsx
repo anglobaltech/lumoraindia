@@ -12,6 +12,8 @@ import {
   Instagram,
   Facebook,
   Twitter,
+  PhoneCall,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -65,62 +67,62 @@ const Page = () => {
 
 
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  if (!form.name || !form.email || !form.phone || !form.message) {
-    setStatus({
-      type: "error",
-      message: "Please fill all fields ⚠️",
-    });
-    return;
-  }
+    if (!form.name || !form.email || !form.phone || !form.message) {
+      setStatus({
+        type: "error",
+        message: "Please fill all fields ⚠️",
+      });
+      return;
+    }
 
-  const templateParams = {
-    user_name: form.name,
-    user_email: form.email,
-    phone: form.phone,
-    message: form.message,
+    const templateParams = {
+      user_name: form.name,
+      user_email: form.email,
+      phone: form.phone,
+      message: form.message,
+    };
+
+    emailjs
+      .send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      )
+      .then(
+        () => {
+          setStatus({
+            type: "success",
+            message:
+              "Thanks for reaching out! Your message has been sent successfully ✅. We’ll connect with you shortly.",
+          });
+
+          setForm({
+            name: "",
+            email: "",
+            phone: "",
+            message: "",
+          });
+        },
+        (error) => {
+          console.error(error);
+          setStatus({
+            type: "error",
+            message: "Failed to send message ❌",
+          });
+        }
+      );
   };
-
-  emailjs
-    .send(
-      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-      templateParams,
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-    )
-    .then(
-      () => {
-        setStatus({
-          type: "success",
-          message:
-            "Thanks for reaching out! Your message has been sent successfully ✅. We’ll connect with you shortly.",
-        });
-
-        setForm({
-          name: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
-      },
-      (error) => {
-        console.error(error);
-        setStatus({
-          type: "error",
-          message: "Failed to send message ❌",
-        });
-      }
-    );
-};
   const [status, setStatus] = useState({
-    type: "", // "success" or "error"
+    type: "",
     message: "",
   });
-setTimeout(() => {
-  setStatus({ type: "", message: "" });
-}, 6000);
+  setTimeout(() => {
+    setStatus({ type: "", message: "" });
+  }, 6000);
 
   return (
     <main className="bg-pink-50 min-h-screen text-gray-800">
@@ -183,7 +185,7 @@ setTimeout(() => {
         </div>
       </section>
 
-    {/* map and contact form */}
+      {/* map and contact form */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="grid md:grid-cols-2 gap-10">
           <div className="rounded-2xl overflow-hidden border border-pink-100 shadow-sm">
@@ -198,80 +200,81 @@ setTimeout(() => {
           </div>
 
           <div className="rounded-2xl  border border-pink-100 shadow-sm bg-linear-to-b from-pink-50 to-white">
-              <div className="max-w-3xl mx-auto">
-                <form
-                  onSubmit={handleSubmit}
-                  className="bg-white p-8 rounded-2xl shadow-xl space-y-6"
-                >
-                  <h1 className="text-2xl font-bold items-center text-center">Contact With Us</h1>
-                  <div className="flex flex-row items-center gap-4 justify-center">
-                    <div className="flex-1">
-                      <input
-                        type="text"
-                        name="name"
-                        required
-                        value={form.name}
-                        onChange={handleChange}
-                        placeholder="Enter your full name"
-                        className="w-full border border-gray-200 rounded-xl  px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
-                      />
-                    </div>
-
-                    <div className="flex-1">
-                      <input
-                        type="tel"
-                        name="phone"
-                        required
-                        value={form.phone}
-                        onChange={handleChange}
-                        placeholder="Enter your phone number"
-                        className="w-full border border-gray-200 rounded-xl px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
-                      />
-                    </div>
-
-                  </div>
-
-                  <div>
+            <div className="max-w-3xl mx-auto">
+              <form
+                onSubmit={handleSubmit}
+                className="bg-white p-8 rounded-2xl shadow-xl space-y-5"
+              >
+                <h1 className="text-2xl font-bold items-center text-center">Contact With Us</h1>
+                <div className="flex gap-4">
+                  <div className="flex items-center border border-gray-200 rounded-xl px-3 w-full focus-within:ring-2 focus-within:ring-pink-300">
+                    <User className="w-4 h-4 text-gray-400" />
                     <input
-                      type="email"
-                      name="email"
-                      required
-                      value={form.email}
+                      type="text"
+                      name="name"
+                      value={form.name}
                       onChange={handleChange}
-                      placeholder="Enter your email"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-1 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                      placeholder="Full Name"
+                      className="w-full p-2 outline-none"
+                      required
                     />
                   </div>
 
-                  <div>
-                    <textarea
-                      name="message"
-                      rows="3"
-                      required
-                      value={form.message}
+                  <div className="flex items-center border border-gray-200 rounded-xl px-3 w-full focus-within:ring-2 focus-within:ring-pink-300">
+                    <PhoneCall className="w-4 h-4 text-gray-400" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={form.phone}
                       onChange={handleChange}
-                      placeholder="How Can We Help You?"
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200"
-                    ></textarea>
+                      placeholder="Phone Number"
+                      className="w-full p-2 outline-none"
+                      required
+                    />
                   </div>
+                </div>
+                <div className="flex items-center border border-gray-200 rounded-xl px-3 focus-within:ring-2 focus-within:ring-pink-300">
+                  <Mail className="w-4 h-4 text-gray-400" />
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="Email Address"
+                    className="w-full p-2 outline-none"
+                    required
+                  />
+                </div>
 
-                  {status.message && (
-                    <p
-                      className={`text-sm text-left font-medium ${status.type === "success" ? "text-green-600" : "text-red-500"
-                        }`}
-                    >
-                      {status.message}
-                    </p>
-                  )}
+                <div>
+                  <textarea
+                    name="message"
+                    rows="3"
+                    required
+                    value={form.message}
+                    onChange={handleChange}
+                    placeholder="How Can We Help You?"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                  ></textarea>
+                </div>
 
-                  <button
-                    type="submit"
-                    className="w-full bg-pink-500 cursor-pointer text-white py-3 rounded-xl font-semibold hover:bg-pink-600 transition duration-300 shadow-md"
+                {status.message && (
+                  <p
+                    className={`text-sm text-left font-medium ${status.type === "success" ? "text-green-600" : "text-red-500"
+                      }`}
                   >
-                    Submit
-                  </button>
-                </form>
-              </div>
+                    {status.message}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  className="w-full bg-pink-500 cursor-pointer text-white py-3 rounded-xl font-semibold hover:bg-pink-600 transition duration-300 shadow-md"
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </section>
