@@ -4,7 +4,15 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Droplets, HeartPulse, RefreshCcw, ShieldCheck, PackageCheck, Ban, Phone } from "lucide-react";
+import {
+  Droplets,
+  HeartPulse,
+  RefreshCcw,
+  ShieldCheck,
+  PackageCheck,
+  Ban,
+  Phone,
+} from "lucide-react";
 
 const images = [
   { imageUrl: "/product1.jpeg", alt: "Soft Pads" },
@@ -61,7 +69,7 @@ export default function Page() {
             ))}
           </div>
 
-            <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-pink-100">
+          <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-pink-100">
             <Image
               src={selectedImage.imageUrl}
               alt={selectedImage.alt}
@@ -77,8 +85,8 @@ export default function Page() {
             Lumora Ultra Soft Sanitary Pads, Rash-Free Comfort
           </h2>
           <p className="text-gray-500 text-sm">
-  Trusted by 10,000+ women across India 
-</p>
+            Trusted by 10,000+ women across India
+          </p>
 
           <div className="flex items-center gap-2">
             <div className="text-yellow-500 text-lg">★★★★☆</div>
@@ -127,14 +135,14 @@ export default function Page() {
           </div>
 
           <div className="flex gap-4 mt-6">
-  <button className="flex-1 bg-pink-100 text-pink-700 py-3 rounded-xl font-medium hover:bg-pink-200 transition">
-    Add to Cart
-  </button>
+            <button className="flex-1 bg-pink-100 text-pink-700 py-3 rounded-xl font-medium hover:bg-pink-200 transition">
+              Add to Cart
+            </button>
 
-  <button className="flex-1 bg-pink-600 text-white py-3 rounded-xl font-semibold shadow-lg hover:scale-105 hover:bg-pink-700 transition-all duration-300">
-    Buy Now
-  </button>
-</div>
+            <button className="flex-1 bg-pink-600 text-white py-3 rounded-xl font-semibold shadow-lg hover:scale-105 hover:bg-pink-700 transition-all duration-300">
+              Buy Now
+            </button>
+          </div>
 
           <div className="text-sm text-gray-500 mt-3">
             🚚 Free Delivery • 💖 Skin Friendly • 🌿 Rash Free • 🔒 Safe Use
@@ -188,96 +196,149 @@ export default function Page() {
           </div>
         </div>
       </section>
+      {/* wny choose lumora */}
+      <section className="max-w-7xl mx-auto mt-20 px-4 sm:px-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-snug pb-5 text-center">
+          Why Choose <span className="text-pink-500">Lumora</span>?
+        </h2>
 
-      {/* why choose lumora */}
-      <section className="bg-white py-16">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-10">Why Women Love This </h2>
-
-          <div className="grid md:grid-cols-4 gap-6">
-
-            <div className="p-5 rounded-2xl shadow hover:scale-105 transition">
-              <p className="text-pink-500 text-2xl">🌸</p>
-              <p className="mt-2 font-medium">Rash-Free Comfort</p>
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { icon: "💖", text: "Skin Friendly Material" },
+            { icon: "🛡️", text: "Leak-Proof Protection" },
+            { icon: "🌿", text: "Breathable Cotton Layer" },
+            { icon: "🚚", text: "Fast Delivery" },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white p-5 rounded-xl text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition"
+            >
+              <p className="text-3xl mb-2">{item.icon}</p>
+              <p className="text-sm font-medium text-gray-700">{item.text}</p>
             </div>
+          ))}
+        </div>
+      </section>
 
-            <div className="p-5 rounded-2xl shadow hover:scale-105 transition">
-              <p className="text-pink-500 text-2xl">💧</p>
-              <p className="mt-2 font-medium">High Absorption</p>
+      {/* modern women */}
+      <section className="max-w-7xl mx-auto mt-20 px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
+        {/* LEFT CONTENT */}
+        <div className="space-y-5">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-snug">
+            Designed for <span className="text-pink-500">Modern Women</span>
+          </h2>
+
+          <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+            Lumora sanitary pads are thoughtfully engineered to support your
+            active lifestyle with superior comfort, protection, and hygiene.
+            Feel confident every day with advanced technology designed for you.
+          </p>
+
+          {/* FEATURES LIST */}
+          <ul className="space-y-3 text-sm sm:text-base">
+            {[
+              "Keeps you dry for long hours",
+              "Prevents rashes and irritation",
+              "Odor control for freshness",
+              "Secure fit for all-day confidence",
+            ].map((item, i) => (
+              <li
+                key={i}
+                className="flex items-center gap-3 bg-white px-4 py-2.5 rounded-lg shadow-sm 
+          hover:shadow-md hover:-translate-y-1 hover:bg-pink-50 
+          transition-all duration-300 cursor-pointer group"
+              >
+                <span className="text-pink-500 text-lg group-hover:scale-110 transition">
+                  ✔
+                </span>
+                <span className="text-gray-700 group-hover:text-gray-900">
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* RIGHT IMAGE CARD */}
+        <div className="flex justify-center py-10">
+          <div className="relative group w-full max-w-sm sm:max-w-md">
+            {/* Glow Effect */}
+            <div className="absolute inset-0 bg-pink-400/20 blur-2xl rounded-3xl opacity-70 group-hover:opacity-100 transition duration-500" />
+
+            {/* Card */}
+            <div
+              className="relative bg-white p-6 rounded-3xl shadow-md 
+      hover:shadow-xl hover:-translate-y-2 transition-all duration-500"
+            >
+              <Image
+                src="/product3.jpeg"
+                alt="Benefits"
+                width={320}
+                height={320}
+                className="mx-auto object-contain transition-transform duration-500 group-hover:scale-105"
+              />
+
+              {/* Badge */}
+              <div className="absolute top-4 left-4 bg-pink-500 text-white text-xs px-3 py-1 rounded-full shadow">
+                Premium Quality
+              </div>
             </div>
-
-            <div className="p-5 rounded-2xl shadow hover:scale-105 transition">
-              <p className="text-pink-500 text-2xl">🌿</p>
-              <p className="mt-2 font-medium">Skin Friendly</p>
-            </div>
-
-            <div className="p-5 rounded-2xl shadow hover:scale-105 transition">
-              <p className="text-pink-500 text-2xl">🕒</p>
-              <p className="mt-2 font-medium">8 Hours Protection</p>
-            </div>
-
           </div>
         </div>
       </section>
 
       {/* review  */}
-<section className="py-16 bg-pink-50 max-w-7xl mx-auto text-center">
-  <div className="">
-    <h2 className="text-3xl font-bold mb-10">Customer Love 💬</h2>
+      <section className="py-16 bg-pink-50 max-w-7xl mx-auto text-center">
+        <div className="">
+          <h2 className="text-3xl font-bold mb-10">Customer Love 💬</h2>
 
-    <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
 
-      {/* Review Card */}
-      <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition text-left">
-        
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-100 text-pink-600 font-bold text-lg">
-            P
+            <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition text-left">
+
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-100 text-pink-600 font-bold text-lg">
+                  P
+                </div>
+                <p className="font-semibold text-gray-900">Priya</p>
+              </div>
+
+              <p className="text-gray-600 leading-relaxed">
+                Very soft and comfortable. I didn’t feel any irritation even after long hours. Highly recommended!
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition text-left">
+
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-100 text-pink-600 font-bold text-lg">
+                  N
+                </div>
+                <p className="font-semibold text-gray-900">Neha</p>
+              </div>
+
+              <p className="text-gray-600 leading-relaxed">
+                The quality is amazing. It absorbs really well and feels very light. Definitely my go-to choice now.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition text-left">
+
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-100 text-pink-600 font-bold text-lg">
+                  A
+                </div>
+                <p className="font-semibold text-gray-900">Aarti</p>
+              </div>
+
+              <p className="text-gray-600 leading-relaxed">
+                No leakage issues at all. I feel more confident and stress-free during my periods now.
+              </p>
+            </div>
+
           </div>
-          <p className="font-semibold text-gray-900">Priya</p>
         </div>
-
-        <p className="text-gray-600 leading-relaxed">
-          Very soft and comfortable. I didn’t feel any irritation even after long hours. Highly recommended!
-        </p>
-      </div>
-
-      {/* Review Card */}
-      <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition text-left">
-        
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-100 text-pink-600 font-bold text-lg">
-            N
-          </div>
-          <p className="font-semibold text-gray-900">Neha</p>
-        </div>
-
-        <p className="text-gray-600 leading-relaxed">
-          The quality is amazing. It absorbs really well and feels very light. Definitely my go-to choice now.
-        </p>
-      </div>
-
-      {/* Review Card */}
-      <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition text-left">
-        
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-100 text-pink-600 font-bold text-lg">
-            A
-          </div>
-          <p className="font-semibold text-gray-900">Aarti</p>
-        </div>
-
-        <p className="text-gray-600 leading-relaxed">
-          No leakage issues at all. I feel more confident and stress-free during my periods now.
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-
+      </section>
     </main>
   );
 }
