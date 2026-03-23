@@ -12,6 +12,8 @@ import {
   Instagram,
   Facebook,
   Twitter,
+  PhoneCall,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -62,9 +64,18 @@ const Page = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!form.name || !form.email || !form.phone || !form.message) {
+      setStatus({
+        type: "error",
+        message: "Please fill all fields ⚠️",
+      });
+      return;
+    }
     if (!form.name || !form.email || !form.phone || !form.message) {
       setStatus({
         type: "error",
@@ -112,9 +123,12 @@ const Page = () => {
       );
   };
   const [status, setStatus] = useState({
-    type: "", // "success" or "error"
+    type: "",
     message: "",
   });
+  setTimeout(() => {
+    setStatus({ type: "", message: "" });
+  }, 6000);
   setTimeout(() => {
     setStatus({ type: "", message: "" });
   }, 6000);
@@ -181,22 +195,8 @@ const Page = () => {
         </div>
       </section>
 
-      {/* map and contact form */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="grid md:grid-cols-2 gap-10 items-stretch">
-          {/* Map */}
-          <div className="relative rounded-3xl overflow-hidden shadow-lg group">
-            <div className="absolute inset-0 bg-linear-to-tr from-pink-200/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 z-10"></div>
-            <iframe
-              src="https://www.google.com/maps?q=Urbtech+NPX+Sector+153+Noida&output=embed"
-              width="100%"
-              height="100%"
-              className="min-h-100 w-full grayscale-20 group-hover:grayscale-0 transition duration-500"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
+<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+  <div className="grid md:grid-cols-2 gap-10 items-stretch">
 
           {/* Form */}
           <div className="relative rounded-3xl p-px bg-linear-to-br from-pink-200 via-pink-100 to-white shadow-lg">
