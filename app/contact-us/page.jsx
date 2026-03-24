@@ -64,8 +64,6 @@ const Page = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -126,12 +124,15 @@ const Page = () => {
     type: "",
     message: "",
   });
-  setTimeout(() => {
-    setStatus({ type: "", message: "" });
-  }, 6000);
-  setTimeout(() => {
-    setStatus({ type: "", message: "" });
-  }, 6000);
+  useEffect(() => {
+  if (status.message) {
+    const timer = setTimeout(() => {
+      setStatus({ type: "", message: "" });
+    }, 6000);
+
+    return () => clearTimeout(timer);
+  }
+}, [status]);
 
   return (
     <main className="bg-pink-50 min-h-screen text-gray-800">
@@ -195,32 +196,33 @@ const Page = () => {
         </div>
       </section>
 
-<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-  <div className="grid md:grid-cols-2 gap-10 items-stretch">
-
-    {/* ✅ LEFT SIDE MAP (NEW) */}
-    <div className="relative rounded-3xl overflow-hidden shadow-lg border border-pink-100">
-      <iframe
-        src="https://www.google.com/maps?q=Urbtech%20NPX%20Sector%20153%20Noida&output=embed"
-        width="100%"
-        height="100%"
-        style={{ border: 0, minHeight: "100%" }}
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        className="w-full h-full rounded-3xl"
-      ></iframe>
-    </div>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="grid md:grid-cols-2 gap-10 items-stretch">
+          {/* ✅ LEFT SIDE MAP (NEW) */}
+          <div className="relative rounded-3xl overflow-hidden shadow-lg border border-pink-100">
+            <iframe
+              src="https://www.google.com/maps?q=Urbtech%20NPX%20Sector%20153%20Noida&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0, minHeight: "100%" }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full h-full rounded-3xl"
+            ></iframe>
+          </div>
 
           {/* Form */}
           <div className="relative rounded-3xl p-px bg-linear-to-br from-pink-200 via-pink-100 to-white shadow-lg">
             <div className="rounded-3xl bg-white/80 backdrop-blur-xl p-8 h-full">
               <div className="max-w-3xl mx-auto">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <h1 className="text-3xl font-bold text-center text-gray-800">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
                     Contact With Us
                   </h1>
-                  <p className="text-center text-gray-500 text-sm">
-                    We’d love to hear from you. Fill out the form below.
+
+                  <p className="text-center text-gray-500 text-sm sm:text-base">
+                    Fill out the form and our team will get back to you within
+                    24 hours.
                   </p>
 
                   {/* Name + Phone */}
@@ -297,8 +299,44 @@ const Page = () => {
                     Submit Message
                   </button>
                 </form>
+                <div className="mt-6 text-center text-xs sm:text-sm text-gray-500">
+                  🔒 Your information is safe with us. We respect your privacy.
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHY CONTACT US */}
+      <section className="bg-white py-14 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+            Why Reach Out to <span className="text-pink-500">Lumora?</span>
+          </h2>
+
+          <p className="text-gray-600 mt-3 max-w-2xl mx-auto text-sm sm:text-base">
+            Our team is here to support you with product guidance, bulk orders,
+            and any questions about feminine hygiene care.
+          </p>
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
+            {[
+              "Product Recommendations",
+              "Bulk / Wholesale Orders",
+              "Customer Support",
+              "Hygiene Awareness Queries",
+              "Partnership Opportunities",
+              "Order Tracking Help",
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="bg-pink-50 border border-pink-100 p-5 rounded-xl 
+          hover:shadow-lg hover:-translate-y-1 transition"
+              >
+                🌸 {item}
+              </div>
+            ))}
           </div>
         </div>
       </section>
