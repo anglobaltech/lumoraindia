@@ -615,7 +615,7 @@ const Hero = () => {
                       <button
                         key={q}
                         onClick={() => setQuantity(q)}
-                        className={`px-4 py-2 rounded-full border transition
+                        className={`px-4 py-2 rounded-full border cursor-pointer transition
                     ${
                       quantity === q
                         ? "bg-pink-500 text-white border-pink-500"
@@ -694,65 +694,7 @@ const Hero = () => {
           </div>
         </div>
       </section>
-
-      {/* FAQ Section */}
-      <section className="bg-linear-to-r from-pink-50 to-pink-100 py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12" data-aos="fade-up">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-              Frequently Asked <span className="text-pink-500">Questions</span>
-            </h2>
-            <p className="text-gray-600 mt-3 text-md">
-              Clear your common doubts — feel confident & safe
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
-                className="bg-white rounded-2xl shadow-md  border-2 border-pink-100 transition-all duration-300 hover:shadow-xl"
-              >
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="w-full flex cursor-pointer items-center gap-4 p-3 text-left"
-                >
-                  <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-pink-100 text-pink-600 text-sm font-semibold">
-                    {faq.id}
-                  </span>
-
-                  <h3 className="flex-1 text-base sm:text-lg font-semibold text-gray-800 leading-tight">
-                    {faq.question}
-                  </h3>
-
-                  <ChevronDown
-                    className={`shrink-0 transition-transform duration-300 ${
-                      activeIndex === index
-                        ? "rotate-180 text-pink-500"
-                        : "text-gray-400"
-                    }`}
-                    size={20}
-                  />
-                </button>
-
-                <div
-                  className={`px-5  overflow-hidden border-t border-gray-300 transition-all duration-300 ${
-                    activeIndex === index
-                      ? "max-h-40 py-3 opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <p className="text-gray-600   leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* customer reviews */}
 
@@ -812,6 +754,67 @@ const Hero = () => {
           </Swiper>
         </div>
       </section>
+      
+      {/* FAQ Section */}
+      <section className="bg-linear-to-r from-pink-50 to-pink-100 py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12" data-aos="fade-up">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+              Frequently Asked <span className="text-pink-500">Questions</span>
+            </h2>
+            <p className="text-gray-600 mt-3 text-md">
+              Clear your common doubts — feel confident & safe
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+                className="bg-white rounded-2xl shadow-md  border-2 border-pink-100 transition-all duration-300 hover:shadow-xl"
+              >
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full flex cursor-pointer items-center gap-4 p-3 text-left"
+                >
+                  <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-pink-100 text-pink-600 text-sm font-semibold">
+                    {faq.id}
+                  </span>
+
+                  <h3 className="flex-1 text-base sm:text-lg font-semibold text-gray-800 leading-tight">
+                    {faq.question}
+                  </h3>
+
+                  <ChevronDown
+                    className={`shrink-0 transition-transform duration-300 ${
+                      activeIndex === index
+                        ? "rotate-180 text-pink-500"
+                        : "text-gray-400"
+                    }`}
+                    size={20}
+                  />
+                </button>
+
+                <div
+                  className={`px-5  overflow-hidden border-t border-gray-300 transition-all duration-300 ${
+                    activeIndex === index
+                      ? "max-h-40 py-3 opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <p className="text-gray-600   leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      
     </div>
   );
 };
