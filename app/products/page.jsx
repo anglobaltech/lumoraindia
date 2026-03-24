@@ -39,12 +39,12 @@ export default function Page() {
   return (
     <main className=" bg-linear-to-b from-pink-50 via-white to-pink-50">
       {/* Top section */}
-      <section className="bg-linear-to-b from-pink-100 to-white py-15 px-6 w-full">
+      <section className="bg-linear-to-b from-pink-100 to-white py-10 px-6 w-full">
         <div className="max-w-7xl mx-auto  text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
             Feel Confident Every Day
           </h1>
-          <p className="text-pink-500 text-xl mt-3 font-medium">
+          <p className="text-pink-500 text-lg mt-3 font-medium">
             Ultra Soft • Rash-Free • All-Day Protection
           </p>
         </div>
@@ -82,7 +82,7 @@ export default function Page() {
 
         <div data-aos="fade-left" className="flex flex-col gap-5">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-            Lumora Ultra Soft Sanitary Pads, Rash-Free Comfort
+            Lumora Ultra Soft Sanitary Pads
           </h2>
           <p className="text-gray-500 text-sm">
             Trusted by 10,000+ women across India
@@ -110,9 +110,9 @@ export default function Page() {
             </span>
           </div>
 
-          <p className="text-green-600 text-sm font-medium">
+          {/* <p className="text-green-600 text-sm font-medium">
             🔥 Limited stock available — Selling fast!
-          </p>
+          </p> */}
 
           <div>
             <h3 className="font-semibold text-gray-900 mb-2">Select Pack</h3>
@@ -134,7 +134,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="flex gap-4 mt-6">
+          <div className="flex gap-4">
             <button className="flex-1 bg-pink-100 text-pink-700 py-3 rounded-xl font-medium hover:bg-pink-200 transition">
               Add to Cart
             </button>
@@ -151,7 +151,7 @@ export default function Page() {
       </section>
 
       {/*product description and feature*/}
-      <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 py-16">
+      <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 py-10">
         <div data-aos="fade-right">
           <h2 className="text-2xl mb-5 font-semibold">Description</h2>
 
@@ -196,32 +196,9 @@ export default function Page() {
           </div>
         </div>
       </section>
-      {/* wny choose lumora */}
-      <section className="max-w-7xl mx-auto mt-20 px-4 sm:px-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-snug pb-5 text-center">
-          Why Choose <span className="text-pink-500">Lumora</span>?
-        </h2>
-
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { icon: "💖", text: "Skin Friendly Material" },
-            { icon: "🛡️", text: "Leak-Proof Protection" },
-            { icon: "🌿", text: "Breathable Cotton Layer" },
-            { icon: "🚚", text: "Fast Delivery" },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="bg-white p-5 rounded-xl text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition"
-            >
-              <p className="text-3xl mb-2">{item.icon}</p>
-              <p className="text-sm font-medium text-gray-700">{item.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* modern women */}
-      <section className="max-w-7xl mx-auto mt-20 px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
+      <section className="max-w-7xl mx-auto py-10 px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
         {/* LEFT CONTENT */}
         <div className="space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-snug">
