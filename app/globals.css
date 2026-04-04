@@ -49,3 +49,20 @@ body {
   opacity: 1;
 }
 
+/* Hide Google Translate Default Banner & Tooltips */
+.skiptranslate > iframe {
+  display: none !important;
+}
+body {
+  top: 0px !important;
+}
+#google_translate_element {
+  display: none !important;
+}
+.goog-te-balloon-frame {
+  display: none !important;
+}
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}

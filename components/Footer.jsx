@@ -1,5 +1,8 @@
+"use client";
 import React from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Mail,
   Phone,
@@ -9,9 +12,19 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
-import Image from "next/image";
 
 const Footer = () => {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/profile')) {
+    return null;
+  }
+
+  // DISTRACTION-FREE CART: If we are on the /cart page, do not render the Footer!
+  if (pathname === '/cart') {
+    return null;
+  }
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-6 py-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
@@ -23,26 +36,24 @@ const Footer = () => {
               alt="Lumora India Logo"
               height={100}
               width={100}
-
               className="h-16 w-auto cursor-pointer"
             />
-
             <h1 className="text-xl font-semibold text-pink-300">
               Lumora India
             </h1>
           </Link>
 
-  <p className="mt-4 text-sm leading-relaxed">
-    Lumora India provides premium quality products and reliable
-    services designed to support businesses and simplify everyday
-    solutions for our customers.
-  </p>
+          <p className="mt-4 text-sm leading-relaxed">
+            Lumora India provides premium quality products and reliable
+            services designed to support businesses and simplify everyday
+            solutions for our customers.
+          </p>
 
-  {/* Social Icons */}
-  <div className="flex gap-4 mt-5">
-    {/* icons here */}
-  </div>
-</div>
+          {/* Social Icons */}
+          <div className="flex gap-4 mt-5">
+            {/* icons here */}
+          </div>
+        </div>
 
         {/* Quick Links */}
         <div>
@@ -90,20 +101,20 @@ const Footer = () => {
 
           <div className="space-y-3 text-sm">
             <Link href="mailto:info@lumoraindia.com" target="blank">
-            <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
-              <Mail size={18} /> info@lumoraindia.com
-            </p>
+              <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
+                <Mail size={18} /> info@lumoraindia.com
+              </p>
             </Link>
 
             <Link href="tel:+917782069184" target="blank">
-            <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
-              <Phone size={18} /> +91 77820-69184
-            </p>
+              <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
+                <Phone size={18} /> +91 77820-69184
+              </p>
             </Link>
             <Link href="https://maps.app.goo.gl/eJtCwdnp1PWWMNGt5" target="blank">
-            <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
-              <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153, Noida, Uttar Pradesh 201304
-            </p>
+              <p className="flex hover:text-pink-300 items-center mb-3 gap-2">
+                <MapPin size={18} /> 7th Floor, Urbtech NPx, S-63, Sector 153, Noida, Uttar Pradesh 201304
+              </p>
             </Link>
           </div>
         </div>
