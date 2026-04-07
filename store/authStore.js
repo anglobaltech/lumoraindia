@@ -15,7 +15,6 @@ export const useAuthStore = create((set, get) => ({
     loading: true,
     error: null,
 
-    // 1. Initial Sign Up
     signUp: async (email, password) => {
         set({ loading: true, error: null });
         try {
@@ -37,7 +36,6 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    // 2. Complete Profile
     completeProfile: async (uid, profileData) => {
         set({ loading: true, error: null });
         try {
@@ -57,7 +55,21 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    // 3. Login
+    // 🌟 ADDED: Manual refresh to sync UI after saving changes
+    refreshProfile: async () => {
+        const { user } = get();
+        if (!user) return;
+        try {
+            const docRef = doc(db, 'users', user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                set({ profile: docSnap.data() });
+            }
+        } catch (err) {
+            console.error("Profile refresh failed:", err);
+        }
+    },
+
     login: async (email, password) => {
         set({ loading: true, error: null });
         try {
@@ -70,7 +82,6 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    // 4. Logout
     logout: async () => {
         set({ loading: true });
         try {
@@ -83,16 +94,10 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    // 5. Auth Listener
-    // 5. Auth Listener (Optimized for Instant Load)
     initAuthListener: () => {
         return onAuthStateChanged(auth, (user) => {
             if (user) {
-                // 1. INSTANT UNBLOCK: We know the user is logged in via local session.
-                // Drop the loading screen immediately so the layout renders instantly.
                 set({ user, loading: false });
-
-                // 2. BACKGROUND FETCH: Silently get the profile data without blocking the UI.
                 const docRef = doc(db, 'users', user.uid);
                 getDoc(docRef)
                     .then((docSnap) => {
@@ -104,7 +109,6 @@ export const useAuthStore = create((set, get) => ({
                         console.warn("Firebase background profile fetch failed:", err);
                     });
             } else {
-                // Not logged in, unblock UI immediately
                 set({ user: null, profile: null, loading: false });
             }
         });

@@ -9,12 +9,11 @@ import { toast } from "react-toastify";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user, profile, logout } = useAuthStore();
+  const { user, profile, logout, refreshProfile } = useAuthStore(); // Added refreshProfile
 
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Expanded Form State for structured address & proper phone/DOB
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -27,7 +26,6 @@ export default function ProfilePage() {
     pincode: "",
   });
 
-  // Sync data from profile
   useEffect(() => {
     if (profile) {
       setFormData({
@@ -54,14 +52,12 @@ export default function ProfilePage() {
   }
 
   const handleSave = async () => {
-    // 1. Phone Validation (10 digits)
+    // 1. Validations
     const phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(formData.phone)) {
       toast.error("Please enter a valid 10-digit phone number.");
       return;
     }
-
-    // 2. Pincode Validation (6 digits)
     if (formData.pincode && formData.pincode.length !== 6) {
       toast.error("Pincode must be exactly 6 digits.");
       return;
@@ -72,14 +68,16 @@ export default function ProfilePage() {
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, formData);
       
+      // 🌟 TRIGGER REFRESH: This updates the global store instantly
+      await refreshProfile();
+      
       toast.success("Profile updated successfully!");
       setIsEditing(false);
-      // Removed reload() - use local state or store refresh logic instead
     } catch (error) {
       toast.error("Failed to update profile.");
       console.error(error);
     } finally {
-      setIsSaving(false);
+      setIsSaving(false); // 🌟 Stops the "Searching" loop even if it fails
     }
   };
 
@@ -95,11 +93,11 @@ export default function ProfilePage() {
     <div className="max-w-4xl mx-auto py-10 px-4">
       <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
         
-        {/* Header Section */}
+        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Personal Details</h2>
-            {/* <p className="text-gray-500 text-sm mt-1">Amazon-style profile management for Lumora.</p> */}
+            <p className="text-gray-500 text-sm mt-1">Manage your identity and addresses.</p>
           </div>
           
           <div className="flex items-center gap-3">
@@ -121,16 +119,14 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Profile Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
           {/* Name */}
           <div className="space-y-1">
             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
             <div className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${isEditing ? 'bg-white border-pink-400 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
               <User size={18} className="text-pink-500 shrink-0" />
               {isEditing ? (
-                <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="bg-transparent w-full outline-none text-gray-900 font-medium" placeholder="Full Name" />
+                <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="bg-transparent w-full outline-none text-gray-900 font-medium" />
               ) : (
                 <span className="font-medium text-gray-900">{profile?.name || "Not provided"}</span>
               )}
@@ -143,25 +139,24 @@ export default function ProfilePage() {
             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100 opacity-80 cursor-not-allowed">
               <Mail size={18} className="text-pink-300 shrink-0" />
               <span className="font-medium text-gray-600">{user.email}</span>
-              <span className="ml-auto text-[10px] font-bold bg-green-100 text-green-700 px-2 py-1 rounded-full">Verified</span>
             </div>
           </div>
 
-          {/* Phone with Country Code */}
+          {/* Phone */}
           <div className="space-y-1">
             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Phone Number</label>
             <div className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${isEditing ? 'bg-white border-pink-400 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
               <Phone size={18} className="text-pink-500 shrink-0" />
               <span className="text-gray-400 font-medium">+91</span>
               {isEditing ? (
-                <input type="tel" maxLength={10} value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})} className="bg-transparent w-full outline-none text-gray-900 font-medium" placeholder="10-digit number" />
+                <input type="tel" maxLength={10} value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})} className="bg-transparent w-full outline-none text-gray-900 font-medium" />
               ) : (
                 <span className="font-medium text-gray-900">{profile?.phone || "Not provided"}</span>
               )}
             </div>
           </div>
 
-          {/* DOB with Calendar */}
+          {/* DOB (Calendar) */}
           <div className="space-y-1">
             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Date of Birth</label>
             <div className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${isEditing ? 'bg-white border-pink-400 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
@@ -174,23 +169,19 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* STRUCTURED ADDRESS FORM */}
+          {/* STRUCTURED ADDRESS */}
           <div className="md:col-span-2 mt-4">
             <h3 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
               <MapPin size={16} className="text-pink-600" /> Delivery Address Details
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              
-              {/* House No */}
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-gray-400">Flat / House No. / Building</label>
+                <label className="text-[10px] font-bold text-gray-400">House / Flat / Building</label>
                 <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
                   <Home size={16} className="text-gray-400" />
                   {isEditing ? <input type="text" value={formData.houseNo} onChange={(e) => setFormData({...formData, houseNo: e.target.value})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.houseNo || "-"}</span>}
                 </div>
               </div>
-
-              {/* Area */}
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-gray-400">Area / Street / Sector</label>
                 <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
@@ -198,8 +189,6 @@ export default function ProfilePage() {
                   {isEditing ? <input type="text" value={formData.area} onChange={(e) => setFormData({...formData, area: e.target.value})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.area || "-"}</span>}
                 </div>
               </div>
-
-              {/* Landmark */}
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-gray-400">Landmark (Optional)</label>
                 <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
@@ -207,8 +196,6 @@ export default function ProfilePage() {
                   {isEditing ? <input type="text" value={formData.landmark} onChange={(e) => setFormData({...formData, landmark: e.target.value})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.landmark || "-"}</span>}
                 </div>
               </div>
-
-              {/* City */}
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-gray-400">City</label>
                 <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
@@ -216,8 +203,6 @@ export default function ProfilePage() {
                   {isEditing ? <input type="text" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.city || "-"}</span>}
                 </div>
               </div>
-
-              {/* State & Pincode */}
               <div className="grid grid-cols-2 gap-4 md:col-span-2">
                 <div className="space-y-1">
                    <label className="text-[10px] font-bold text-gray-400">State</label>
@@ -236,7 +221,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* LOGOUT BUTTON */}
+        {/* Logout */}
         <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <p className="text-xs text-gray-400 max-w-xs">Logging out will sign you out of all sessions on this browser.</p>
           <button 
@@ -247,7 +232,6 @@ export default function ProfilePage() {
             Log Out of Account
           </button>
         </div>
-
       </div>
     </div>
   );
