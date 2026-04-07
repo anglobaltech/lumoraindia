@@ -1,42 +1,47 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
-import { User, Mail, Phone, Calendar, Check, X, MapPin, LogOut, Loader2 } from "lucide-react";
+import { User, Mail, Phone, Calendar, Check, X, MapPin, LogOut, Loader2, Home, Landmark, Building, Map } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase"; // Make sure this path is correct
+import { db } from "@/lib/firebase";
 import { toast } from "react-toastify";
 
 export default function ProfilePage() {
   const router = useRouter();
-  
-  // Pulling the correct states from our new authStore
-  const { user, profile, logout } = useAuthStore();
+  const { user, profile, logout, refreshProfile } = useAuthStore(); // Added refreshProfile
 
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Initialize form data
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    age: "",
-    address: "",
+    dob: "",
+    houseNo: "",
+    area: "",
+    landmark: "",
+    city: "",
+    state: "",
+    pincode: "",
   });
 
-  // Sync form data when the profile loads from Firebase
   useEffect(() => {
     if (profile) {
       setFormData({
         name: profile.name || "",
         phone: profile.phone || "",
-        age: profile.age || "",
-        address: profile.address || "",
+        dob: profile.dob || "",
+        houseNo: profile.houseNo || "",
+        area: profile.area || "",
+        landmark: profile.landmark || "",
+        city: profile.city || "",
+        state: profile.state || "",
+        pincode: profile.pincode || "",
       });
     }
   }, [profile]);
 
-  // Protect the route
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gray-50">
@@ -46,32 +51,41 @@ export default function ProfilePage() {
     );
   }
 
-  // --- ACTIONS ---
-
   const handleSave = async () => {
+    // 1. Validations
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      toast.error("Please enter a valid 10-digit phone number.");
+      return;
+    }
+    if (formData.pincode && formData.pincode.length !== 6) {
+      toast.error("Pincode must be exactly 6 digits.");
+      return;
+    }
+
     setIsSaving(true);
     try {
-      // Update the document in Firestore
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, formData);
       
+      // 🌟 TRIGGER REFRESH: This updates the global store instantly
+      await refreshProfile();
+      
       toast.success("Profile updated successfully!");
       setIsEditing(false);
-      
-      // Refresh the page slightly to re-sync the global store with fresh DB data
-      window.location.reload(); 
     } catch (error) {
       toast.error("Failed to update profile.");
       console.error(error);
+    } finally {
+      setIsSaving(false); // 🌟 Stops the "Searching" loop even if it fails
     }
-    setIsSaving(false);
   };
 
   const handleLogout = async () => {
     const result = await logout();
     if (result.success) {
       toast.info("Logged out successfully.");
-      router.push("/"); // Instantly redirect to home page
+      router.push("/");
     }
   };
 
@@ -79,39 +93,37 @@ export default function ProfilePage() {
     <div className="max-w-4xl mx-auto py-10 px-4">
       <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
         
-        {/* Header Section */}
+        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Personal Details</h2>
-            <p className="text-gray-500 text-sm mt-1">Manage your personal information and delivery address.</p>
+            <p className="text-gray-500 text-sm mt-1">Manage your identity and addresses.</p>
           </div>
           
           <div className="flex items-center gap-3">
             {!isEditing ? (
-              <button onClick={() => setIsEditing(true)} className="px-4 py-2 bg-pink-50 text-pink-600 rounded-xl text-sm font-bold hover:bg-pink-100 transition">
+              <button onClick={() => setIsEditing(true)} className="px-5 py-2 bg-pink-50 text-pink-600 rounded-xl text-sm font-bold hover:bg-pink-100 transition cursor-pointer">
                 Edit Profile
               </button>
             ) : (
               <div className="flex gap-2">
-                <button onClick={() => setIsEditing(false)} disabled={isSaving} className="px-4 py-2 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold hover:bg-gray-200 transition flex items-center gap-1">
+                <button onClick={() => setIsEditing(false)} disabled={isSaving} className="px-4 py-2 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold hover:bg-gray-200 transition flex items-center gap-1 cursor-pointer">
                   <X size={16}/> Cancel
                 </button>
-                <button onClick={handleSave} disabled={isSaving} className="px-4 py-2 bg-green-500 text-white rounded-xl text-sm font-bold hover:bg-green-600 transition flex items-center gap-1 disabled:opacity-50">
+                <button onClick={handleSave} disabled={isSaving} className="px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 transition flex items-center gap-1 disabled:opacity-50 cursor-pointer shadow-md">
                   {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Check size={16}/>} 
-                  Save
+                  Save Changes
                 </button>
               </div>
             )}
           </div>
         </div>
 
-        {/* Profile Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
           {/* Name */}
           <div className="space-y-1">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Full Name</label>
-            <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-200 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
+            <div className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${isEditing ? 'bg-white border-pink-400 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
               <User size={18} className="text-pink-500 shrink-0" />
               {isEditing ? (
                 <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="bg-transparent w-full outline-none text-gray-900 font-medium" />
@@ -121,67 +133,105 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Email (Read Only - Tied to Auth) */}
+          {/* Email */}
           <div className="space-y-1">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Email Address</label>
-            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100 opacity-70">
-              <Mail size={18} className="text-pink-500 shrink-0" />
-              <span className="font-medium text-gray-900">{user.email}</span>
-              <span className="ml-auto text-[10px] font-bold bg-green-100 text-green-700 px-2 py-1 rounded-full">Verified</span>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100 opacity-80 cursor-not-allowed">
+              <Mail size={18} className="text-pink-300 shrink-0" />
+              <span className="font-medium text-gray-600">{user.email}</span>
             </div>
           </div>
 
           {/* Phone */}
           <div className="space-y-1">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Phone Number</label>
-            <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-200 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Phone Number</label>
+            <div className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${isEditing ? 'bg-white border-pink-400 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
               <Phone size={18} className="text-pink-500 shrink-0" />
+              <span className="text-gray-400 font-medium">+91</span>
               {isEditing ? (
-                <input type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="bg-transparent w-full outline-none text-gray-900 font-medium" />
+                <input type="tel" maxLength={10} value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})} className="bg-transparent w-full outline-none text-gray-900 font-medium" />
               ) : (
                 <span className="font-medium text-gray-900">{profile?.phone || "Not provided"}</span>
               )}
             </div>
           </div>
 
-          {/* Age */}
+          {/* DOB (Calendar) */}
           <div className="space-y-1">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Age</label>
-            <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-200 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
+            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Date of Birth</label>
+            <div className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${isEditing ? 'bg-white border-pink-400 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
               <Calendar size={18} className="text-pink-500 shrink-0" />
               {isEditing ? (
-                <input type="number" value={formData.age} onChange={(e) => setFormData({...formData, age: e.target.value})} className="bg-transparent w-full outline-none text-gray-900 font-medium" />
+                <input type="date" value={formData.dob} onChange={(e) => setFormData({...formData, dob: e.target.value})} className="bg-transparent w-full outline-none text-gray-900 font-medium cursor-pointer" />
               ) : (
-                <span className="font-medium text-gray-900">{profile?.age ? `${profile.age} Years` : "Not provided"}</span>
+                <span className="font-medium text-gray-900">{profile?.dob || "Not provided"}</span>
               )}
             </div>
           </div>
 
-          {/* Address (Takes full width) */}
-          <div className="space-y-1 md:col-span-2">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Delivery Address</label>
-            <div className={`flex items-start gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-200 ring-2 ring-pink-50' : 'bg-gray-50 border-gray-100'}`}>
-              <MapPin size={18} className="text-pink-500 shrink-0 mt-0.5" />
-              {isEditing ? (
-                <textarea value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} className="bg-transparent w-full outline-none text-gray-900 font-medium resize-none h-20" placeholder="Enter full address..." />
-              ) : (
-                <span className="font-medium text-gray-900">{profile?.address || "Not provided"}</span>
-              )}
+          {/* STRUCTURED ADDRESS */}
+          <div className="md:col-span-2 mt-4">
+            <h3 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <MapPin size={16} className="text-pink-600" /> Delivery Address Details
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-gray-400">House / Flat / Building</label>
+                <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
+                  <Home size={16} className="text-gray-400" />
+                  {isEditing ? <input type="text" value={formData.houseNo} onChange={(e) => setFormData({...formData, houseNo: e.target.value})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.houseNo || "-"}</span>}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-gray-400">Area / Street / Sector</label>
+                <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
+                  <Building size={16} className="text-gray-400" />
+                  {isEditing ? <input type="text" value={formData.area} onChange={(e) => setFormData({...formData, area: e.target.value})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.area || "-"}</span>}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-gray-400">Landmark (Optional)</label>
+                <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
+                  <Landmark size={16} className="text-gray-400" />
+                  {isEditing ? <input type="text" value={formData.landmark} onChange={(e) => setFormData({...formData, landmark: e.target.value})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.landmark || "-"}</span>}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-gray-400">City</label>
+                <div className={`flex items-center gap-3 p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
+                  <Map size={16} className="text-gray-400" />
+                  {isEditing ? <input type="text" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.city || "-"}</span>}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 md:col-span-2">
+                <div className="space-y-1">
+                   <label className="text-[10px] font-bold text-gray-400">State</label>
+                   <div className={`p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
+                    {isEditing ? <input type="text" value={formData.state} onChange={(e) => setFormData({...formData, state: e.target.value})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.state || "-"}</span>}
+                   </div>
+                </div>
+                <div className="space-y-1">
+                   <label className="text-[10px] font-bold text-gray-400">Pincode</label>
+                   <div className={`p-3 rounded-xl border ${isEditing ? 'bg-white border-pink-400' : 'bg-gray-50 border-gray-100'}`}>
+                    {isEditing ? <input type="text" maxLength={6} value={formData.pincode} onChange={(e) => setFormData({...formData, pincode: e.target.value.replace(/\D/g, '')})} className="bg-transparent w-full outline-none text-sm" /> : <span className="text-sm">{profile?.pincode || "-"}</span>}
+                   </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* LOGOUT BUTTON */}
-        <div className="mt-10 pt-6 border-t border-gray-100">
+        {/* Logout */}
+        <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <p className="text-xs text-gray-400 max-w-xs">Logging out will sign you out of all sessions on this browser.</p>
           <button 
             onClick={handleLogout}
-            className="flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 bg-red-50 text-red-600 font-bold rounded-xl hover:bg-red-100 transition"
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-red-50 text-red-600 font-bold rounded-xl hover:bg-red-600 hover:text-white transition-all cursor-pointer group"
           >
-            <LogOut size={18} />
+            <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
             Log Out of Account
           </button>
         </div>
-
       </div>
     </div>
   );

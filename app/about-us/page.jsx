@@ -9,7 +9,7 @@ import "aos/dist/aos.css";
 const slides = [
   {
     id: 1,
-    title: "Healthier Community For Women",
+    title: "Healthier Community For Womens",
     desc: "Premium sanitary napkins designed for modern women, offering superior comfort, leak protection, and breathable cotton layers that keep you fresh, confident, and protected throughout the day..",
     image: "/4.jpeg",
     features: [

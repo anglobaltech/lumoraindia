@@ -1,20 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import {
-  Activity,
-  ChevronDown,
-  Droplets,
-  HeartPulse,
-  Quote,
-  ShieldCheck,
-  Smile,
-  Sparkles,
-  Star,
+  Activity, ChevronDown, Droplets, HeartPulse, ShieldCheck, Smile, Sparkles, Zap,
+  ShoppingCart, Ruler, Minus, Plus
 } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -22,326 +15,162 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import { toast } from "react-toastify";
+
+// Global Store & Components
+import { useCartStore } from "../store/cartStore"; 
+import PincodeChecker from "./PincodeChecker"; 
 
 const images = ["/1.png", "/4.jpeg", "/8.jpeg", "/4.jpeg"];
 
-// why choose lumora india
+// Why choose lumora india
 const features = [
-  {
-    icon: <ShieldCheck size={42} />,
-    title: "Advanced Leak Protection",
-    desc: "Lumora sanitary napkins use multi-layer absorbent technology to prevent leakage and keep you dry and comfortable throughout the day.",
-  },
-  {
-    icon: <HeartPulse size={42} />,
-    title: "Skin Friendly Cotton",
-    desc: "Soft breathable cotton surface protects sensitive skin and ensures irritation-free comfort during long hours of use.",
-  },
-  {
-    icon: <Droplets size={42} />,
-    title: "High Absorbency Core",
-    desc: "Deep absorbent layers quickly lock moisture and help maintain hygiene while preventing odor and wetness.",
-  },
-  {
-    icon: <Sparkles size={42} />,
-    title: "Trusted Hygiene Quality",
-    desc: "Lumora India focuses on premium women's hygiene products designed for safety, comfort and confidence every day.",
-  },
-];
-
-// products
-const products = [
-  {
-    id: 1,
-    name: "Ultra Comfort Sanitary Pads",
-    price: "₹199",
-    oldPrice: "₹249",
-    image: "/product1.png",
-  },
-  {
-    id: 2,
-    name: "Extra Long Night Protection",
-    price: "₹249",
-    oldPrice: "₹299",
-    image: "/product2.png",
-  },
-  {
-    id: 3,
-    name: "Cotton Soft Day Pads",
-    price: "₹179",
-    oldPrice: "₹219",
-    image: "/product3.png",
-  },
-  {
-    id: 4,
-    name: "Rash Free Hygiene Pads",
-    price: "₹199",
-    oldPrice: "₹249",
-    image: "/product4.png",
-  },
+  { icon: <ShieldCheck size={42} />, title: "Advanced Leak Protection", desc: "Lumora sanitary napkins use multi-layer absorbent technology to prevent leakage and keep you dry and comfortable throughout the day." },
+  { icon: <HeartPulse size={42} />, title: "Skin Friendly Cotton", desc: "Soft breathable cotton surface protects sensitive skin and ensures irritation-free comfort during long hours of use." },
+  { icon: <Droplets size={42} />, title: "High Absorbency Core", desc: "Deep absorbent layers quickly lock moisture and help maintain hygiene while preventing odor and wetness." },
+  { icon: <Sparkles size={42} />, title: "Trusted Hygiene Quality", desc: "Lumora India focuses on premium women's hygiene products designed for safety, comfort and confidence every day." },
 ];
 
 // FAQ section
 const faqs = [
-  {
-    id: "1",
-    question: "Does it cause rashes?",
-    answer:
-      "No, Lumora pads are dermatologically tested. They come with an ultra-soft cotton layer that is gentle on the skin and helps minimize the risk of rashes.",
-  },
-  {
-    id: "2",
-    question: "How many hours can I use it?",
-    answer:
-      "It is safe to use one pad for 4–6 hours. During heavy flow, it is recommended to change every 3–4 hours to maintain proper hygiene.",
-  },
-  {
-    id: "3",
-    question: "Does it provide leak protection?",
-    answer:
-      "Yes, it features an advanced absorbent core that quickly locks in liquid and provides reliable protection against side leakage.",
-  },
-  {
-    id: "4",
-    question: "Is it safe for sensitive skin?",
-    answer:
-      "Absolutely, it is specially designed for sensitive skin and offers a comfortable, irritation-free experience.",
-  },
-  {
-    id: "5",
-    question: "Is it suitable for heavy flow days?",
-    answer:
-      "Yes, Lumora pads are designed with high absorbency to handle heavy flow, keeping you dry and protected for longer hours.",
-  },
-  {
-    id: "6",
-    question: "Does it have wings for better support?",
-    answer:
-      "Yes, the pads come with strong adhesive wings that keep them securely in place and prevent shifting or leakage.",
-  },
-  {
-    id: "7",
-    question: "Is it easy to carry while traveling?",
-    answer:
-      "Yes, each pad is individually wrapped, making it hygienic, compact, and easy to carry in your bag while traveling.",
-  },
-  {
-    id: "8",
-    question: "Does it control odor?",
-    answer:
-      "Yes, it is designed with odor-control technology that helps you stay fresh and confident throughout the day.",
-  },
+  { id: "1", question: "Does it cause rashes?", answer: "No, Lumora pads are dermatologically tested. They come with an ultra-soft cotton layer that is gentle on the skin and helps minimize the risk of rashes." },
+  { id: "2", question: "How many hours can I use it?", answer: "It is safe to use one pad for 4–6 hours. During heavy flow, it is recommended to change every 3–4 hours to maintain proper hygiene." },
+  { id: "3", question: "Does it provide leak protection?", answer: "Yes, it features an advanced absorbent core that quickly locks in liquid and provides reliable protection against side leakage." },
+  { id: "4", question: "Is it safe for sensitive skin?", answer: "Absolutely, it is specially designed for sensitive skin and offers a comfortable, irritation-free experience." },
+  { id: "5", question: "Is it suitable for heavy flow days?", answer: "Yes, Lumora pads are designed with high absorbency to handle heavy flow, keeping you dry and protected for longer hours." },
+  { id: "6", question: "Does it have wings for better support?", answer: "Yes, the pads come with strong adhesive wings that keep them securely in place and prevent shifting or leakage." },
+  { id: "7", question: "Is it easy to carry while traveling?", answer: "Yes, each pad is individually wrapped, making it hygienic, compact, and easy to carry in your bag while traveling." },
+  { id: "8", question: "Does it control odor?", answer: "Yes, it is designed with odor-control technology that helps you stay fresh and confident throughout the day." },
 ];
 
-// benefits
+// Benefits
 const benefits = [
-  {
-    icon: <Smile className="w-8 h-8 text-pink-500" />,
-    title: "Stay Confident All Day",
-    desc: "Feel fresh and confident wherever you go, without worries.",
-  },
-  {
-    icon: <ShieldCheck className="w-8 h-8 text-pink-500" />,
-    title: "No Irritation",
-    desc: "Soft cotton layer keeps your skin rash-free and comfortable.",
-  },
-  {
-    icon: <Droplets className="w-8 h-8 text-pink-500" />,
-    title: "Long-lasting Dryness",
-    desc: "Advanced absorption technology keeps you dry for hours.",
-  },
-  {
-    icon: <Activity className="w-8 h-8 text-pink-500" />,
-    title: "Freedom to Move",
-    desc: "Move freely with leak-proof protection and perfect fit.",
-  },
+  { icon: <Smile className="w-8 h-8 text-pink-500" />, title: "Stay Confident All Day", desc: "Feel fresh and confident wherever you go, without worries." },
+  { icon: <ShieldCheck className="w-8 h-8 text-pink-500" />, title: "No Irritation", desc: "Soft cotton layer keeps your skin rash-free and comfortable." },
+  { icon: <Droplets className="w-8 h-8 text-pink-500" />, title: "Long-lasting Dryness", desc: "Advanced absorption technology keeps you dry for hours." },
+  { icon: <Activity className="w-8 h-8 text-pink-500" />, title: "Freedom to Move", desc: "Move freely with leak-proof protection and perfect fit." },
 ];
 
-// customer reviews
-
+// Customer reviews
 const testimonials = [
-  {
-    name: "Priya Sharma",
-    review:
-      "I feel so confident using Lumora. No irritation at all and super soft. Totally love it.",
-  },
-  {
-    name: "Anjali Verma",
-    review:
-      "Very comfortable and reliable. Works really well for long hours and feels light.",
-  },
-  {
-    name: "Riya Gupta",
-    review:
-      "Best product I’ve used. I can move freely all day without any tension.",
-  },
-  {
-    name: "Neha Singh",
-    review:
-      "Good quality and no rashes. It feels very soft and safe for daily use.",
-  },
-  {
-    name: "Sneha Kapoor",
-    review: "Super soft and breathable. I barely feel it throughout the day.",
-  },
-  {
-    name: "Pooja Yadav",
-    review: "Absorption is great and no leakage issues. Perfect for busy days.",
-  },
-  {
-    name: "Kavya Nair",
-    review:
-      "Finally something that doesn’t cause itching. Feels premium and safe.",
-  },
-  {
-    name: "Meera Joshi",
-    review: "Very comfortable overall. I can wear it for hours without worry.",
-  },
-  {
-    name: "Ishita Malhotra",
-    review:
-      "No discomfort, no stress. It keeps me fresh and confident all day.",
-  },
-  {
-    name: "Tanvi Arora",
-    review:
-      "Nice product, soft and reliable. Definitely better than many others I’ve tried.",
-  },
+  { name: "Priya Sharma", review: "I feel so confident using Lumora. No irritation at all and super soft. Totally love it." },
+  { name: "Anjali Verma", review: "Very comfortable and reliable. Works really well for long hours and feels light." },
+  { name: "Riya Gupta", review: "Best product I’ve used. I can move freely all day without any tension." },
+  { name: "Neha Singh", review: "Good quality and no rashes. It feels very soft and safe for daily use." },
+  { name: "Sneha Kapoor", review: "Super soft and breathable. I barely feel it throughout the day." },
+  { name: "Pooja Yadav", review: "Absorption is great and no leakage issues. Perfect for busy days." },
+  { name: "Kavya Nair", review: "Finally something that doesn’t cause itching. Feels premium and safe." },
+  { name: "Meera Joshi", review: "Very comfortable overall. I can wear it for hours without worry." },
+  { name: "Ishita Malhotra", review: "No discomfort, no stress. It keeps me fresh and confident all day." },
+  { name: "Tanvi Arora", review: "Nice product, soft and reliable. Definitely better than many others I’ve tried." },
 ];
 
-const sizes = [
-  { label: "L", desc: "7 Pads" },
-  { label: "XL", desc: "14 Pads" },
-  { label: "XXL", desc: "28 Pads" },
-];
-
-const priceMap = {
-  l: 99,
-  xl: 199,
-  xxl: 349,
+// --- MAIN PRODUCT DATA (For Dynamic Cart) ---
+const MAIN_PRODUCT = {
+  id: "lumora-premium-pads",
+  name: "Lumora Premium Soft Pads",
+  description: "Experience ultra-thin, rash-free protection for your active days. Made with a 100% organic cotton top sheet and advanced leak-lock technology.",
+  sizes: ["M", "L", "XL", "XXL"],
+  image: "/product.jpeg" 
 };
 
+const PRICE_MAP = { m: 89, l: 99, xl: 199, xxl: 349 };
+
 const Hero = () => {
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(null);
-  const [size, setSize] = useState("XL");
-  const [quantity, setQuantity] = useState(1);
+  
+  // --- REAL CART & PRODUCT STATE ---
+  const { cartItems, addToCart, updateQuantity } = useCartStore();
+  const [selectedSize, setSelectedSize] = useState("M"); 
+  const [selectedPack, setSelectedPack] = useState(1); 
+  const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
 
-  const basePrice = priceMap[size.toLowerCase()] || 0;
+  // Dynamic Pricing Logic
+  const basePrice = PRICE_MAP[selectedSize.toLowerCase()] || 89;
+  const getDiscountTier = (q) => {
+    if (q === 7) return 0.75; // 25% off
+    if (q === 5) return 0.80; // 20% off
+    if (q === 3) return 0.85; // 15% off
+    return 1; // 0% off for 1 pack
+  };
 
-  const totalPrice =
-    quantity === 3 ? Math.floor(basePrice * 3 * 0.85) : basePrice;
+  const discountMultiplier = getDiscountTier(selectedPack);
+  const originalPrice = selectedPack === 1 ? Math.floor(basePrice * 1.2) : basePrice * selectedPack;
+  const totalPrice = selectedPack === 1 ? basePrice : Math.floor(basePrice * selectedPack * discountMultiplier);
+  const discount = selectedPack === 1 
+    ? `${Math.floor(((originalPrice - basePrice) / originalPrice) * 100)}% OFF`
+    : `${Math.round((1 - discountMultiplier) * 100)}% OFF`;
 
-  const originalPrice =
-    quantity === 3 ? basePrice * 3 : Math.floor(basePrice * 1.2);
+  // Cart Status Check
+  const cartItem = cartItems.find(item => item.id === MAIN_PRODUCT.id && item.size === selectedSize && item.pack === selectedPack);
+  const quantityInCart = cartItem ? cartItem.quantity : 0;
 
-  const discount =
-    quantity === 3
-      ? "15% OFF"
-      : `${Math.floor(((originalPrice - basePrice) / originalPrice) * 100)}% OFF`;
+  const handleAddToCart = () => {
+    const productToAdd = { ...MAIN_PRODUCT, price: totalPrice, originalPrice: originalPrice };
+    addToCart(productToAdd, selectedSize, selectedPack, 1);
+    toast.success(`Added ${selectedPack} Pack of Size ${selectedSize} to cart!`, { position: "top-right", autoClose: 2000 });
+  };
+
+  const handleBuyNow = () => {
+    if (quantityInCart === 0) handleAddToCart();
+    router.push("/checkout"); 
+  };
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
   useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-      easing: "ease-in-out",
-    });
+    AOS.init({ duration: 1000, once: true, easing: "ease-in-out" });
   }, []);
 
   return (
     <div className="bg-white text-gray-800">
-      <section className="bg-linear-to-br from-pink-100 via-white to-pink-50 min-h-screen flex items-start pt-16 pb-6">
-        <div className="max-w-8xl mx-auto  sm:px-6 grid md:grid-cols-2 gap-25 items-center">
-          {/* LEFT CONTENT */}
+      
+      {/* 1. TOP HERO SECTION */}
+      <section className="bg-gradient-to-br from-pink-100 via-white to-pink-50 min-h-screen flex items-start pt-16 pb-6">
+        <div className="max-w-8xl mx-auto sm:px-6 grid md:grid-cols-2 gap-25 items-center">
           <div className="space-y-5 md:space-y-6 max-w-xl">
-            {/* HEADING */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-800 leading-tight">
               <span className="whitespace-nowrap">Comfort & Confidence</span>
               <span className="text-pink-500 block">Every Day</span>
             </h1>
-
-            {/* DESCRIPTION */}
             <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-lg">
-              Lumora India offers premium sanitary solutions crafted with
-              breathable cotton layers and advanced absorbent technology for
-              all-day comfort and hygiene.
+              Lumora India offers premium sanitary solutions crafted with breathable cotton layers and advanced absorbent technology for all-day comfort and hygiene.
             </p>
-
-            {/* MINI BENEFITS (NEW - COMPACT) */}
             <div className="flex flex-wrap gap-2 text-xs sm:text-sm">
-              {[
-                "Ultra Thin",
-                "Odor Control",
-                "Skin Friendly",
-                "High Absorbency",
-              ].map((item, i) => (
-                <span
-                  key={i}
-                  className="bg-white px-3 py-1 rounded-full shadow-sm border border-gray-100"
-                >
-                  {item}
-                </span>
+              {["Ultra Thin", "Odor Control", "Skin Friendly", "High Absorbency"].map((item, i) => (
+                <span key={i} className="bg-white px-3 py-1 rounded-full shadow-sm border border-gray-100 cursor-default">{item}</span>
               ))}
             </div>
-
-            {/* BUTTONS */}
             <div className="flex flex-wrap gap-3 pt-1">
-              <Link
-                href="/products"
-                className="bg-pink-500 text-white px-6 py-2.5 rounded-full text-sm sm:text-base font-semibold shadow-md hover:bg-pink-600 hover:scale-105 transition"
-              >
+              <Link href="/products" className="bg-pink-500 text-white px-6 py-2.5 rounded-full text-sm sm:text-base font-semibold shadow-md hover:bg-pink-600 hover:scale-105 transition cursor-pointer">
                 Shop Now
               </Link>
-
-              <Link
-                href="/about-us"
-                className="border border-pink-500 text-pink-500 px-6 py-2.5 rounded-full text-sm sm:text-base font-semibold hover:bg-pink-100 hover:scale-105 transition"
-              >
+              <Link href="/about-us" className="border border-pink-500 text-pink-500 px-6 py-2.5 rounded-full text-sm sm:text-base font-semibold hover:bg-pink-100 hover:scale-105 transition cursor-pointer">
                 Learn More
               </Link>
             </div>
-
-            {/* FEATURES */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm pt-2">
-              {[
-                "Dermatologically Tested",
-                "100% Rash Free",
-                "Leak Protection",
-                "Breathable Cotton Layer",
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="bg-white px-4 py-2.5 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
-                >
+              {["Dermatologically Tested", "100% Rash Free", "Leak Protection", "Breathable Cotton Layer"].map((item, i) => (
+                <div key={i} className="bg-white px-4 py-2.5 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 transition cursor-default">
                   ✔ {item}
                 </div>
               ))}
             </div>
-
-            {/* TRUST STRIP (NEW - SMALL & CLEAN) */}
             <div className="flex flex-wrap gap-3 pt-2 text-xs text-gray-500">
-              <span className="bg-white px-3 py-1 rounded-full shadow-sm">
-                ISO Certified
-              </span>
-              <span className="bg-white px-3 py-1 rounded-full shadow-sm">
-                100% Safe
-              </span>
-              <span className="bg-white px-3 py-1 rounded-full shadow-sm">
-                Made in India
-              </span>
+              <span className="bg-white px-3 py-1 rounded-full shadow-sm cursor-default">ISO Certified</span>
+              <span className="bg-white px-3 py-1 rounded-full shadow-sm cursor-default">100% Safe</span>
+              <span className="bg-white px-3 py-1 rounded-full shadow-sm cursor-default">Made in India</span>
             </div>
-
-            {/* STATS */}
             <div className="flex flex-wrap gap-6 pt-3">
               {[
                 { value: "10K+", label: "Customers" },
                 { value: "99%", label: "Protection" },
                 { value: "24/7", label: "Support" },
               ].map((stat, i) => (
-                <div key={i} className="group">
+                <div key={i} className="group cursor-default">
                   <h3 className="text-lg sm:text-xl font-bold text-pink-500 group-hover:scale-110 transition">
                     {stat.value}
                   </h3>
@@ -350,29 +179,15 @@ const Hero = () => {
               ))}
             </div>
           </div>
-
-          {/* RIGHT SIDE SLIDER */}
           <div className="flex justify-center mt-6 md:mt-0">
             <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg h-65 sm:h-80 md:h-105">
-              {/* Glow Effect */}
               <div className="absolute inset-0 bg-pink-400/10 blur-xl rounded-full" />
-
-              <Swiper
-                modules={[Autoplay, EffectFade]}
-                autoplay={{ delay: 2000, disableOnInteraction: false }}
-                effect="fade"
-                loop={true}
-                className="h-full rounded-2xl"
-              >
+              <Swiper modules={[Autoplay, EffectFade]} autoplay={{ delay: 2000, disableOnInteraction: false }} effect="fade" loop={true} className="h-full rounded-2xl cursor-grab active:cursor-grabbing">
                 {images.map((img, index) => (
                   <SwiperSlide key={index}>
                     <div className="relative bg-white h-full rounded-2xl shadow-md flex items-center justify-center p-4">
-                      <Image src={img} alt="Product" fill />
-
-                      {/* Badge */}
-                      <div className="absolute top-3 left-3 bg-pink-500 text-white text-[10px] sm:text-xs px-2.5 py-1 rounded-full shadow">
-                        Bestseller
-                      </div>
+                      <Image src={img} alt="Product" fill className="object-cover rounded-2xl" />
+                      <div className="absolute top-3 left-3 bg-pink-500 text-white text-[10px] sm:text-xs px-2.5 py-1 rounded-full shadow">Bestseller</div>
                     </div>
                   </SwiperSlide>
                 ))}
@@ -382,77 +197,40 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* 2. ABOUT SECTION */}
       <section className="bg-pink-50 py-10">
-        <div className="max-w-7xl mx-auto px-6  sm:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-3xl pb-1 font-bold text-gray-800">
               About <span className="text-pink-500">Lumora India</span>
             </h2>
             <p className="text-gray-600 text-base md:text-lg mt-4 max-w-5xl mx-auto">
-              Lumora India is dedicated to empowering women with high-quality
-              sanitary hygiene products designed for comfort, protection, and
-              confidence. Our mission is to provide safe, reliable, and
-              affordable menstrual care solutions for every woman.
+              Lumora India is dedicated to empowering women with high-quality sanitary hygiene products designed for comfort, protection, and confidence. Our mission is to provide safe, reliable, and affordable menstrual care solutions for every woman.
             </p>
           </div>
-
-          <div className="grid md:grid-cols-2 mt-20  items-center">
-            {/* Image */}
+          <div className="grid md:grid-cols-2 mt-20 items-center">
             <div className="flex md:justify-start justify-center">
-              <Image
-                src="/2.png"
-                alt="Lumora Sanitary Napkins"
-                height={400}
-                width={400}
-                className="w-70 sm:w-80 md:w-120 border border-gray-200 rounded-2xl shadow-lg object-contain"
-              />
+              <Image src="/2.png" alt="Lumora Sanitary Napkins" height={400} width={400} className="w-70 sm:w-80 md:w-120 border border-gray-200 rounded-2xl shadow-lg object-contain" />
             </div>
-
             <div className="px-[-10]">
               <h3 className="text-center md:text-left py-7 text-2xl md:text-3xl md:py-0 font-semibold text-gray-800 mb-4">
                 Our Lumora India Commitment
               </h3>
-
               <p className="text-gray-600 mb-4 leading-relaxed">
-                At Lumora India, we believe menstrual hygiene should be
-                comfortable, reliable, and accessible to every woman. Our
-                products are designed with advanced absorbent technology that
-                ensures long-lasting protection and comfort throughout the day.
+                At Lumora India, we believe menstrual hygiene should be comfortable, reliable, and accessible to every woman. Our products are designed with advanced absorbent technology that ensures long-lasting protection and comfort throughout the day.
               </p>
-
               <p className="text-gray-600 mb-6 leading-relaxed">
-                We focus on innovation, quality materials, and eco-friendly
-                practices to create products that not only support women&apos;s
-                health but also care for the environment.
+                We focus on innovation, quality materials, and eco-friendly practices to create products that not only support women&apos;s health but also care for the environment.
               </p>
-
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  {
-                    title: "Superior Comfort",
-                    desc: "Soft materials designed for daily comfort.",
-                  },
-                  {
-                    title: "High Protection Safety",
-                    desc: "Advanced absorbent technology for safety.",
-                  },
-                  {
-                    title: "Skin Friendly",
-                    desc: "Dermatologically safe materials.",
-                  },
-                  {
-                    title: "Eco Conscious",
-                    desc: "Sustainable and responsible production.",
-                  },
+                  { title: "Superior Comfort", desc: "Soft materials designed for daily comfort." },
+                  { title: "High Protection Safety", desc: "Advanced absorbent technology for safety." },
+                  { title: "Skin Friendly", desc: "Dermatologically safe materials." },
+                  { title: "Eco Conscious", desc: "Sustainable and responsible production." },
                 ].map((item) => (
-                  <div
-                    key={item.title}
-                    className="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-                  >
-                    <h4 className="font-semibold text-pink-600 text-sm sm:text-base">
-                      {item.title}
-                    </h4>
+                  <div key={item.title} className="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default">
+                    <h4 className="font-semibold text-pink-600 text-sm sm:text-base">{item.title}</h4>
                     <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
                   </div>
                 ))}
@@ -462,55 +240,34 @@ const Hero = () => {
         </div>
       </section>
 
-      {/*   why choose lumora india */}
-      <section className="relative py-10 bg-pink-50  overflow-hidden">
+      {/* 3. WHY CHOOSE LUMORA INDIA */}
+      <section className="relative py-10 bg-pink-50 overflow-hidden">
         <div className="absolute top-0 left-0 w-72 h-72 bg-pink-200 rounded-full blur-3xl opacity-30"></div>
         <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-30"></div>
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-16" data-aos="fade-up">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-              Why Choose{" "}
-              <span className="text-pink-500 italic">Lumora India</span>
+              Why Choose <span className="text-pink-500 italic">Lumora India</span>
             </h2>
-            <h2 className="text-blue-600 font-bold italic py-2 text-2xl">
-              Organic Sanitary Napkin
-            </h2>
-
+            <h2 className="text-blue-600 font-bold italic py-2 text-2xl">Organic Sanitary Napkin</h2>
             <p className="mt-2 text-gray-600 max-w-2xl mx-auto text-lg">
-              Lumora India provides premium women hygiene products designed for
-              comfort, protection, and confidence during every stage of your
-              day.
+              Lumora India provides premium women hygiene products designed for comfort, protection, and confidence during every stage of your day.
             </p>
           </div>
-
-          <div className="grid md:grid-cols-2 cursor-pointer lg:grid-cols-4 gap-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
             {features.map((item, index) => (
-              <div
-                key={index}
-                data-aos="zoom-in"
-                data-aos-delay={index * 150}
-                className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition duration-500 hover:-translate-y-3"
-              >
-                <div className="absolute inset-0 rounded-3xl bg-linear-to-r from-pink-400 to-purple-400 opacity-0 group-hover:opacity-10 transition"></div>
-
-                <div className="flex justify-center mb-6 text-pink-500 group-hover:scale-110 transition">
-                  {item.icon}
-                </div>
-
-                <h3 className="text-xl font-semibold text-gray-800 mb-3 text-center">
-                  {item.title}
-                </h3>
-
-                <p className="text-gray-600 text-sm text-center leading-relaxed">
-                  {item.desc}
-                </p>
+              <div key={index} data-aos="zoom-in" data-aos-delay={index * 150} className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition duration-500 hover:-translate-y-3 cursor-default">
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-pink-400 to-purple-400 opacity-0 group-hover:opacity-10 transition"></div>
+                <div className="flex justify-center mb-6 text-pink-500 group-hover:scale-110 transition">{item.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-3 text-center">{item.title}</h3>
+                <p className="text-gray-600 text-sm text-center leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Product Section */}
+      {/* 4. THE WORKING PRODUCT SHOWCASE */}
       <section className="py-16 bg-pink-100 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
           <div className="text-center mb-12">
@@ -518,195 +275,152 @@ const Hero = () => {
               Explore Our <span className="text-pink-500">Comfort Collection</span>
             </h2>
             <p className="text-gray-600 mt-3 max-w-2xl mx-auto text-base md:text-md">
-              Discover Lumora&apos;s range of high-quality sanitary napkins
-              designed for comfort, protection, and confidence throughout the
-              day.
+              Discover Lumora&apos;s range of high-quality sanitary napkins designed for comfort, protection, and confidence throughout the day.
             </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-14 text-center">
-            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg cursor-pointer transform transition duration-500 hover:scale-110">
+            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transform transition duration-500 hover:scale-110 cursor-default">
               <h4 className="font-semibold text-gray-800">Ultra Absorbent</h4>
-              <p className="text-sm text-gray-600 mt-1">
-                Advanced absorption technology keeps you dry for longer hours.
-              </p>
+              <p className="text-sm text-gray-600 mt-1">Advanced absorption technology keeps you dry for longer hours.</p>
             </div>
-
-            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg cursor-pointer transform transition duration-500 hover:scale-110">
+            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transform transition duration-500 hover:scale-110 cursor-default">
               <h4 className="font-semibold text-gray-800">Rash Free Comfort</h4>
-              <p className="text-sm text-gray-600 mt-1">
-                Soft breathable cotton layer prevents irritation.
-              </p>
+              <p className="text-sm text-gray-600 mt-1">Soft breathable cotton layer prevents irritation.</p>
             </div>
-
-            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg cursor-pointer transform transition duration-500 hover:scale-110">
+            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transform transition duration-500 hover:scale-110 cursor-default">
               <h4 className="font-semibold text-gray-800">Leak Protection</h4>
-              <p className="text-sm text-gray-600 mt-1">
-                Side barriers provide strong protection against leaks.
-              </p>
+              <p className="text-sm text-gray-600 mt-1">Side barriers provide strong protection against leaks.</p>
             </div>
-
-            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg cursor-pointer transform transition duration-500 hover:scale-110">
+            <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transform transition duration-500 hover:scale-110 cursor-default">
               <h4 className="font-semibold text-gray-800">Skin Friendly</h4>
-              <p className="text-sm text-gray-600 mt-1">
-                Designed with safe materials suitable for sensitive skin.
-              </p>
+              <p className="text-sm text-gray-600 mt-1">Designed with safe materials suitable for sensitive skin.</p>
             </div>
           </div>
-          <section className="py-10 ">
-            <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-center">
-              <div className="relative">
-                <div className="bg-white rounded-3xl p-6 shadow-xl">
-                  <Image
-                    src="/product.jpeg"
-                    alt="product-image"
-                    height={200}
-                    width={200}
-                    className="rounded-2xl w-full object-cover"
-                  />
-                </div>
 
-                <span className="absolute top-4 left-4 bg-pink-500 text-white px-4 py-1 rounded-full text-xs shadow">
-                  BEST SELLER
-                </span>
+          <section className="py-10">
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-14 items-start bg-white rounded-3xl shadow-xl p-6 md:p-10">
+              
+              {/* Product Image */}
+              <div className="relative">
+                <div className="bg-pink-50 rounded-3xl p-6 shadow-inner flex justify-center items-center h-[400px]">
+                  <Image src={MAIN_PRODUCT.image} alt="product-image" fill className="rounded-2xl object-cover" />
+                </div>
+                <span className="absolute top-4 left-4 bg-pink-500 text-white px-4 py-1 rounded-full text-xs shadow-md font-bold uppercase tracking-wider">BEST SELLER</span>
               </div>
 
+              {/* Product Details & Controls */}
               <div>
-                <h2 className="text-4xl font-semibold text-gray-900 leading-snug">
-                  Ultra Thin Sanitary Pads
-                </h2>
-
-                <p className="text-gray-500 mt-2">
-                  Soft. Rash-free. Designed for all-day comfort.
-                </p>
-
-                <div className="flex items-center gap-2 text-orange-500 text-sm mt-2">
-                  ⭐⭐⭐⭐⭐{" "}
-                  <span className="text-gray-500">1,000+ Reviews</span>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-snug">{MAIN_PRODUCT.name}</h2>
+                <p className="text-gray-500 mt-2 text-lg">{MAIN_PRODUCT.description}</p>
+                
+                <div className="flex items-center gap-2 text-orange-500 text-sm mt-3 border-b border-gray-100 pb-4">
+                  ⭐⭐⭐⭐⭐ <span className="text-gray-500 font-medium">1,000+ Verified Reviews</span>
                 </div>
 
-                <div className="mt-5">
-                  <p className="font-sm mb-1">Select Size</p>
+                {/* Pricing Display */}
+                <div className="mt-4 flex items-end gap-3">
+                  <span className="text-4xl font-black text-pink-600">₹{totalPrice}</span>
+                  <span className="text-xl text-gray-400 line-through mb-1">₹{originalPrice}</span>
+                  <span className="text-sm font-bold text-green-500 mb-2 border border-green-200 bg-green-50 px-2 py-1 rounded">{discount}</span>
+                </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mt-4">
-                    {sizes.map((s, i) => (
-                      <div
-                        key={i}
-                        onClick={() => setSize(s.label.trim())}
-                        className={`cursor-pointer rounded-xl text-center border transition-all duration-200
-                    ${
-                      size === s.label
-                        ? "border-pink-500 bg-pink-50"
-                        : "hover:border-gray-400"
-                    }`}
-                      >
-                        <p className="font-semibold">{s.label}</p>
-                        <p className="text-xs text-gray-500">{s.desc}</p>
-                      </div>
-                    ))}
+                {/* Clean Sizes & Size Chart */}
+                <div className="mt-6">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="font-semibold text-gray-900">Select Size: <span className="text-pink-600">{selectedSize}</span></span>
+                    <button onClick={() => setIsSizeChartOpen(true)} className="text-sm text-pink-600 flex items-center gap-1 hover:underline font-medium cursor-pointer">
+                      <Ruler size={16} /> Size Chart
+                    </button>
                   </div>
-                </div>
-
-                <div className="mt-3">
-                  <p className="font-medium mb-3">Select Quantity</p>
-
                   <div className="flex gap-3">
-                    {[1, 3].map((q) => (
+                    {MAIN_PRODUCT.sizes.map((s) => (
                       <button
-                        key={q}
-                        onClick={() => setQuantity(q)}
-                        className={`px-4 py-2 rounded-full border cursor-pointer transition
-                    ${
-                      quantity === q
-                        ? "bg-pink-500 text-white border-pink-500"
-                        : "bg-white text-gray-700 hover:border-pink-400"
-                    }`}
+                        key={s}
+                        onClick={() => setSelectedSize(s)}
+                        className={`w-14 h-14 rounded-xl font-bold border-2 transition-all cursor-pointer ${selectedSize === s ? "border-pink-600 bg-pink-50 text-pink-600 shadow-md" : "border-gray-200 text-gray-500 hover:border-pink-300"}`}
                       >
-                        {q} Pack {q === 3 && "'s"}
+                        {s}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <p className="text-3xl mt-2 font-bold text-gray-900">
-                  ₹{totalPrice}
-                </p>
+                {/* Packs Selection */}
+                <div className="mt-6">
+                  <p className="font-semibold text-gray-900 mb-3">Select Pack <span className="text-sm text-green-600 font-bold ml-2">(Save More!)</span></p>
+                  <div className="flex flex-wrap gap-3">
+                    {[1, 3, 5, 7].map((pack) => (
+                      <button
+                        key={pack}
+                        onClick={() => setSelectedPack(pack)}
+                        className={`px-5 py-3 rounded-xl border-2 font-bold transition-all cursor-pointer ${selectedPack === pack ? "border-pink-600 bg-pink-600 text-white shadow-md" : "border-gray-200 text-gray-600 bg-white hover:border-pink-300 hover:bg-pink-50"}`}
+                      >
+                        {pack} Pack
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-                <p className="line-through text-gray-400">₹{originalPrice}</p>
+                {/* Pincode Checker */}
+                <div className="py-2 border-t border-gray-100 mt-6 pt-6">
+                  <PincodeChecker />
+                </div>
 
-                <span className="text-green-600 font-medium text-sm">
-                  {discount}
-                </span>
-
-                <div className="mt-3 flex gap-4">
-                  <button className="w-1/4 border border-gray-300 py-3 rounded-full text-gray-800 hover:bg-gray-100 transition">
-                    Add to Cart
-                  </button>
-
-                  <button className="w-1/5 bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-full shadow-md transition">
-                    Buy Now
+                {/* Functional Add to Cart & Buy Now Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                  {quantityInCart > 0 ? (
+                    <div className="flex-1 flex items-center justify-between border-2 border-pink-600 rounded-xl px-4 py-3 bg-pink-50">
+                      <button onClick={() => updateQuantity(MAIN_PRODUCT.id, selectedSize, selectedPack, -1)} className="w-10 h-10 flex items-center justify-center bg-white border border-pink-200 rounded-lg text-pink-600 hover:bg-pink-100 transition shadow-sm cursor-pointer"><Minus size={20} /></button>
+                      <span className="font-bold text-xl text-gray-900">{quantityInCart}</span>
+                      <button onClick={() => updateQuantity(MAIN_PRODUCT.id, selectedSize, selectedPack, 1)} className="w-10 h-10 flex items-center justify-center bg-white border border-pink-200 rounded-lg text-pink-600 hover:bg-pink-100 transition shadow-sm cursor-pointer"><Plus size={20} /></button>
+                    </div>
+                  ) : (
+                    <button onClick={handleAddToCart} className="flex-1 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 bg-gray-900 text-white hover:bg-black transition-all shadow-md hover:shadow-xl cursor-pointer">
+                      <ShoppingCart size={22} /> Add to Cart
+                    </button>
+                  )}
+                  <button onClick={handleBuyNow} className="flex-1 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 bg-pink-600 text-white hover:bg-pink-700 transition-all shadow-md hover:shadow-xl shadow-pink-200 cursor-pointer">
+                    <Zap size={22} fill="currentColor" /> Buy Now
                   </button>
                 </div>
 
-                <div className="mt-3 grid grid-cols-2 gap-3 text-sm text-gray-600">
-                  <p>💧 Leak-proof</p>
-                  <p>🌿 Rash-free</p>
-                  <p>🚫 No fragrance</p>
-                  <p>🧪 Chemical free</p>
-                </div>
               </div>
             </div>
           </section>
         </div>
       </section>
 
-      {/* benefit section */}
+      {/* 5. BENEFITS SECTION */}
       <section className="bg-gray-700 py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12" data-aos="fade-up">
             <h2 className="text-2xl md:text-3xl font-bold text-white">
-              Why You&apos;ll Love{" "}
-              <span className="text-pink-500 italic">Lumora India</span>
+              Why You&apos;ll Love <span className="text-pink-500 italic">Lumora India</span>
             </h2>
-            <p className="text-white mt-3 text-md">
-              Comfort, protection, and confidence — all in one.
-            </p>
+            <p className="text-white mt-3 text-md">Comfort, protection, and confidence — all in one.</p>
           </div>
-
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((item, index) => (
-              <div
-                key={index}
-                data-aos="zoom-in"
-                className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group"
-              >
-                <div className="mb-4 flex items-center justify-center w-14 h-14 rounded-full bg-pink-100 group-hover:bg-pink-200 transition">
-                  {item.icon}
-                </div>
-
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  {item.title}
-                </h3>
-
+              <div key={index} data-aos="zoom-in" className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 group cursor-default">
+                <div className="mb-4 flex items-center justify-center w-14 h-14 rounded-full bg-pink-100 group-hover:bg-pink-200 transition">{item.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">{item.title}</h3>
                 <p className="text-gray-600 text-sm">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
-      
 
-      {/* customer reviews */}
-
-      <section className="py-20 bg-linear-to-b from-pink-50 via-white to-pink-100">
+      {/* 6. CUSTOMER REVIEWS */}
+      <section className="py-20 bg-gradient-to-b from-pink-50 via-white to-pink-100">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-" data-aos="fade-up">
+          <div className="text-center" data-aos="fade-up">
             <h2 className="text-3xl md:text-3xl font-bold text-gray-800">
               Experience <span className="text-pink-500">Loved</span> & Trusted
             </h2>
             <p className="text-gray-600 mt-4 text-lg">
-              See why women trust Lumora for soft, leak-proof protection,
-              all-day comfort, and irritation-free periods.
+              See why women trust Lumora for soft, leak-proof protection, all-day comfort, and irritation-free periods.
             </p>
           </div>
 
@@ -715,38 +429,22 @@ const Hero = () => {
             spaceBetween={30}
             autoplay={{ delay: 3000, disableOnInteraction: false }}
             pagination={{ clickable: true }}
-            breakpoints={{
-              0: { slidesPerView: 1 },
-              768: { slidesPerView: 2 },
-              1200: { slidesPerView: 3 },
-            }}
+            breakpoints={{ 0: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1200: { slidesPerView: 3 } }}
+            className="cursor-grab active:cursor-grabbing"
           >
             {testimonials.map((item, index) => {
               const firstLetter = item.name.charAt(0);
-
               return (
                 <SwiperSlide key={index}>
-                  <div
-                    data-aos="zoom-in"
-                    className="h-full backdrop-blur-lg bg-white/70 border my-10 border-pink-100 p-8 rounded-3xl shadow-lg hover:shadow-2xl hover:scale-105 transition duration-500"
-                  >
+                  <div data-aos="zoom-in" className="h-full backdrop-blur-lg bg-white/70 border my-10 border-pink-100 p-8 rounded-3xl shadow-lg hover:shadow-2xl hover:scale-105 transition duration-500 cursor-default">
                     <div className="flex items-center gap-3 mb-5">
-                      <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-200 text-pink-700 font-bold text-lg">
-                        {firstLetter}
-                      </div>
-
+                      <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-200 text-pink-700 font-bold text-lg">{firstLetter}</div>
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {item.name}
-                        </h3>
-                        <span className="text-xs text-green-600 font-medium">
-                          ✔ Verified Purchase
-                        </span>
+                        <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
+                        <span className="text-xs text-green-600 font-medium">✔ Verified Purchase</span>
                       </div>
                     </div>
-                    <p className="text-gray-700 text-base leading-relaxed">
-                      {item.review}
-                    </p>
+                    <p className="text-gray-700 text-base leading-relaxed">{item.review}</p>
                   </div>
                 </SwiperSlide>
               );
@@ -755,58 +453,26 @@ const Hero = () => {
         </div>
       </section>
       
-      {/* FAQ Section */}
-      <section className="bg-linear-to-r from-pink-50 to-pink-100 py-16 px-4">
+      {/* 7. FAQ SECTION */}
+      <section className="bg-gradient-to-r from-pink-50 to-pink-100 py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12" data-aos="fade-up">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
               Frequently Asked <span className="text-pink-500">Questions</span>
             </h2>
-            <p className="text-gray-600 mt-3 text-md">
-              Clear your common doubts — feel confident & safe
-            </p>
+            <p className="text-gray-600 mt-3 text-md">Clear your common doubts — feel confident & safe</p>
           </div>
 
           <div className="space-y-2">
             {faqs.map((faq, index) => (
-              <div
-                key={index}
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
-                className="bg-white rounded-2xl shadow-md  border-2 border-pink-100 transition-all duration-300 hover:shadow-xl"
-              >
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="w-full flex cursor-pointer items-center gap-4 p-3 text-left"
-                >
-                  <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-pink-100 text-pink-600 text-sm font-semibold">
-                    {faq.id}
-                  </span>
-
-                  <h3 className="flex-1 text-base sm:text-lg font-semibold text-gray-800 leading-tight">
-                    {faq.question}
-                  </h3>
-
-                  <ChevronDown
-                    className={`shrink-0 transition-transform duration-300 ${
-                      activeIndex === index
-                        ? "rotate-180 text-pink-500"
-                        : "text-gray-400"
-                    }`}
-                    size={20}
-                  />
+              <div key={index} data-aos="fade-up" data-aos-delay={index * 100} className="bg-white rounded-2xl shadow-md border-2 border-pink-100 transition-all duration-300 hover:shadow-xl">
+                <button onClick={() => toggleFAQ(index)} className="w-full flex cursor-pointer items-center gap-4 p-3 text-left">
+                  <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-pink-100 text-pink-600 text-sm font-semibold">{faq.id}</span>
+                  <h3 className="flex-1 text-base sm:text-lg font-semibold text-gray-800 leading-tight">{faq.question}</h3>
+                  <ChevronDown className={`shrink-0 transition-transform duration-300 ${activeIndex === index ? "rotate-180 text-pink-500" : "text-gray-400"}`} size={20} />
                 </button>
-
-                <div
-                  className={`px-5  overflow-hidden border-t border-gray-300 transition-all duration-300 ${
-                    activeIndex === index
-                      ? "max-h-40 py-3 opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <p className="text-gray-600   leading-relaxed">
-                    {faq.answer}
-                  </p>
+                <div className={`px-5 overflow-hidden border-t border-gray-300 transition-all duration-300 ${activeIndex === index ? "max-h-40 py-3 opacity-100" : "max-h-0 opacity-0"}`}>
+                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
                 </div>
               </div>
             ))}
@@ -814,7 +480,34 @@ const Hero = () => {
         </div>
       </section>
 
-      
+      {/* 8. SIZE CHART MODAL */}
+      {isSizeChartOpen && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            <button onClick={() => setIsSizeChartOpen(false)} className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 transition cursor-pointer">✕</button>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2"><Ruler className="text-pink-600" /> Size Chart</h3>
+            <div className="overflow-x-auto rounded-xl border border-gray-200">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 text-gray-700 text-sm uppercase tracking-wider">
+                    <th className="p-4 font-bold border-b border-r border-gray-200">Size</th>
+                    <th className="p-4 font-bold border-b border-r border-gray-200">Length (mm)</th>
+                    <th className="p-4 font-bold border-b">Length (inch)</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-600">
+                  <tr className="border-b border-gray-100"><td className="p-4 font-bold text-gray-900 border-r border-gray-100">M</td><td className="p-4 border-r border-gray-100">240 mm</td><td className="p-4">9.4"</td></tr>
+                  <tr className="border-b border-gray-100 bg-gray-50/50"><td className="p-4 font-bold text-gray-900 border-r border-gray-100">L</td><td className="p-4 border-r border-gray-100">280 mm</td><td className="p-4">11.0"</td></tr>
+                  <tr className="border-b border-gray-100"><td className="p-4 font-bold text-gray-900 border-r border-gray-100">XL</td><td className="p-4 border-r border-gray-100">320 mm</td><td className="p-4">12.6"</td></tr>
+                  <tr><td className="p-4 font-bold text-gray-900 border-r border-gray-100">XXL</td><td className="p-4 border-r border-gray-100">360 mm</td><td className="p-4">14.1"</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="text-xs text-gray-500 mt-4 text-center">Measure for your ideal flow and comfort fit.</p>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

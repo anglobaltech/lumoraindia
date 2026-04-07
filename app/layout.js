@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthProvider from "@/components/AuthProvider";
-import GoogleTranslate from "@/components/GoogleTranslate"; // <-- IMPORT NEW COMPONENT
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,18 +57,15 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-
-        {/* Safe Google Translate Component */}
-        <GoogleTranslate />
         
-        <Header />
-        
+        {/* Wrap EVERYTHING in AuthProvider to maintain session across reloads */}
         <AuthProvider>
-          {children}
+          <Header />
+          <main>{children}</main>
+          <Footer />
         </AuthProvider>
         
         <ToastContainer position="top-right" />
-        <Footer />
       </body>
     </html>
   );
