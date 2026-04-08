@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import emailjs from "@emailjs/browser";
@@ -9,13 +8,7 @@ import {
   Mail,
   MapPin,
   Clock,
-  Instagram,
-  Facebook,
-  Twitter,
-  PhoneCall,
-  User,
 } from "lucide-react";
-import Link from "next/link";
 
 const Page = () => {
   const contactItems = [
@@ -43,7 +36,7 @@ const Page = () => {
     {
       icon: Clock,
       label: "Business Hours",
-      value: "Mon – Saturday",
+      value: "Monday – Saturday",
       sub: "09:30 AM – 6:30 PM IST",
       href: null,
     },
@@ -56,6 +49,11 @@ const Page = () => {
     message: "",
   });
 
+  const [status, setStatus] = useState({
+    type: "",
+    message: "",
+  });
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
@@ -64,75 +62,71 @@ const Page = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  // Special handler for phone to only allow numbers and max 10 digits
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, ""); // Remove non-digits
+    if (value.length <= 10) {
+      setForm({ ...form, phone: value });
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 1. Validation (Keep your existing validation)
     if (!form.name || !form.email || !form.phone || !form.message) {
-      setStatus({
-        type: "error",
-        message: "Please fill all fields ⚠️",
-      });
-      return;
-    }
-    if (!form.name || !form.email || !form.phone || !form.message) {
-      setStatus({
-        type: "error",
-        message: "Please fill all fields ",
-      });
+      setStatus({ type: "error", message: "Please fill all fields ⚠️" });
       return;
     }
 
-    const templateParams = {
-      user_name: form.name,
-      user_email: form.email,
-      phone: form.phone,
-      message: form.message,
-    };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      setStatus({ type: "error", message: "Invalid email format ⚠️" });
+      return;
+    }
+    if (form.phone.length !== 10) {
+      setStatus({ type: "error", message: "Enter a valid 10-digit number ⚠️" });
+      return;
+    }
 
-    emailjs
-      .send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
-      )
-      .then(
-        () => {
-          setStatus({
-            type: "success",
-            message:
-              "Thanks for reaching out! Your message has been sent successfully ✅. We’ll connect with you shortly.",
-          });
+    setStatus({ type: "loading", message: "Sending your message..." });
 
-          setForm({
-            name: "",
-            email: "",
-            phone: "",
-            message: "",
-          });
-        },
-        (error) => {
-          console.error(error);
-          setStatus({
-            type: "error",
-            message: "Failed to send message ",
-          });
-        },
-      );
+    try {
+      // 2. FIXED: Corrected the URL and changed 'formData' to 'form'
+      const response = await fetch("/api/contact-by-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form), // Use 'form' here, not 'formData'
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setStatus({
+          type: "success",
+          message: "Thanks! Your inquiry has been sent to our team ",
+        });
+        setForm({ name: "", email: "", phone: "", message: "" });
+      } else {
+        throw new Error(result.message || "Failed to send");
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      setStatus({
+        type: "error",
+        message: "Something went wrong. Please try again later.",
+      });
+    } finally {
+      setTimeout(() => setStatus({ type: "", message: "" }), 6000);
+    }
   };
-  const [status, setStatus] = useState({
-    type: "",
-    message: "",
-  });
-  useEffect(() => {
-  if (status.message) {
-    const timer = setTimeout(() => {
-      setStatus({ type: "", message: "" });
-    }, 6000);
 
-    return () => clearTimeout(timer);
-  }
-}, [status]);
+  // Helper to clear status messages after 5 seconds
+  const clearStatusTimer = () => {
+    setTimeout(() => {
+      setStatus({ type: "", message: "" });
+    }, 5000);
+  };
 
   return (
     <main className="bg-pink-50 min-h-screen text-gray-800">
@@ -167,12 +161,10 @@ const Page = () => {
                 <div className="w-12 h-12 rounded-xl bg-pink-100 flex items-center justify-center">
                   <Icon className="w-5 h-5 text-pink-500" />
                 </div>
-
                 <div>
                   <p className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-1">
                     {label}
                   </p>
-
                   {href ? (
                     <a
                       href={href}
@@ -187,7 +179,6 @@ const Page = () => {
                       {value}
                     </p>
                   )}
-
                   <p className="text-sm text-gray-500">{sub}</p>
                 </div>
               </div>
@@ -198,7 +189,7 @@ const Page = () => {
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="grid md:grid-cols-2 gap-10 items-stretch">
-          {/* ✅ LEFT SIDE MAP (NEW) */}
+          {/* LEFT SIDE MAP */}
           <div className="relative rounded-3xl overflow-hidden shadow-lg border border-pink-100">
             <iframe
               src="https://www.google.com/maps?q=Urbtech%20NPX%20Sector%20153%20Noida&output=embed"
@@ -225,8 +216,8 @@ const Page = () => {
                     24 hours.
                   </p>
 
-                  {/* Name + Phone */}
                   <div className="flex flex-col sm:flex-row gap-4">
+                    {/* Name */}
                     <div className="flex-1 relative">
                       <input
                         type="text"
@@ -239,15 +230,19 @@ const Page = () => {
                       />
                     </div>
 
-                    <div className="flex-1 relative">
+                    {/* Phone with +91 fixed */}
+                    <div className="flex-1 relative flex items-center border border-gray-200 rounded-xl bg-white/70 shadow-sm focus-within:ring-2 focus-within:ring-pink-300 focus-within:border-pink-300 transition overflow-hidden">
+                      <span className="pl-3 pr-2 py-2 text-gray-500 font-medium border-r border-gray-200 bg-gray-50 select-none">
+                        +91
+                      </span>
                       <input
                         type="tel"
                         name="phone"
                         required
                         value={form.phone}
-                        onChange={handleChange}
-                        placeholder="Enter your phone number"
-                        className="w-full border border-gray-200 rounded-xl px-4 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 transition shadow-sm"
+                        onChange={handlePhoneChange}
+                        placeholder="10-digit number"
+                        className="w-full px-3 py-2 bg-transparent focus:outline-none"
                       />
                     </div>
                   </div>
@@ -281,11 +276,10 @@ const Page = () => {
                   {/* Status */}
                   {status.message && (
                     <p
-                      className={`text-sm font-medium ${
-                        status.type === "success"
-                          ? "text-green-600"
-                          : "text-red-500"
-                      }`}
+                      className={`text-sm font-medium text-center ${status.type === "success"
+                        ? "text-green-600"
+                        : "text-red-500"
+                        }`}
                     >
                       {status.message}
                     </p>
@@ -294,7 +288,7 @@ const Page = () => {
                   {/* Button */}
                   <button
                     type="submit"
-                    className="w-full bg-linear-to-r from-pink-500 to-pink-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition duration-300"
+                    className="cursor-pointer w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition duration-300"
                   >
                     Submit Message
                   </button>
