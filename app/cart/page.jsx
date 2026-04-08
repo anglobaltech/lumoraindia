@@ -3,11 +3,15 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation"; 
-import { Trash2, Plus, Minus, ArrowRight } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, ArrowLeft } from "lucide-react";
 
 import { useCartStore } from "../../store/cartStore"; 
 import { useAuthStore } from "../../store/authStore"; 
 import LoginModal from "../../components/LoginModal";
+
+// Firebase Imports
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../lib/firebase"; // Ensure this path matches your project structure
 
 const CartPage = () => {
   const router = useRouter(); 
@@ -18,15 +22,52 @@ const CartPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
+  // 1. Mark component as mounted
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // 2. Firebase Database Sync (Debounced)
+  useEffect(() => {
+    if (!isMounted || !user || !user.uid) return;
+
+    const syncCartToDB = async () => {
+      try {
+        const userRef = doc(db, "users", user.uid);
+        // Overwrite the 'cart' field in the user's document with the current Zustand state
+        await updateDoc(userRef, { cart: cartItems });
+        console.log("Cart successfully synced to Firebase!");
+      } catch (error) {
+        console.error("Failed to sync cart to Firebase:", error);
+      }
+    };
+
+    // Debounce: Wait 1.5 seconds after the user stops making changes before writing to DB
+    const timeoutId = setTimeout(() => {
+      syncCartToDB();
+    }, 1500);
+
+    // Cleanup function clears the timeout if cartItems change again before 1.5s
+    return () => clearTimeout(timeoutId);
+  }, [cartItems, user, isMounted]);
 
   if (!isMounted) return null; 
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-5 text-black">
       <div className="max-w-5xl mx-auto">
+        
+        {/* BACK BUTTON */}
+        <div className="mb-6">
+          <Link 
+            href="/products" 
+            className="inline-flex items-center text-sm font-medium text-pink-600 hover:text-pink-700 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Store
+          </Link>
+        </div>
+
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
           Your Shopping Cart
         </h1>

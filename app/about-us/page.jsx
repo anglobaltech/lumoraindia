@@ -215,7 +215,7 @@ const page = () => {
           </div>
         </div>
       </section>
-      
+
       {/* trust */}
       <section className="py-10 bg-gradient-to-b from-white to-pink-50 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
@@ -504,7 +504,7 @@ const page = () => {
           {/* Shop Now */}
           <Link href="/products">
             <button
-              className="w-full sm:w-auto px-8 py-3  text-pink-500 rounded-full font-semibold 
+              className="cursor-pointer w-full sm:w-auto px-8 py-3 text-pink-500 rounded-full font-semibold 
       hover:scale-105 hover:bg-pink-300 transition-all duration-300 shadow-md"
             >
               Shop Now
@@ -514,7 +514,7 @@ const page = () => {
           {/* Contact */}
           <Link href="/contact">
             <button
-              className="w-full sm:w-auto px-8 py-3 border  text-black rounded-full font-semibold 
+              className="cursor-pointer w-full sm:w-auto px-8 py-3 border text-black rounded-full font-semibold 
       hover:bg-white hover:text-pink-500 transition-all duration-300"
             >
               Contact Us

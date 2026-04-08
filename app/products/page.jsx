@@ -2,9 +2,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ShoppingCart, CheckCircle, Ruler, Minus, Plus, Zap } from "lucide-react";
+import { ShoppingCart, CheckCircle, Ruler, Minus, Plus, Zap, Heart } from "lucide-react";
 import { toast } from "react-toastify";
 import { useCartStore } from "../../store/cartStore"; 
+import { useAuthStore } from "../../store/authStore"; 
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../lib/firebase"; // Make sure this path is correct for your setup
 import PincodeChecker from "../../components/PincodeChecker"; 
 
 // Flagship Product Base Info
@@ -27,14 +30,12 @@ const PRICE_MAP = {
 export default function ProductDetailPage() {
   const router = useRouter();
   const { cartItems, addToCart, updateQuantity } = useCartStore();
+  const { user } = useAuthStore(); // Get user from auth store
   
-  // 1. Set Default Size to 'M'
   const [selectedSize, setSelectedSize] = useState("M"); 
-  
-  // 2. Add Pack Selection State
   const [selectedPack, setSelectedPack] = useState(1); 
-  
   const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
 
   // --- DYNAMIC PRICING LOGIC ---
   const basePrice = PRICE_MAP[selectedSize.toLowerCase()] || 89;
@@ -52,22 +53,19 @@ export default function ProductDetailPage() {
   const discount = selectedPack === 1 
     ? `${Math.floor(((originalPrice - basePrice) / originalPrice) * 100)}% OFF`
     : `${Math.round((1 - discountMultiplier) * 100)}% OFF`;
-  // -----------------------------
 
-  // Check if this EXACT Size + Pack combo is in the cart
+  // --- CART & WISHLIST CHECKS ---
   const cartItem = cartItems.find(
     item => item.id === MAIN_PRODUCT.id && item.size === selectedSize && item.pack === selectedPack
   );
   const quantityInCart = cartItem ? cartItem.quantity : 0;
 
-  const handleAddToCart = () => {
-    // Create a dynamic product object holding the specific calculated price
-    const productToAdd = {
-      ...MAIN_PRODUCT,
-      price: totalPrice,
-      originalPrice: originalPrice
-    };
+  // Check if product is in user's wishlist
+  const isInWishlist = user?.wishlist?.some(item => item.id === MAIN_PRODUCT.id);
 
+  // --- HANDLERS ---
+  const handleAddToCart = () => {
+    const productToAdd = { ...MAIN_PRODUCT, price: totalPrice, originalPrice };
     addToCart(productToAdd, selectedSize, selectedPack, 1);
     toast.success(`Added ${selectedPack} Pack of Size ${selectedSize} to cart!`, {
       position: "top-right",
@@ -76,10 +74,49 @@ export default function ProductDetailPage() {
   };
 
   const handleBuyNow = () => {
-    if (quantityInCart === 0) {
-      handleAddToCart();
-    }
+    if (quantityInCart === 0) handleAddToCart();
     router.push("/checkout"); 
+  };
+
+  const toggleWishlist = async () => {
+    if (!user) {
+      toast.error("Please log in to add items to your wishlist.");
+      return;
+    }
+
+    if (isWishlistLoading) return;
+    setIsWishlistLoading(true);
+
+    try {
+      const userRef = doc(db, "users", user.uid);
+      let updatedWishlist = user.wishlist ? [...user.wishlist] : [];
+
+      if (isInWishlist) {
+        // Remove from wishlist
+        updatedWishlist = updatedWishlist.filter(item => item.id !== MAIN_PRODUCT.id);
+        toast.info("Removed from wishlist");
+      } else {
+        // Add to wishlist (saving basic details so the wishlist page loads fast)
+        updatedWishlist.push({
+          id: MAIN_PRODUCT.id,
+          name: MAIN_PRODUCT.name,
+          image: MAIN_PRODUCT.image,
+          price: 89 // Storing base price for display
+        });
+        toast.success("Added to wishlist! ❤️");
+      }
+
+      // Update Firebase
+      await updateDoc(userRef, { wishlist: updatedWishlist });
+      
+      // Update local Zustand store so UI changes instantly
+      useAuthStore.setState({ user: { ...user, wishlist: updatedWishlist } });
+    } catch (error) {
+      console.error("Wishlist error:", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsWishlistLoading(false);
+    }
   };
 
   return (
@@ -94,11 +131,21 @@ export default function ProductDetailPage() {
             fill
             className="object-cover"
           />
+          {/* DYNAMIC WISHLIST BUTTON */}
+          <button 
+            onClick={toggleWishlist}
+            disabled={isWishlistLoading}
+            className={`absolute top-6 right-6 p-3 rounded-full bg-white shadow-lg transition-all transform hover:scale-110 cursor-pointer z-10 ${isWishlistLoading ? 'opacity-50' : ''}`}
+          >
+            <Heart 
+              size={24} 
+              className={`transition-colors ${isInWishlist ? "text-pink-500 fill-pink-500" : "text-gray-400 hover:text-pink-500"}`} 
+            />
+          </button>
         </div>
 
         {/* Right Column: Product Details */}
         <div className="flex flex-col space-y-6">
-          
           <div>
             <span className="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase">Bestseller</span>
             <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mt-4">{MAIN_PRODUCT.name}</h1>
@@ -111,7 +158,7 @@ export default function ProductDetailPage() {
             <span className="text-sm font-bold text-green-500 mb-2 border border-green-200 bg-green-50 px-2 py-1 rounded">{discount}</span>
           </div>
 
-          {/* Size Selector & Size Chart */}
+          {/* Size Selector */}
           <div>
             <div className="flex justify-between items-center mb-3">
               <span className="font-semibold text-gray-900">Select Size: <span className="text-pink-600">{selectedSize}</span></span>
@@ -122,7 +169,6 @@ export default function ProductDetailPage() {
                 <Ruler size={16} /> Size Chart
               </button>
             </div>
-            
             <div className="flex gap-3">
               {MAIN_PRODUCT.sizes.map((size) => (
                 <button
@@ -160,15 +206,12 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Pincode Checker */}
           <div className="py-2 border-t border-gray-100 mt-4 pt-6">
              <PincodeChecker />
           </div>
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            
-            {/* Dynamic Add To Cart / Quantity Toggle */}
             {quantityInCart > 0 ? (
               <div className="flex-1 flex items-center justify-between border-2 border-pink-600 rounded-xl px-4 py-3 bg-pink-50">
                 <button 
@@ -194,14 +237,12 @@ export default function ProductDetailPage() {
               </button>
             )}
 
-            {/* Buy Now Button */}
             <button
               onClick={handleBuyNow}
               className="flex-1 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 bg-pink-600 text-white hover:bg-pink-700 transition-all shadow-md hover:shadow-xl shadow-pink-200 cursor-pointer"
             >
               <Zap size={22} fill="currentColor" /> Buy Now
             </button>
-
           </div>
         </div>
       </div>
