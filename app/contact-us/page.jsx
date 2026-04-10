@@ -259,6 +259,9 @@ const Page = () => {
                     {status.type === "loading" ? "Sending..." : "Submit Message"}
                   </button>
                 </form>
+                <div className="mt-6 text-center text-xs sm:text-sm text-gray-500">
+                  🔒 Your information is safe with us. We respect your privacy.
+                </div>
               </div>
             </div>
           </div>
@@ -338,7 +341,6 @@ const Page = () => {
           </div>
         </div>
       </section>
-
     </main>
   );
 };
