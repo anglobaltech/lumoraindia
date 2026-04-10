@@ -85,28 +85,67 @@ export const useAuthStore = create((set, get) => ({
 
     // 5. Auth Listener
     // 5. Auth Listener (Optimized for Instant Load)
-    initAuthListener: () => {
-        return onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // 1. INSTANT UNBLOCK: We know the user is logged in via local session.
-                // Drop the loading screen immediately so the layout renders instantly.
-                set({ user, loading: false });
+    // initAuthListener: () => {
+    //     return onAuthStateChanged(auth, (user) => {
+    //         if (user) {
+    //             // 1. INSTANT UNBLOCK: We know the user is logged in via local session.
+    //             // Drop the loading screen immediately so the layout renders instantly.
+    //             set({ user, loading: false });
 
-                // 2. BACKGROUND FETCH: Silently get the profile data without blocking the UI.
-                const docRef = doc(db, 'users', user.uid);
-                getDoc(docRef)
-                    .then((docSnap) => {
-                        if (docSnap.exists()) {
-                            set({ profile: docSnap.data() });
+    //             // 2. BACKGROUND FETCH: Silently get the profile data without blocking the UI.
+    //             const docRef = doc(db, 'users', user.uid);
+    //             getDoc(docRef)
+    //                 .then((docSnap) => {
+    //                     if (docSnap.exists()) {
+    //                         set({ profile: docSnap.data() });
+    //                     }
+    //                 })
+    //                 .catch((err) => {
+    //                     console.warn("Firebase background profile fetch failed:", err);
+    //                 });
+    //         } else {
+    //             // Not logged in, unblock UI immediately
+    //             set({ user: null, profile: null, loading: false });
+    //         }
+    //     });
+    // }
+
+    // 5. Auth Listener (Updated to check both Admin and Customer collections)
+    initAuthListener: () => {
+        return onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Keep loading true initially so the Layout doesn't kick us out prematurely
+                set({ user, loading: true });
+
+                try {
+                    // 1. First, check if this user is in the 'admins' collection
+                    const adminRef = doc(db, 'admins', user.email.toLowerCase());
+                    const adminSnap = await getDoc(adminRef);
+
+                    if (adminSnap.exists() && adminSnap.data().role === "admin") {
+                        // They are an admin! Save their profile and drop the loading screen
+                        set({ profile: adminSnap.data(), loading: false });
+                    } else {
+                        // 2. If not an admin, check the regular 'users' collection
+                        const userRef = doc(db, 'users', user.uid);
+                        const userSnap = await getDoc(userRef);
+                        
+                        if (userSnap.exists()) {
+                            set({ profile: userSnap.data(), loading: false });
+                        } else {
+                            // New user, no profile yet
+                            set({ profile: null, loading: false });
                         }
-                    })
-                    .catch((err) => {
-                        console.warn("Firebase background profile fetch failed:", err);
-                    });
+                    }
+                } catch (err) {
+                    console.error("Firebase profile fetch failed:", err);
+                    set({ profile: null, loading: false });
+                }
             } else {
-                // Not logged in, unblock UI immediately
+                // Not logged in
                 set({ user: null, profile: null, loading: false });
             }
         });
     }
+    
 }));

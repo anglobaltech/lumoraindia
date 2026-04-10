@@ -70,7 +70,12 @@ export default function AddressesPage() {
 
   const displayList = getSavedAddresses();
 
-  if (!user) return <div className="p-8 text-center bg-white rounded-2xl shadow-sm">Please log in.</div>;
+  if (!user) return (
+    <div className="flex flex-col items-center justify-center min-h-[50vh]">
+        <Loader2 className="animate-spin text-pink-500 mb-4" size={48} />
+        <p className="text-gray-500 font-bold animate-pulse text-lg tracking-wide">Loading your addresses...</p>
+    </div>
+  );
 
   const handlePincodeChange = async (e) => {
     const val = e.target.value.replace(/\D/g, '');
@@ -109,12 +114,10 @@ export default function AddressesPage() {
     setIsFormOpen(true);
   };
 
-  // TRIGGER THE CUSTOM DELETE MODAL
   const triggerDelete = (addr) => {
     setAddressToDelete(addr);
   };
 
-  // CONFIRM REMOVE (Called from the modal)
   const confirmRemove = async () => {
     if (!addressToDelete) return;
     const addr = addressToDelete;
@@ -139,12 +142,10 @@ export default function AddressesPage() {
       console.error("Error removing address:", error);
       toast.error("Failed to remove address.");
     } finally {
-      // Close the modal whether it succeeded or failed
       setAddressToDelete(null);
     }
   };
 
-  // SAVE OR UPDATE ADDRESS
   const handleSaveAddress = async (e) => {
     e.preventDefault();
     if (formData.pincode.length !== 6) return toast.error("Pincode must be 6 digits.");
@@ -172,11 +173,9 @@ export default function AddressesPage() {
         updatedUser.addresses = newArray;
       }
 
-      // Update UI immediately
       useAuthStore.setState({ user: updatedUser });
       toast.success(editingContext ? "Address updated!" : "Address added!");
 
-      // Close form immediately after saving
       setIsFormOpen(false);
       setFormData(initialFormState);
       setEditingContext(null);
@@ -190,32 +189,33 @@ export default function AddressesPage() {
   };
 
   return (
-    <>
+    <div className="w-full animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
+      
       {/* --- CUSTOM CONFIRMATION MODAL --- */}
       {addressToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl transform transition-all scale-100">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white rounded-[2rem] p-6 md:p-8 max-w-sm w-full shadow-2xl shadow-pink-900/20 animate-in zoom-in-95 duration-300 border border-pink-50">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                <AlertCircle className="text-red-500 w-6 h-6" />
+              <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 shadow-inner">
+                <AlertCircle className="text-red-500 w-7 h-7" />
               </div>
               <h3 className="text-xl font-extrabold text-gray-900">Remove Address?</h3>
             </div>
             
-            <p className="text-gray-500 text-sm leading-relaxed mb-8 ml-2">
-              Are you sure you want to delete this address?
+            <p className="text-gray-500 text-sm leading-relaxed mb-8 font-medium">
+              Are you sure you want to delete this address? This action cannot be undone.
             </p>
             
-            <div className="flex justify-end gap-3">
+            <div className="flex justify-end gap-3 w-full">
               <button 
                 onClick={() => setAddressToDelete(null)} 
-                className="px-5 py-2.5 bg-white text-gray-700 border border-gray-200 rounded-xl text-sm font-bold hover:bg-gray-50 transition cursor-pointer"
+                className="flex-1 px-5 py-3 bg-white text-gray-700 border-2 border-gray-200 rounded-xl text-sm font-bold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
               >
                 Cancel
               </button>
               <button 
                 onClick={confirmRemove} 
-                className="px-5 py-2.5 bg-red-500 text-white rounded-xl text-sm font-bold hover:bg-red-600 shadow-md transition cursor-pointer"
+                className="flex-1 px-5 py-3 bg-red-500 text-white rounded-xl text-sm font-bold hover:bg-red-600 shadow-lg shadow-red-200 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
               >
                 Yes, Remove
               </button>
@@ -225,118 +225,143 @@ export default function AddressesPage() {
       )}
 
       {/* --- MAIN PAGE CONTENT --- */}
-      <div className="bg-white rounded-3xl p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100">
-        <div className="flex justify-between items-center mb-8 pb-6 border-b border-gray-100">
+      <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] p-6 sm:p-8 lg:p-10 shadow-xl shadow-pink-100/50 border border-pink-100 relative overflow-hidden">
+        
+        {/* Subtle Top Gradient Line */}
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-pink-600"></div>
+
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-pink-100/50 gap-4">
           <div>
-            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Saved Addresses</h2>
-            <p className="text-gray-500 text-sm mt-1">Manage where we deliver your orders.</p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Saved Addresses</h2>
+            <p className="text-gray-500 text-sm mt-1.5 font-medium">Manage where we deliver your premium orders.</p>
           </div>
           {!isFormOpen && (
-            <button onClick={handleAddNew} className="flex items-center gap-2 bg-pink-50 text-pink-600 px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-pink-100 transition cursor-pointer">
-              <Plus size={18} /> Add New
+            <button onClick={handleAddNew} className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-pink-500 text-white rounded-xl text-sm font-bold hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
+              <Plus size={18} /> Add New Address
             </button>
           )}
         </div>
 
         {isFormOpen ? (
-          <form onSubmit={handleSaveAddress} className="bg-slate-50/50 rounded-2xl p-6 md:p-8 border border-slate-200/60 shadow-inner mb-6 animate-fadeIn">
-            <h3 className="text-lg font-bold text-gray-900 mb-6">
-              {editingContext ? "Edit Address" : "Add New Address"}
+          <form onSubmit={handleSaveAddress} className="bg-gradient-to-br from-pink-50/50 to-white rounded-3xl p-6 md:p-8 border border-pink-100 shadow-sm mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
+            <h3 className="text-xl font-extrabold text-gray-900 mb-6 flex items-center gap-3">
+               <div className="p-2.5 bg-pink-100 rounded-xl text-pink-600 shadow-inner">
+                  {editingContext ? <Edit2 size={22} /> : <MapPin size={22} />}
+               </div>
+              {editingContext ? "Edit Address Details" : "New Address Details"}
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
               
-              <div className="space-y-2">
-                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-widest ml-1">Pincode</label>
-                <div className="relative flex items-center p-4 bg-white rounded-xl border-2 border-pink-100 focus-within:border-pink-500 shadow-sm transition-all duration-200">
-                  <input type="text" maxLength={6} required placeholder="e.g. 110001" value={formData.pincode} onChange={handlePincodeChange} className="bg-transparent w-full outline-none text-gray-900 text-base font-semibold" />
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Pincode</label>
+                <div className="relative flex items-center px-4 py-3.5 bg-white rounded-xl border-2 border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm transition-all duration-300">
+                  <input type="text" maxLength={6} required placeholder="e.g. 110001" value={formData.pincode} onChange={handlePincodeChange} className="bg-transparent w-full outline-none text-gray-900 text-base font-bold placeholder-gray-300" />
                   {isFetchingLocation && <Loader2 size={18} className="absolute right-4 text-pink-500 animate-spin" />}
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-widest ml-1">House / Flat No.</label>
-                <div className="flex items-center gap-3 p-4 bg-white rounded-xl border-2 border-pink-100 focus-within:border-pink-500 shadow-sm transition-all duration-200">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">House / Flat No.</label>
+                <div className="flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl border-2 border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm transition-all duration-300">
                   <Home size={18} className="text-pink-400" />
-                  <input type="text" required placeholder="Flat 401, Building B" value={formData.houseNo} onChange={(e) => setFormData({...formData, houseNo: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-900 font-semibold" />
+                  <input type="text" required placeholder="Flat 401, Building B" value={formData.houseNo} onChange={(e) => setFormData({...formData, houseNo: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-900 font-bold placeholder-gray-300" />
                 </div>
               </div>
 
-              <div className="space-y-2 md:col-span-2">
-                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-widest ml-1">Area / Street</label>
-                <div className="flex items-center gap-3 p-4 bg-white rounded-xl border-2 border-pink-100 focus-within:border-pink-500 shadow-sm transition-all duration-200">
+              <div className="space-y-1.5 md:col-span-2">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Area / Street</label>
+                <div className="flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl border-2 border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm transition-all duration-300">
                   <Navigation size={18} className="text-pink-400" />
-                  <input type="text" required placeholder="Sector 62, Main Road" value={formData.area} onChange={(e) => setFormData({...formData, area: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-900 font-semibold" />
+                  <input type="text" required placeholder="Sector 62, Main Road" value={formData.area} onChange={(e) => setFormData({...formData, area: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-900 font-bold placeholder-gray-300" />
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-widest ml-1">City</label>
-                <div className="flex items-center gap-3 p-4 bg-white rounded-xl border-2 border-pink-100 focus-within:border-pink-500 shadow-sm transition-all duration-200">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">City</label>
+                <div className="flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl border-2 border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm transition-all duration-300">
                   <Map size={18} className="text-pink-400" />
-                  <input type="text" required placeholder="City" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-900 font-semibold" />
+                  <input type="text" required placeholder="City" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-900 font-bold placeholder-gray-300" />
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-widest ml-1">State</label>
-                <div className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.state ? 'bg-gray-100 border-transparent cursor-not-allowed' : 'bg-white border-pink-100 focus-within:border-pink-500'}`}>
-                  <input type="text" required readOnly={!!formData.state} placeholder="State" value={formData.state} onChange={(e) => setFormData({...formData, state: e.target.value})} className="bg-transparent w-full outline-none text-base font-semibold focus:ring-0 text-gray-700" />
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">State</label>
+                <div className={`px-4 py-3.5 rounded-xl border-2 transition-all duration-300 ${formData.state ? 'bg-gray-100 border-transparent cursor-not-allowed' : 'bg-white border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm'}`}>
+                  <input type="text" required readOnly={!!formData.state} placeholder="State" value={formData.state} onChange={(e) => setFormData({...formData, state: e.target.value})} className={`bg-transparent w-full outline-none text-base font-bold focus:ring-0 ${formData.state ? 'text-gray-500' : 'text-gray-900'}`} />
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 mt-8">
-              <button type="button" onClick={() => setIsFormOpen(false)} disabled={isSaving} className="px-5 py-3 bg-white text-gray-600 rounded-xl text-sm font-bold border border-gray-200 hover:bg-gray-50 cursor-pointer flex gap-1 items-center">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 mt-8 pt-6 border-t border-pink-100/50">
+              <button type="button" onClick={() => setIsFormOpen(false)} disabled={isSaving} className="w-full sm:w-auto px-6 py-3.5 bg-white text-gray-600 rounded-xl text-sm font-bold border-2 border-gray-200 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 cursor-pointer flex justify-center gap-2 items-center">
                 <X size={16} /> Cancel
               </button>
-              <button type="submit" disabled={isSaving} className="px-6 py-3 bg-gradient-to-r from-pink-600 to-pink-500 text-white rounded-xl text-sm font-bold hover:from-pink-700 hover:to-pink-600 shadow-md flex gap-1 items-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
-                {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />} 
+              <button type="submit" disabled={isSaving} className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-pink-600 to-pink-500 text-white rounded-xl text-sm font-bold hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex justify-center gap-2 items-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
+                {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Check size={18} />} 
                 {isSaving ? 'Saving...' : (editingContext ? 'Update Address' : 'Save Address')}
               </button>
             </div>
           </form>
         ) : null}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {displayList.length > 0 ? (
             displayList.map((addr, index) => (
-              <div key={index} className="border-2 border-gray-100 rounded-2xl p-6 relative group hover:border-pink-200 transition-all shadow-sm flex flex-col">
-                <div className="flex items-center gap-2 mb-3 text-gray-900 font-bold">
-                  <Home size={18} className="text-pink-500" />
-                  <span>Address {index + 1}</span>
+              <div key={index} className="group relative bg-white border-2 border-pink-50 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:shadow-pink-100/50 hover:border-pink-200 transition-all duration-300 flex flex-col">
+                
+                {/* Decorative Top Accent */}
+                {addr.isDefault && (
+                  <div className="absolute top-0 left-6 right-6 h-1 bg-pink-500 rounded-b-md"></div>
+                )}
+
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3 text-gray-900 font-extrabold text-lg">
+                    <div className="p-2 bg-pink-50 rounded-lg text-pink-500 group-hover:scale-110 transition-transform">
+                       <Home size={20} />
+                    </div>
+                    Address {index + 1}
+                  </div>
                   {addr.isDefault && (
-                    <span className="bg-gray-100 text-gray-600 text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-md ml-2">Default</span>
+                    <span className="bg-gradient-to-r from-pink-100 to-pink-50 text-pink-600 border border-pink-200 text-[10px] uppercase tracking-widest font-black px-3 py-1.5 rounded-full shadow-sm">
+                      Default
+                    </span>
                   )}
                 </div>
                 
-                <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">{addr.text}</p>
+                <p className="text-gray-600 text-sm font-medium leading-relaxed mb-6 flex-grow pr-4">
+                  {addr.text}
+                </p>
                 
-                <div className="flex gap-4 border-t border-gray-100 pt-4 mt-auto">
+                <div className="flex items-center gap-4 border-t border-pink-50 pt-5 mt-auto">
                   <button 
                     onClick={() => handleEdit(addr)} 
-                    className="text-sm font-bold text-pink-600 flex items-center gap-1 hover:text-pink-800 cursor-pointer transition-colors"
+                    className="flex-1 text-sm font-bold text-pink-600 bg-pink-50 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-pink-100 hover:text-pink-700 cursor-pointer transition-colors"
                   >
-                    <Edit2 size={14} /> Edit
+                    <Edit2 size={16} /> Edit
                   </button>
                   <button 
                     onClick={() => triggerDelete(addr)} 
-                    className="text-sm font-bold text-red-500 flex items-center gap-1 hover:text-red-700 cursor-pointer transition-colors"
+                    className="flex-1 text-sm font-bold text-red-500 bg-red-50 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-red-100 hover:text-red-700 cursor-pointer transition-colors"
                   >
-                    <Trash2 size={14} /> Remove
+                    <Trash2 size={16} /> Remove
                   </button>
                 </div>
               </div>
             ))
           ) : (
             !isFormOpen && (
-              <div className="col-span-2 text-center py-12 text-gray-500 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50/50">
-                <MapPin size={40} className="mx-auto mb-3 text-gray-300" />
-                <p className="font-medium text-gray-600">No addresses saved yet.</p>
+              <div className="col-span-full flex flex-col items-center justify-center py-16 text-gray-500 border-2 border-dashed border-pink-100 rounded-3xl bg-pink-50/30">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-pink-100 mb-4">
+                  <MapPin size={28} className="text-pink-300" />
+                </div>
+                <h3 className="text-lg font-extrabold text-gray-900 mb-1">No Addresses Found</h3>
+                <p className="font-medium text-gray-500 text-sm">Add a delivery address to make checkout faster.</p>
               </div>
             )
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

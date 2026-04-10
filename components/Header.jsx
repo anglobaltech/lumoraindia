@@ -29,11 +29,11 @@ const Header = () => {
 
     const totalItems = cartItems?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
-    // Distraction-free Cart & Profile Pages (Hides header on checkout)
-    if (pathname === '/cart' || pathname.startsWith('/profile')) {
+    // HIDES HEADER ON CHECKOUT, PROFILE, AND ADMIN PAGES
+    if (pathname === '/cart' || pathname?.startsWith('/profile') || pathname?.startsWith('/admin')) {
         return null;
     }
-
+    
     return (
         <>
             <header className="bg-gray-900 text-white px-5 py-3 sticky top-0 z-40">

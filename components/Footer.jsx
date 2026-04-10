@@ -16,12 +16,8 @@ import {
 const Footer = () => {
   const pathname = usePathname();
 
-  if (pathname?.startsWith('/profile')) {
-    return null;
-  }
-
-  // DISTRACTION-FREE CART: If we are on the /cart page, do not render the Footer!
-  if (pathname === '/cart') {
+  // DISTRACTION-FREE: If on cart, profile, or admin pages, do not render Footer!
+  if (pathname === '/cart' || pathname?.startsWith('/profile') || pathname?.startsWith('/admin')) {
     return null;
   }
 

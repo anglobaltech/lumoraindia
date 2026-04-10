@@ -1,68 +1,65 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Star, Edit2, Check, X, Loader2 } from "lucide-react";
+import { Star, Edit2, Check, X, Loader2, Package, CheckCircle, MessageSquare } from "lucide-react";
 import { useAuthStore } from "../../../store/authStore";
-import { doc, updateDoc } from "firebase/firestore";
+import { collection, query, where, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { toast } from "react-toastify";
 
 export default function ReviewsPage() {
   const user = useAuthStore((state) => state.user);
-  
-  // Initialize with empty array, we will populate it in useEffect
   const [myReviews, setMyReviews] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [editingReviewId, setEditingReviewId] = useState(null);
   const [editContent, setEditContent] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
-  // Load reviews from the user object (or use dummy data if they don't have any yet)
   useEffect(() => {
-    if (user?.reviews && user.reviews.length > 0) {
-      setMyReviews(user.reviews);
-    } else {
-      // Fallback dummy data if no reviews exist in DB yet
-      setMyReviews([
-        {
-          id: 1,
-          productName: "Lumora Premium Soft Pads",
-          date: "14 Oct 2024",
-          rating: 5,
-          reviewText: "Absolutely love these! Extremely comfortable and no leakage during heavy flow days.",
-          image: "/12.jpeg" 
-        }
-      ]);
-    }
+    if (!user) return;
+
+    const q = query(
+      collection(db, "reviews"),
+      where("userId", "==", user.uid)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetched = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      fetched.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setMyReviews(fetched);
+      setIsLoading(false);
+    }, (error) => {
+      console.error("Error fetching user reviews:", error);
+      toast.error("Failed to load your reviews.");
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, [user]);
 
-  if (!user) return <div className="p-8 text-center bg-white rounded-2xl shadow-sm">Please log in.</div>;
+  if (!user) return (
+    <div className="flex flex-col items-center justify-center min-h-[50vh]">
+        <Loader2 className="animate-spin text-pink-500 mb-4" size={48} />
+        <p className="text-gray-500 font-bold animate-pulse text-lg tracking-wide">Loading your reviews...</p>
+    </div>
+  );
 
   const handleEditClick = (review) => {
     setEditingReviewId(review.id);
-    setEditContent(review.reviewText);
+    setEditContent(review.comment); 
   };
 
   const handleSaveClick = async (id) => {
+    if (!editContent.trim()) return toast.error("Review cannot be empty!");
     setIsSaving(true);
     try {
-      // 1. Create the updated array of reviews
-      const updatedReviews = myReviews.map(review => 
-        review.id === id ? { ...review, reviewText: editContent } : review
-      );
-
-      // 2. Update Firebase (Assuming reviews are stored in an array on the user doc)
-      const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        reviews: updatedReviews
+      const reviewRef = doc(db, "reviews", id);
+      await updateDoc(reviewRef, {
+        comment: editContent,
+        isPublished: false 
       });
 
-      // 3. Update local UI state
-      setMyReviews(updatedReviews);
-      
-      // 4. Update global Zustand store so it's in sync
-      useAuthStore.setState({ user: { ...user, reviews: updatedReviews } });
-
-      toast.success("Review updated successfully!");
+      toast.success("Review updated! It is pending admin approval.");
       setEditingReviewId(null);
     } catch (error) {
       console.error("Error updating review:", error);
@@ -72,66 +69,119 @@ export default function ReviewsPage() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20">
+        <Loader2 className="animate-spin text-pink-500 mb-5" size={48} />
+        <p className="text-gray-500 font-bold text-sm tracking-widest uppercase">Fetching your reviews...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">My Reviews</h2>
+    <div className="w-full animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
       
-      {myReviews.length > 0 ? (
-        <div className="space-y-6">
-          {myReviews.map((review) => (
-            <div key={review.id} className="border border-gray-100 rounded-xl p-5 flex flex-col md:flex-row gap-5 relative group transition-all hover:border-pink-200 shadow-sm">
-              <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden shrink-0">
-                <Image src={review.image || "/placeholder.jpg"} alt={review.productName} width={80} height={80} className="object-cover w-full h-full" />
-              </div>
-              <div className="flex-1">
-                <div className="flex justify-between items-start">
-                  <h3 className="font-bold text-gray-900">{review.productName}</h3>
+      {/* MAIN PAGE CONTENT */}
+      <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] p-6 sm:p-8 lg:p-10 shadow-xl shadow-pink-100/50 border border-pink-100 relative overflow-hidden">
+        
+        {/* Subtle Top Gradient Line */}
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-pink-600"></div>
+
+        <div className="mb-8 pb-6 border-b border-pink-100/50">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">My Reviews</h2>
+          <p className="text-gray-500 text-sm mt-1.5 font-medium">View and manage the feedback you've shared.</p>
+        </div>
+
+        {myReviews.length > 0 ? (
+          <div className="space-y-6">
+            {myReviews.map((review) => (
+              <div key={review.id} className="group bg-white border-2 border-pink-50 rounded-3xl p-5 sm:p-6 shadow-sm hover:shadow-xl hover:shadow-pink-100/50 hover:border-pink-200 transition-all duration-300 flex flex-col gap-4 relative">
+                <div className="flex-1 w-full">
                   
-                  {/* Action Buttons */}
-                  {editingReviewId !== review.id ? (
-                    <button onClick={() => handleEditClick(review)} className="text-pink-600 hover:text-pink-800 transition flex items-center gap-1 text-sm font-bold cursor-pointer bg-pink-50 px-3 py-1.5 rounded-lg">
-                      <Edit2 size={14} /> Edit
-                    </button>
-                  ) : (
-                    <div className="flex gap-2">
-                      <button onClick={() => setEditingReviewId(null)} disabled={isSaving} className="text-gray-500 hover:text-gray-700 bg-gray-100 p-2 rounded-lg cursor-pointer disabled:opacity-50 transition">
-                        <X size={16} />
-                      </button>
-                      <button onClick={() => handleSaveClick(review.id)} disabled={isSaving} className="text-white bg-green-500 hover:bg-green-600 p-2 rounded-lg cursor-pointer disabled:opacity-50 transition flex items-center justify-center min-w-[36px]">
-                        {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />}
-                      </button>
+                  {/* Responsive Header */}
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                    
+                    {/* Left Side: Product Name & Stars */}
+                    <div className="w-full flex-1">
+                      <div className="flex flex-wrap items-center gap-3 mb-2">
+                        <h3 className="font-extrabold text-gray-900 flex items-center gap-2 text-base sm:text-lg">
+                          <div className="p-1.5 bg-pink-50 rounded-lg text-pink-500">
+                             <Package size={18} className="shrink-0" /> 
+                          </div>
+                          <span className="truncate">{review.productName}</span>
+                        </h3>
+                        
+                        {/* Responsive Badges */}
+                        {review.isPublished ? (
+                          <span className="flex items-center gap-1 text-[10px] sm:text-xs font-black tracking-widest uppercase text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
+                            <CheckCircle size={12} /> Verified
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-1 text-[10px] sm:text-xs font-black tracking-widest uppercase text-yellow-600 bg-yellow-50 border border-yellow-100 px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
+                            Pending Approval
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-1.5 mb-2 bg-gray-50 w-fit px-3 py-1.5 rounded-lg border border-gray-100">
+                        <div className="flex gap-0.5">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={14} className={i < review.rating ? "text-yellow-400 fill-yellow-400 drop-shadow-sm" : "text-gray-300"} />
+                          ))}
+                        </div>
+                        <span className="text-xs font-bold text-gray-400 ml-2 border-l border-gray-200 pl-3">
+                          {new Date(review.createdAt).toLocaleDateString('en-IN', {day: 'numeric', month: 'short', year: 'numeric'})}
+                        </span>
+                      </div>
                     </div>
+
+                    {/* Right Side: Action Buttons */}
+                    <div className="shrink-0 self-start w-full sm:w-auto mt-2 sm:mt-0">
+                      {editingReviewId !== review.id ? (
+                        <button onClick={() => handleEditClick(review)} className="w-full sm:w-auto text-pink-600 hover:text-pink-700 transition flex items-center justify-center gap-2 text-sm font-bold cursor-pointer bg-pink-50 hover:bg-pink-100 px-4 py-2.5 rounded-xl border border-pink-100">
+                          <Edit2 size={16} /> Edit Review
+                        </button>
+                      ) : (
+                        <div className="flex gap-2 w-full sm:w-auto">
+                          <button onClick={() => setEditingReviewId(null)} disabled={isSaving} className="flex-1 sm:flex-none text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-4 py-2.5 rounded-xl cursor-pointer disabled:opacity-50 transition font-bold text-sm flex items-center justify-center gap-1">
+                            <X size={16} /> Cancel
+                          </button>
+                          <button onClick={() => handleSaveClick(review.id)} disabled={isSaving} className="flex-1 sm:flex-none text-white bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 px-4 py-2.5 rounded-xl cursor-pointer disabled:opacity-50 transition flex items-center justify-center gap-1 font-bold text-sm shadow-md">
+                            {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />} Save
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Text Area / Review Content */}
+                  {editingReviewId === review.id ? (
+                    <textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                      disabled={isSaving}
+                      className="w-full mt-4 p-4 bg-gray-50 border-2 border-pink-200 rounded-xl outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-100 text-sm font-semibold text-gray-900 resize-none transition-all disabled:opacity-70 shadow-inner"
+                      rows="4"
+                    />
+                  ) : (
+                    <p className="text-sm sm:text-base font-medium text-gray-600 mt-4 leading-relaxed bg-gray-50/80 p-4 rounded-2xl border border-gray-100 italic">
+                      "{review.comment}"
+                    </p>
                   )}
                 </div>
-
-                <div className="flex items-center gap-1 my-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} className={i < review.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"} />
-                  ))}
-                  <span className="text-xs font-semibold text-gray-500 ml-2">{review.date}</span>
-                </div>
-                
-                {/* Text Area Toggle */}
-                {editingReviewId === review.id ? (
-                  <textarea 
-                    value={editContent}
-                    onChange={(e) => setEditContent(e.target.value)}
-                    disabled={isSaving}
-                    className="w-full mt-3 p-3 border-2 border-pink-100 rounded-xl outline-none focus:border-pink-400 text-sm font-medium text-gray-800 resize-none transition-all disabled:bg-gray-50"
-                    rows="3"
-                  />
-                ) : (
-                  <p className="text-sm font-medium text-gray-600 italic mt-2">"{review.reviewText}"</p>
-                )}
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-10 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-          <p className="text-gray-500 font-medium">You haven't reviewed any products yet.</p>
-        </div>
-      )}
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 bg-pink-50/30 rounded-[2rem] border-2 border-dashed border-pink-100">
+             <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm border border-pink-100 mb-5">
+                <MessageSquare size={36} className="text-pink-300" />
+             </div>
+             <h3 className="text-xl font-extrabold text-gray-900 mb-2">No reviews yet</h3>
+             <p className="text-sm text-gray-500 font-medium max-w-sm mx-auto">Share your experience with products you've purchased to help others.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
