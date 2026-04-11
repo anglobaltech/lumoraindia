@@ -131,7 +131,7 @@ export default function AdminFAQ() {
              <div className="p-2 bg-pink-100 text-pink-600 rounded-xl shadow-inner">
                <HelpCircle size={28} />
              </div>
-             FAQ Management
+             FAQs Management
           </h1>
           <p className="text-gray-500 text-sm mt-2 font-medium">Manage the Frequently Asked Questions displayed on the Home Page.</p>
         </div>
