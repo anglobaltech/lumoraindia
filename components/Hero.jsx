@@ -963,7 +963,7 @@ const Hero = () => {
 
             <h1 className="text-[2rem] sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 leading-[1.1] tracking-tight">
               <span className="block">Comfort & Confidence</span>
-              <span className="text-pink-500 block mt-0.5 sm:mt-1">Every Single Day</span>
+              <span className="text-pink-500 block mt-0.5 sm:mt-1">Every Single Day.</span>
             </h1>
             
             <div className="text-gray-600 text-sm sm:text-base xl:text-lg leading-snug sm:leading-relaxed max-w-lg xl:max-w-xl space-y-1.5 sm:space-y-2">
