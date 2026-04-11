@@ -963,7 +963,7 @@ const Hero = () => {
 
             <h1 className="text-[2rem] sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 leading-[1.1] tracking-tight">
               <span className="block">Comfort & Confidence</span>
-              <span className="text-pink-500 block mt-0.5 sm:mt-1">Every Single Day.</span>
+              <span className="text-pink-500 block mt-0.5 sm:mt-1">Every Single Day</span>
             </h1>
             
             <div className="text-gray-600 text-sm sm:text-base xl:text-lg leading-snug sm:leading-relaxed max-w-lg xl:max-w-xl space-y-1.5 sm:space-y-2">
@@ -980,7 +980,7 @@ const Hero = () => {
             
             <div className="flex flex-wrap gap-3 sm:gap-4 pt-1 sm:pt-2">
               <Link href="/products" className="bg-pink-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-bold shadow-md shadow-pink-200 hover:bg-pink-700 hover:scale-105 transition-all cursor-pointer">
-                Shop Collection
+                Shop Now
               </Link>
               <Link href="/about-us" className="bg-white text-gray-900 border border-gray-200 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-bold hover:bg-gray-50 hover:border-gray-300 hover:scale-105 transition-all cursor-pointer shadow-sm">
                 Learn More
