@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { IndianRupee, ShoppingCart, Users, Package, ArrowRight, Loader2, TrendingUp, Sparkles } from "lucide-react";
+import { IndianRupee, ShoppingCart, Users, Package, ArrowRight, Loader2, TrendingUp, Sparkles, HelpCircle } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboard() {
@@ -125,9 +125,8 @@ export default function AdminDashboard() {
           return (
             <div 
               key={index} 
-              className="group bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:border-gray-200 transition-all duration-300 relative overflow-hidden"
+              className="group bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:border-gray-200 transition-all duration-300 relative overflow-hidden cursor-default"
             >
-              {/* Subtle accent line on top */}
               <div className={`absolute top-0 left-0 right-0 h-1 ${stat.bgColor.replace('50', '400')}`}></div>
               
               <div className="flex items-start justify-between">
@@ -144,12 +143,12 @@ export default function AdminDashboard() {
         })}
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+      {/* Quick Actions (3 Columns) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
         
         {/* Orders Card */}
         <div className="group bg-gradient-to-br from-pink-50/50 to-white p-8 rounded-[2rem] shadow-sm border border-pink-100 hover:shadow-xl hover:shadow-pink-100/50 transition-all duration-300 relative overflow-hidden flex flex-col">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
+          <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
             <TrendingUp size={120} />
           </div>
           
@@ -168,13 +167,13 @@ export default function AdminDashboard() {
             href="/admin/orders" 
             className="w-fit inline-flex items-center gap-2 px-6 py-3.5 bg-white text-pink-600 font-bold border-2 border-pink-100 rounded-xl hover:bg-pink-600 hover:text-white hover:border-pink-600 transition-all shadow-sm cursor-pointer relative z-10"
           >
-            View All Orders <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            View Orders <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
         {/* Products Card */}
         <div className="group bg-gradient-to-br from-blue-50/50 to-white p-8 rounded-[2rem] shadow-sm border border-blue-100 hover:shadow-xl hover:shadow-blue-100/50 transition-all duration-300 relative overflow-hidden flex flex-col">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
+          <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
             <Package size={120} />
           </div>
 
@@ -194,6 +193,31 @@ export default function AdminDashboard() {
             className="w-fit inline-flex items-center gap-2 px-6 py-3.5 bg-white text-blue-600 font-bold border-2 border-blue-100 rounded-xl hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all shadow-sm cursor-pointer relative z-10"
           >
             Manage Product <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+
+        {/* FAQ Card */}
+        <div className="group bg-gradient-to-br from-purple-50/50 to-white p-8 rounded-[2rem] shadow-sm border border-purple-100 hover:shadow-xl hover:shadow-purple-100/50 transition-all duration-300 relative overflow-hidden flex flex-col">
+          <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+            <HelpCircle size={120} />
+          </div>
+
+          <div className="flex items-center gap-3 mb-4 text-purple-600 relative z-10">
+            <div className="p-3 bg-purple-100 rounded-xl shadow-inner group-hover:scale-110 transition-transform">
+              <HelpCircle size={24} />
+            </div>
+            <h2 className="text-2xl font-black text-gray-900 tracking-tight">FAQ Control</h2>
+          </div>
+          
+          <p className="text-gray-600 font-medium mb-8 relative z-10 flex-grow">
+            Add, edit, or remove Frequently Asked Questions to instantly update the Home Page layout.
+          </p>
+          
+          <Link 
+            href="/admin/faq" 
+            className="w-fit inline-flex items-center gap-2 px-6 py-3.5 bg-white text-purple-600 font-bold border-2 border-purple-100 rounded-xl hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all shadow-sm cursor-pointer relative z-10"
+          >
+            Manage FAQs <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 

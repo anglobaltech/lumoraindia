@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { Loader2, LayoutDashboard, ShoppingCart, Package, MessageSquare, LogOut, Users, Menu, X, ShieldCheck } from "lucide-react";
+import { Loader2, LayoutDashboard, ShoppingCart, Package, MessageSquare, LogOut, Users, Menu, X, ShieldCheck, HelpCircle } from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function AdminLayout({ children }) {
@@ -49,7 +49,8 @@ export default function AdminLayout({ children }) {
     { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
     { name: "Products", href: "/admin/products", icon: Package },
     { name: "Team", href: "/admin/team", icon: Users },
-    { name: "Reviews & FAQs", href: "/admin/reviews-faq", icon: MessageSquare }, 
+    { name: "Reviews", href: "/admin/reviews-faq", icon: MessageSquare }, 
+    { name: "FAQs", href: "/admin/faq", icon: HelpCircle }, 
   ];
 
   return (
@@ -92,7 +93,7 @@ export default function AdminLayout({ children }) {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-bold transition-all duration-300 group ${
+                className={`flex items-center gap-3.5 px-4 py-3.5 rounded-2xl font-bold transition-all duration-300 group cursor-pointer ${
                   isActive
                     ? "bg-gradient-to-r from-pink-500 to-pink-600 text-white shadow-md shadow-pink-200"
                     : "text-gray-500 hover:bg-pink-50 hover:text-pink-600"

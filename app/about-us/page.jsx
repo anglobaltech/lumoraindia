@@ -10,7 +10,7 @@ const slides = [
   {
     id: 1,
     title: "Healthier Community For Womens",
-    desc: "Premium sanitary napkins designed for modern women, offering superior comfort, leak protection, and breathable cotton layers that keep you fresh, confident, and protected throughout the day..",
+    desc: "Premium sanitary napkins designed for modern women, offering superior comfort, leak protection, and breathable cotton layers that keep you fresh, confident, and protected throughout the day.",
     image: "/4.jpeg",
     features: [
       "Dermatologically Tested",
@@ -74,20 +74,23 @@ const page = () => {
   return (
     <div className="bg-pink-50 text-gray-800 overflow-x-hidden">
       
-      {/* TOP BANNER: Preserved h-56, used object-contain to make full image visible */}
-      <section className="relative w-full h-56 overflow-hidden bg-pink-100/50 flex items-center justify-center">
-        <Image
-          src="/bg.png"
-          alt="About Lumora India"
-          fill
-          priority
-          className="object-contain object-center p-2"
-        />
+      {/* 🌸 TOP BANNER: Natural height (h-auto), ZERO padding, ZERO gap with Navbar */}
+      <section className="w-full bg-pink-100/50 flex items-start justify-center m-0 p-0 leading-none border-b border-pink-100/50">
+        <div className="w-full lg:w-1/2 flex items-start justify-center m-0 p-0">
+          <Image
+            src="/bg.png"
+            alt="About Lumora India"
+            width={1920}
+            height={600}
+            priority
+            className="w-full h-auto object-contain block m-0 p-0"
+          />
+        </div>
       </section>
 
       {/* 🌸 ABOUT / JOURNEY */}
-      <section className="py-10 lg:py-16 bg-linear-to-b from-pink-50 to-white">
-        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <section className="pt-8 pb-10 lg:pt-12 lg:pb-16 bg-gradient-to-b from-pink-50 to-white">
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Text */}
           <div data-aos="fade-right">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
@@ -96,12 +99,12 @@ const page = () => {
 
             <div className="w-16 h-1 bg-pink-500 mt-4 mb-6 rounded-full"></div>
 
-            <p className="text-gray-600 text-lg leading-relaxed mb-5">
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-4 sm:mb-5">
               Our journey began with a simple yet powerful vision — to redefine
               feminine hygiene with care, comfort, and confidence.
             </p>
 
-            <p className="text-gray-600 text-lg leading-relaxed mb-5">
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-4 sm:mb-5">
               At{" "}
               <span className="font-semibold text-pink-500">Lumora India</span>,
               we understand that every woman deserves products that not only
@@ -109,7 +112,7 @@ const page = () => {
               worry.
             </p>
 
-            <p className="text-gray-600 text-lg leading-relaxed">
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
               With innovation, premium materials, and thoughtful design, we
               ensure every product reflects safety, softness, and trust.
             </p>
@@ -120,27 +123,27 @@ const page = () => {
             {/* Glow Background */}
             <div className="absolute inset-0 bg-pink-200 blur-3xl opacity-30 rounded-full group-hover:opacity-50 transition duration-500"></div>
 
-            {/* Image Container (Using object-contain so it doesn't cut) */}
-            <div className="relative h-80 sm:h-96 md:h-[500px] w-full overflow-hidden rounded-3xl bg-white border border-pink-50 shadow-sm flex items-center justify-center">
+            {/* Image Container */}
+            <div className="relative h-64 sm:h-80 md:h-[400px] lg:h-[450px] w-full overflow-hidden rounded-3xl bg-white border border-pink-50 shadow-sm flex items-center justify-center">
               <Image
                 src="/15.jpeg"
-                alt="Lumora India"
+                alt="Lumora India Journey"
                 fill
                 className="object-contain p-4 transition duration-700 ease-in-out group-hover:scale-105"
               />
 
               {/* Overlay on Hover */}
               <div
-                className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent 
+                className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent 
                     opacity-0 group-hover:opacity-100 transition duration-500 rounded-3xl pointer-events-none"
               ></div>
 
               {/* Text on Hover */}
               <div className="absolute bottom-6 left-6 text-white opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none z-10">
-                <p className="text-xl font-bold tracking-wide shadow-black">
+                <p className="text-xl font-bold tracking-wide drop-shadow-md">
                   Lumora India
                 </p>
-                <p className="text-sm text-gray-100 font-medium">
+                <p className="text-sm text-gray-200 font-medium drop-shadow-md">
                   Comfort • Care • Confidence
                 </p>
               </div>
@@ -153,7 +156,7 @@ const page = () => {
       <section className="py-10 lg:py-16 bg-white">
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Left Card */}
-          <div className="bg-linear-to-br from-pink-50 to-pink-100 p-8 sm:p-10 rounded-3xl shadow-lg border border-pink-100" data-aos="zoom-in">
+          <div className="bg-gradient-to-br from-pink-50 to-pink-100 p-8 sm:p-10 rounded-3xl shadow-lg border border-pink-100" data-aos="zoom-in">
             <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">
               What Drives Us
             </h3>
@@ -285,7 +288,7 @@ const page = () => {
       <section className="relative py-16 overflow-hidden bg-white">
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
           
-          {/* Image Side - Fixed to object-contain so it doesn't cut */}
+          {/* Image Side */}
           <div key={slide.image} data-aos="fade-right" className="w-full flex justify-center md:justify-start">
             <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl h-[350px] sm:h-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-pink-100 bg-pink-50/30 flex items-center justify-center">
               <Image
@@ -434,7 +437,7 @@ const page = () => {
           {/* Cards */}
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {/* Card 1 */}
-            <div className="group bg-pink-50/50 p-10 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-2">
+            <div className="group bg-pink-50/50 p-10 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-2 cursor-default">
               <div className="text-5xl mb-6 transition group-hover:scale-110">
                 💖
               </div>
@@ -448,7 +451,7 @@ const page = () => {
             </div>
 
             {/* Card 2 */}
-            <div className="group bg-pink-50/50 p-10 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-2">
+            <div className="group bg-pink-50/50 p-10 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-2 cursor-default">
               <div className="text-5xl mb-6 transition group-hover:scale-110">
                 🔒
               </div>
@@ -462,7 +465,7 @@ const page = () => {
             </div>
 
             {/* Card 3 */}
-            <div className="group bg-pink-50/50 p-10 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-2">
+            <div className="group bg-pink-50/50 p-10 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-2 cursor-default">
               <div className="text-5xl mb-6 transition group-hover:scale-110">
                 🌸
               </div>
@@ -512,7 +515,7 @@ const page = () => {
         </div>
         
         {/* TRUST LINE */}
-        <p className="mt-10 text-sm font-semibold text-gray-400 tracking-wide uppercase">
+        <p className="mt-10 text-sm font-semibold text-gray-400 tracking-wide uppercase cursor-default">
           Trusted by 1000+ women across India 🇮🇳
         </p>
       </section>
