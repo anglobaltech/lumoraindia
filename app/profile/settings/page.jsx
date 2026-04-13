@@ -60,7 +60,7 @@ export default function SettingsPage() {
   if (!user) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh]">
         <Loader2 className="animate-spin text-pink-500 mb-4" size={48} />
-        <p className="text-gray-500 font-bold animate-pulse text-lg tracking-wide">Authenticating...</p>
+        <p className="text-gray-500 font-semibold animate-pulse text-lg tracking-wide">Authenticating...</p>
     </div>
   );
 
@@ -73,7 +73,7 @@ export default function SettingsPage() {
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-pink-600"></div>
 
         <div className="mb-8 pb-6 border-b border-pink-100/50">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 tracking-tight flex items-center gap-3">
              <div className="p-2.5 bg-pink-100 rounded-xl text-pink-600 shadow-inner">
                 <Bell size={24} />
              </div>
@@ -91,7 +91,7 @@ export default function SettingsPage() {
                  <MessageSquare size={22} className="text-gray-400 group-hover:text-pink-500 transition-colors" />
               </div>
               <div>
-                <p className="font-extrabold text-gray-900 text-base">SMS Order Updates</p>
+                <p className="font-semibold text-gray-700 text-base">SMS Order Updates</p>
                 <p className="text-sm text-gray-500 font-medium mt-0.5">Receive tracking links directly to your phone.</p>
               </div>
             </div>
@@ -111,7 +111,7 @@ export default function SettingsPage() {
                  <Mail size={22} className="text-gray-400 group-hover:text-pink-500 transition-colors" />
               </div>
               <div>
-                <p className="font-extrabold text-gray-900 text-base">Email Promotions</p>
+                <p className="font-semibold text-gray-700 text-base">Email Promotions</p>
                 <p className="text-sm text-gray-500 font-medium mt-0.5">Exclusive discounts and new product launches.</p>
               </div>
             </div>

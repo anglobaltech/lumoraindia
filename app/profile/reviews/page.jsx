@@ -40,7 +40,7 @@ export default function ReviewsPage() {
   if (!user) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh]">
         <Loader2 className="animate-spin text-pink-500 mb-4" size={48} />
-        <p className="text-gray-500 font-bold animate-pulse text-lg tracking-wide">Loading your reviews...</p>
+        <p className="text-gray-500 font-semibold animate-pulse text-lg tracking-wide">Loading your reviews...</p>
     </div>
   );
 
@@ -59,7 +59,6 @@ export default function ReviewsPage() {
         isPublished: false 
       });
 
-      // FIXED: Removed "pending admin approval" wording for better UX
       toast.success("Review updated successfully!");
       setEditingReviewId(null);
     } catch (error) {
@@ -74,7 +73,7 @@ export default function ReviewsPage() {
     return (
       <div className="flex flex-col items-center justify-center py-20">
         <Loader2 className="animate-spin text-pink-500 mb-5" size={48} />
-        <p className="text-gray-500 font-bold text-sm tracking-widest uppercase">Fetching your reviews...</p>
+        <p className="text-gray-500 font-semibold text-sm tracking-widest uppercase">Fetching your reviews...</p>
       </div>
     );
   }
@@ -89,7 +88,7 @@ export default function ReviewsPage() {
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-pink-600"></div>
 
         <div className="mb-8 pb-6 border-b border-pink-100/50">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">My Reviews</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 tracking-tight">My Reviews</h2>
           <p className="text-gray-500 text-sm mt-1.5 font-medium">View and manage the feedback you've shared.</p>
         </div>
 
@@ -105,20 +104,19 @@ export default function ReviewsPage() {
                     {/* Left Side: Product Name & Stars */}
                     <div className="w-full flex-1">
                       <div className="flex flex-wrap items-center gap-3 mb-2">
-                        <h3 className="font-extrabold text-gray-900 flex items-center gap-2 text-base sm:text-lg">
+                        <h3 className="font-semibold text-gray-700 flex items-center gap-2 text-sm sm:text-base">
                           <div className="p-1.5 bg-pink-50 rounded-lg text-pink-500">
                              <Package size={18} className="shrink-0" /> 
                           </div>
                           <span className="truncate">{review.productName}</span>
                         </h3>
                         
-                        {/* FIXED: Replaced "Pending Approval" with a positive "Saved" badge */}
                         {review.isPublished ? (
-                          <span className="flex items-center gap-1 text-[10px] sm:text-xs font-black tracking-widest uppercase text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
+                          <span className="flex items-center gap-1 text-[10px] sm:text-xs font-semibold tracking-widest uppercase text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
                             <CheckCircle size={12} /> Verified
                           </span>
                         ) : (
-                          <span className="flex items-center gap-1 text-[10px] sm:text-xs font-black tracking-widest uppercase text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
+                          <span className="flex items-center gap-1 text-[10px] sm:text-xs font-semibold tracking-widest uppercase text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
                             <CheckCircle size={12} /> Saved
                           </span>
                         )}
@@ -130,7 +128,7 @@ export default function ReviewsPage() {
                             <Star key={i} size={14} className={i < review.rating ? "text-yellow-400 fill-yellow-400 drop-shadow-sm" : "text-gray-300"} />
                           ))}
                         </div>
-                        <span className="text-xs font-bold text-gray-400 ml-2 border-l border-gray-200 pl-3">
+                        <span className="text-xs font-semibold text-gray-400 ml-2 border-l border-gray-200 pl-3">
                           {new Date(review.createdAt).toLocaleDateString('en-IN', {day: 'numeric', month: 'short', year: 'numeric'})}
                         </span>
                       </div>
@@ -139,15 +137,15 @@ export default function ReviewsPage() {
                     {/* Right Side: Action Buttons */}
                     <div className="shrink-0 self-start w-full sm:w-auto mt-2 sm:mt-0">
                       {editingReviewId !== review.id ? (
-                        <button onClick={() => handleEditClick(review)} className="w-full sm:w-auto text-pink-600 hover:text-pink-700 transition flex items-center justify-center gap-2 text-sm font-bold cursor-pointer bg-pink-50 hover:bg-pink-100 px-4 py-2.5 rounded-xl border border-pink-100">
+                        <button onClick={() => handleEditClick(review)} className="w-full sm:w-auto text-pink-600 hover:text-pink-700 transition flex items-center justify-center gap-2 text-sm font-semibold cursor-pointer bg-pink-50 hover:bg-pink-100 px-4 py-2.5 rounded-xl border border-pink-100">
                           <Edit2 size={16} /> Edit Review
                         </button>
                       ) : (
                         <div className="flex gap-2 w-full sm:w-auto">
-                          <button onClick={() => setEditingReviewId(null)} disabled={isSaving} className="flex-1 sm:flex-none text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-4 py-2.5 rounded-xl cursor-pointer disabled:opacity-50 transition font-bold text-sm flex items-center justify-center gap-1">
+                          <button onClick={() => setEditingReviewId(null)} disabled={isSaving} className="flex-1 sm:flex-none text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 px-4 py-2.5 rounded-xl cursor-pointer disabled:opacity-50 transition font-semibold text-sm flex items-center justify-center gap-1">
                             <X size={16} /> Cancel
                           </button>
-                          <button onClick={() => handleSaveClick(review.id)} disabled={isSaving} className="flex-1 sm:flex-none text-white bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 px-4 py-2.5 rounded-xl cursor-pointer disabled:opacity-50 transition flex items-center justify-center gap-1 font-bold text-sm shadow-md">
+                          <button onClick={() => handleSaveClick(review.id)} disabled={isSaving} className="flex-1 sm:flex-none text-white bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 px-4 py-2.5 rounded-xl cursor-pointer disabled:opacity-50 transition flex items-center justify-center gap-1 font-semibold text-sm shadow-md">
                             {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />} Save
                           </button>
                         </div>
@@ -161,7 +159,7 @@ export default function ReviewsPage() {
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
                       disabled={isSaving}
-                      className="w-full mt-4 p-4 bg-gray-50 border-2 border-pink-200 rounded-xl outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-100 text-sm font-semibold text-gray-900 resize-none transition-all disabled:opacity-70 shadow-inner"
+                      className="w-full mt-4 p-4 bg-gray-50 border-2 border-pink-200 rounded-xl outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-100 text-sm font-semibold text-gray-700 resize-none transition-all disabled:opacity-70 shadow-inner"
                       rows="4"
                     />
                   ) : (
@@ -178,7 +176,7 @@ export default function ReviewsPage() {
              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm border border-pink-100 mb-5">
                 <MessageSquare size={36} className="text-pink-300" />
              </div>
-             <h3 className="text-xl font-extrabold text-gray-900 mb-2">No reviews yet</h3>
+             <h3 className="text-lg font-semibold text-gray-700 mb-2">No reviews yet</h3>
              <p className="text-sm text-gray-500 font-medium max-w-sm mx-auto">Share your experience with products you've purchased to help others.</p>
           </div>
         )}

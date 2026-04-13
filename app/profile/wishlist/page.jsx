@@ -39,7 +39,7 @@ export default function WishlistPage() {
   if (!user) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh]">
         <Loader2 className="animate-spin text-pink-500 mb-4" size={48} />
-        <p className="text-gray-500 font-bold animate-pulse text-lg tracking-wide">Authenticating...</p>
+        <p className="text-gray-500 font-semibold animate-pulse text-lg tracking-wide">Authenticating...</p>
     </div>
   );
 
@@ -54,17 +54,17 @@ export default function WishlistPage() {
               <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 shadow-inner">
                 <Trash2 className="text-red-500 w-7 h-7" />
               </div>
-              <h3 className="text-xl font-extrabold text-gray-900">Remove Item?</h3>
+              <h3 className="text-lg font-semibold text-gray-700">Remove Item?</h3>
             </div>
             
             <p className="text-gray-500 text-sm leading-relaxed mb-8 font-medium">
-              Are you sure you want to remove <span className="font-bold text-gray-900">"{itemToRemove.name}"</span> from your wishlist?
+              Are you sure you want to remove <span className="font-semibold text-gray-700">"{itemToRemove.name}"</span> from your wishlist?
             </p>
             
             <div className="flex justify-end gap-3 w-full">
               <button 
                 onClick={() => setItemToRemove(null)}
-                className="flex-1 px-5 py-3 bg-white text-gray-700 border-2 border-gray-200 rounded-xl text-sm font-bold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+                className="flex-1 px-5 py-3 bg-white text-gray-700 border-2 border-gray-200 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
                 disabled={isRemoving}
               >
                 Cancel
@@ -72,7 +72,7 @@ export default function WishlistPage() {
               <button 
                 onClick={confirmRemove}
                 disabled={isRemoving}
-                className="flex-1 px-5 py-3 bg-red-500 text-white rounded-xl text-sm font-bold hover:bg-red-600 shadow-lg shadow-red-200 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex justify-center items-center disabled:opacity-70"
+                className="flex-1 px-5 py-3 bg-red-500 text-white rounded-xl text-sm font-semibold hover:bg-red-600 shadow-lg shadow-red-200 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex justify-center items-center disabled:opacity-70"
               >
                 {isRemoving ? <Loader2 size={18} className="animate-spin" /> : "Yes, Remove"}
               </button>
@@ -89,10 +89,10 @@ export default function WishlistPage() {
 
         <div className="mb-8 pb-6 border-b border-pink-100/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">My Wishlist</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 tracking-tight">My Wishlist</h2>
             <p className="text-gray-500 text-sm mt-1.5 font-medium">Products you've saved for later.</p>
           </div>
-          <span className="bg-pink-50 text-pink-600 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-pink-100 w-fit">
+          <span className="bg-pink-50 text-pink-600 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-widest border border-pink-100 w-fit">
             {wishlistItems.length} {wishlistItems.length === 1 ? 'Item' : 'Items'} Saved
           </span>
         </div>
@@ -103,12 +103,12 @@ export default function WishlistPage() {
             <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm border border-pink-100 mb-5">
                <Heart size={36} className="text-pink-300 fill-pink-100" />
             </div>
-            <h3 className="text-xl font-extrabold text-gray-900 mb-2">Your wishlist is empty</h3>
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">Your wishlist is empty</h3>
             <p className="text-sm text-gray-500 font-medium max-w-sm mx-auto mb-8">
               Save items you love here so you can easily find them and buy them later.
             </p>
             <Link href="/products">
-              <button className="px-8 py-3.5 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-bold rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
+              <button className="px-8 py-3.5 bg-gradient-to-r from-gray-700 to-gray-600 text-white font-semibold rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
                 Explore Products
               </button>
             </Link>
@@ -124,14 +124,14 @@ export default function WishlistPage() {
 
                 <div className="flex-1 w-full flex flex-col h-full justify-between">
                   <div>
-                    <h3 className="font-extrabold text-gray-900 text-lg leading-tight line-clamp-2">{item.name}</h3>
-                    <p className="text-pink-600 font-black mt-1 text-lg">From ₹{item.price}</p>
+                    <h3 className="font-semibold text-gray-700 text-base leading-tight line-clamp-2">{item.name}</h3>
+                    <p className="text-pink-600 font-semibold mt-1 text-lg">From ₹{item.price}</p>
                   </div>
                   
                   <div className="flex gap-3 mt-4 sm:mt-0 pt-4 sm:pt-4">
                     {/* View Details Routes directly to the Product Page */}
                     <Link href={`/products`} className="flex-1">
-                      <button className="w-full py-2.5 bg-pink-50 text-pink-600 text-sm font-bold rounded-xl hover:bg-pink-100 transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                      <button className="w-full py-2.5 bg-pink-50 text-pink-600 text-sm font-semibold rounded-xl hover:bg-pink-100 transition-colors flex items-center justify-center gap-2 cursor-pointer">
                         <ExternalLink size={16} /> View
                       </button>
                     </Link>
