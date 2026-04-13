@@ -7,26 +7,28 @@ import { Loader2, LayoutDashboard, ShoppingCart, Package, MessageSquare, LogOut,
 import { toast } from "react-toastify";
 
 export default function AdminLayout({ children }) {
-  const { user, profile, loading, logout } = useAuthStore();
+  const { adminUser, adminProfile, adminLoading, adminLogout } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
   
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
+    // Only check permissions if we are completely done loading the state
+    if (!adminLoading) {
       if (pathname === "/admin/login") return;
-      if (profile?.role !== "admin") {
+      
+      if (adminProfile?.role !== "admin") {
         router.push("/admin/login");
       }
     }
-  }, [profile, loading, router, pathname]);
+  }, [adminProfile, adminLoading, router, pathname]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
-  if (loading) {
+  if (adminLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
         <Loader2 className="animate-spin text-pink-500 mb-5" size={48} />
@@ -36,10 +38,11 @@ export default function AdminLayout({ children }) {
   }
 
   if (pathname === "/admin/login") return <>{children}</>;
-  if (profile?.role !== "admin") return null; 
+  // Prevent flashing content while router pushes
+  if (adminProfile?.role !== "admin") return null; 
 
   const handleLogout = async () => {
-    await logout();
+    await adminLogout();
     toast.success("Logged out of Admin Portal");
     router.push("/admin/login");
   };
@@ -56,14 +59,14 @@ export default function AdminLayout({ children }) {
   return (
     <div className="min-h-screen flex bg-slate-50 font-sans relative overflow-hidden">
       
-      {/* Subtle Background Glow for Admin */}
+      {/* Subtle Background Glow */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-pink-200/20 blur-[120px] pointer-events-none rounded-full"></div>
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-200/20 blur-[100px] pointer-events-none rounded-full"></div>
 
       {/* Mobile Dark Overlay */}
       {isMobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-40 md:hidden animate-in fade-in duration-300" 
+          className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-40 md:hidden animate-in fade-in duration-300 cursor-pointer" 
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -109,7 +112,7 @@ export default function AdminLayout({ children }) {
         <div className="p-4 lg:p-6 border-t border-gray-100 bg-white/50">
           <div className="px-4 py-3.5 mb-3 bg-gray-50 rounded-2xl border border-gray-100 shadow-inner">
             <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Logged in as</p>
-            <p className="text-sm font-bold text-gray-900 truncate mt-0.5">{profile?.email || user?.email}</p>
+            <p className="text-sm font-bold text-gray-900 truncate mt-0.5">{adminProfile?.email || adminUser?.email}</p>
           </div>
           <button
             onClick={handleLogout}
@@ -124,7 +127,7 @@ export default function AdminLayout({ children }) {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 md:ml-72 transition-all duration-300 relative z-10">
         
-        {/* Mobile Header (Glassmorphic) */}
+        {/* Mobile Header */}
         <header className="md:hidden bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 p-4 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-3">
             <button 

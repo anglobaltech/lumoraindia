@@ -22,7 +22,7 @@ export async function POST(req) {
     // 2. Setup email data
     const mailOptions = {
       from: `"${name}" <${process.env.EMAIL_USER}>`, // Sent FROM your auth email (Gmail requirement)
-      to: "rishuchauhan1535@gmail.com",             // Destination email
+      to: ["mail@anglobalservices.com", "info@anglobalservices.com"],   // Destination email
       replyTo: email,                               // VERY IMPORTANT: Allows you to click 'Reply' to email the customer
       subject: `Lumora India: New Inquiry from ${name}`,
       html: `

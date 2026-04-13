@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { auth, db } from '../lib/firebase';
+import { auth, adminAuth, db } from '../lib/firebase';
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -10,12 +10,18 @@ import {
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 
 export const useAuthStore = create((set, get) => ({
+    // --- CUSTOMER STATE ---
     user: null,
     profile: null,
     loading: true,
     error: null,
 
-    // 1. Initial Sign Up
+    // --- ADMIN STATE ---
+    adminUser: null,
+    adminProfile: null,
+    adminLoading: true,
+
+    // 1. Initial Sign Up (Customer)
     signUp: async (email, password) => {
         set({ loading: true, error: null });
         try {
@@ -37,7 +43,7 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    // 2. Complete Profile
+    // 2. Complete Profile (Customer)
     completeProfile: async (uid, profileData) => {
         set({ loading: true, error: null });
         try {
@@ -57,7 +63,7 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    // 3. Login
+    // 3. Login (Customer)
     login: async (email, password) => {
         set({ loading: true, error: null });
         try {
@@ -70,7 +76,7 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    // 4. Logout
+    // 4. Logout (Customer)
     logout: async () => {
         set({ loading: true });
         try {
@@ -83,69 +89,101 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    // 5. Auth Listener
-    // 5. Auth Listener (Optimized for Instant Load)
-    // initAuthListener: () => {
-    //     return onAuthStateChanged(auth, (user) => {
-    //         if (user) {
-    //             // 1. INSTANT UNBLOCK: We know the user is logged in via local session.
-    //             // Drop the loading screen immediately so the layout renders instantly.
-    //             set({ user, loading: false });
+    // 5. Admin Login (Isolated & Fixed Race Condition)
+    adminLogin: async (email, password) => {
+        set({ adminLoading: true, error: null });
+        try {
+            // 1. Authenticate
+            const userCredential = await signInWithEmailAndPassword(adminAuth, email, password);
+            
+            // 2. IMMEDIATELY fetch the admin profile before returning success
+            const adminRef = doc(db, 'admins', email.toLowerCase());
+            const adminSnap = await getDoc(adminRef);
 
-    //             // 2. BACKGROUND FETCH: Silently get the profile data without blocking the UI.
-    //             const docRef = doc(db, 'users', user.uid);
-    //             getDoc(docRef)
-    //                 .then((docSnap) => {
-    //                     if (docSnap.exists()) {
-    //                         set({ profile: docSnap.data() });
-    //                     }
-    //                 })
-    //                 .catch((err) => {
-    //                     console.warn("Firebase background profile fetch failed:", err);
-    //                 });
-    //         } else {
-    //             // Not logged in, unblock UI immediately
-    //             set({ user: null, profile: null, loading: false });
-    //         }
-    //     });
-    // }
+            if (adminSnap.exists() && adminSnap.data().role === "admin") {
+                // Set everything at once so the Layout doesn't kick the user out
+                set({ 
+                    adminUser: userCredential.user, 
+                    adminProfile: adminSnap.data(),
+                    error: null, 
+                    adminLoading: false 
+                });
+                return { success: true };
+            } else {
+                // If they logged in but aren't in the admin collection
+                await signOut(adminAuth);
+                set({ adminUser: null, adminProfile: null, error: "Unauthorized access", adminLoading: false });
+                return { success: false, error: "Unauthorized access. Staff only." };
+            }
+        } catch (error) {
+            set({ error: "Invalid admin credentials", adminLoading: false });
+            return { success: false, error: "Invalid admin credentials" };
+        }
+    },
 
-    // 5. Auth Listener (Updated to check both Admin and Customer collections)
+    // 6. Admin Logout (Isolated)
+    adminLogout: async () => {
+        set({ adminLoading: true });
+        try {
+            await signOut(adminAuth);
+            set({ adminUser: null, adminProfile: null, error: null, adminLoading: false });
+            return { success: true };
+        } catch (error) {
+            set({ error: error.message, adminLoading: false });
+            return { success: false };
+        }
+    },
+
+    // 7. Combined Auth Listener (Listens to both simultaneously without overlapping)
     initAuthListener: () => {
-        return onAuthStateChanged(auth, async (user) => {
+        // A. Customer Listener
+        const unsubCustomer = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // Keep loading true initially so the Layout doesn't kick us out prematurely
                 set({ user, loading: true });
-
                 try {
-                    // 1. First, check if this user is in the 'admins' collection
+                    const userRef = doc(db, 'users', user.uid);
+                    const userSnap = await getDoc(userRef);
+                    if (userSnap.exists()) {
+                        set({ profile: userSnap.data(), loading: false });
+                    } else {
+                        set({ profile: null, loading: false });
+                    }
+                } catch (err) {
+                    set({ profile: null, loading: false });
+                }
+            } else {
+                set({ user: null, profile: null, loading: false });
+            }
+        });
+
+        // B. Admin Listener
+        const unsubAdmin = onAuthStateChanged(adminAuth, async (user) => {
+            if (user) {
+                // If adminUser is already set by adminLogin, skip the redundant fetch to avoid UI flashing
+                if (get().adminUser?.uid === user.uid && get().adminProfile) return;
+
+                set({ adminUser: user, adminLoading: true });
+                try {
                     const adminRef = doc(db, 'admins', user.email.toLowerCase());
                     const adminSnap = await getDoc(adminRef);
 
                     if (adminSnap.exists() && adminSnap.data().role === "admin") {
-                        // They are an admin! Save their profile and drop the loading screen
-                        set({ profile: adminSnap.data(), loading: false });
+                        set({ adminProfile: adminSnap.data(), adminLoading: false });
                     } else {
-                        // 2. If not an admin, check the regular 'users' collection
-                        const userRef = doc(db, 'users', user.uid);
-                        const userSnap = await getDoc(userRef);
-                        
-                        if (userSnap.exists()) {
-                            set({ profile: userSnap.data(), loading: false });
-                        } else {
-                            // New user, no profile yet
-                            set({ profile: null, loading: false });
-                        }
+                        await signOut(adminAuth);
+                        set({ adminProfile: null, adminUser: null, adminLoading: false });
                     }
                 } catch (err) {
-                    console.error("Firebase profile fetch failed:", err);
-                    set({ profile: null, loading: false });
+                    set({ adminProfile: null, adminLoading: false });
                 }
             } else {
-                // Not logged in
-                set({ user: null, profile: null, loading: false });
+                set({ adminUser: null, adminProfile: null, adminLoading: false });
             }
         });
+
+        return () => {
+            unsubCustomer();
+            unsubAdmin();
+        };
     }
-    
 }));
