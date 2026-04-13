@@ -13,7 +13,7 @@ import PincodeChecker from "../../components/PincodeChecker";
 import LoginModal from "../../components/LoginModal";
 
 // Firebase Imports
-import { collection, addDoc, query, where, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, query, where, onSnapshot, doc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 
 // Flagship Product Base Info
@@ -148,7 +148,7 @@ export default function ProductDetailPage() {
         toast.success("Added to wishlist! ❤️");
       }
 
-      await updateDoc(userRef, { wishlist: updatedWishlist });
+      await setDoc(userRef, { wishlist: updatedWishlist }, { merge: true });
       useAuthStore.setState({ user: { ...user, wishlist: updatedWishlist } });
 
     } catch (error) {

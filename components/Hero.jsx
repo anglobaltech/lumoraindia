@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import PincodeChecker from "./PincodeChecker";
-import { doc, updateDoc, collection, getDocs, query, orderBy } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
 const images = ["/1.png", "/4.jpeg", "/8.jpeg", "/4.jpeg"];
@@ -202,7 +202,7 @@ const Hero = () => {
         toast.success("Added to wishlist! ❤️");
       }
 
-      await updateDoc(userRef, { wishlist: updatedWishlist });
+      await setDoc(userRef, { wishlist: updatedWishlist }, { merge: true });
       useAuthStore.setState({ user: { ...user, wishlist: updatedWishlist } });
 
     } catch (error) {
@@ -252,10 +252,16 @@ const Hero = () => {
               India's #1 Organic Hygiene Brand
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.2rem] font-extrabold text-gray-900 leading-[1.1] tracking-tight">
-              <span className="block">Comfort & Confidence</span>
-              <span className="text-pink-500 block mt-1">Every Single Day</span>
-            </h1>
+
+            {/* FIXED H1: Removed 'truncate' to stop the "..." issue. Used strict, responsive text sizes tied to half-screen laptop layouts so it never wraps and never overlaps! */}
+<h1 className="flex flex-col font-extrabold text-gray-900 leading-[1.15] tracking-tight relative z-10">
+  <span className="whitespace-nowrap text-[6.5vw] sm:text-4xl md:text-3xl lg:text-4xl xl:text-5xl">
+    Comfort & Confidence
+  </span>
+  <span className="whitespace-nowrap text-pink-500 mt-1 md:mt-2 text-[6.5vw] sm:text-4xl md:text-3xl lg:text-4xl xl:text-5xl">
+    Every Single Day
+  </span>
+</h1>
 
             <div className="text-gray-600 text-base sm:text-lg xl:text-xl leading-relaxed max-w-lg xl:max-w-xl space-y-2">
               <p>Lumora India offers premium sanitary pads made with breathable cotton and advanced leak-proof technology.</p>
@@ -480,8 +486,8 @@ const Hero = () => {
                   <Heart
                     size={24}
                     className={`transition-colors ${user?.wishlist?.some(item => item.id === MAIN_PRODUCT.id)
-                        ? "text-pink-500 fill-pink-500"
-                        : "text-gray-400 hover:text-pink-500"
+                      ? "text-pink-500 fill-pink-500"
+                      : "text-gray-400 hover:text-pink-500"
                       }`}
                   />
                 </button>
@@ -494,8 +500,8 @@ const Hero = () => {
                     onMouseEnter={() => setActiveImageIndex(idx)}
                     onClick={() => setActiveImageIndex(idx)}
                     className={`relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 snap-start rounded-2xl overflow-hidden border-2 transition-all cursor-pointer bg-white ${activeImageIndex === idx
-                        ? "border-pink-600 ring-4 ring-pink-100"
-                        : "border-gray-100 hover:border-pink-300"
+                      ? "border-pink-600 ring-4 ring-pink-100"
+                      : "border-gray-100 hover:border-pink-300"
                       }`}
                   >
                     <Image src={img} alt={`Thumbnail ${idx}`} fill className="object-contain p-2" />
@@ -533,8 +539,8 @@ const Hero = () => {
                       key={size}
                       onClick={() => setSelectedSize(size)}
                       className={`w-14 h-14 rounded-2xl font-black text-lg border-2 transition-all cursor-pointer ${selectedSize === size
-                          ? "border-pink-600 bg-pink-50 text-pink-600 shadow-sm scale-105"
-                          : "border-gray-200 text-gray-500 hover:border-pink-300 hover:bg-pink-50/50"
+                        ? "border-pink-600 bg-pink-50 text-pink-600 shadow-sm scale-105"
+                        : "border-gray-200 text-gray-500 hover:border-pink-300 hover:bg-pink-50/50"
                         }`}
                     >
                       {size}
@@ -551,8 +557,8 @@ const Hero = () => {
                       key={pack}
                       onClick={() => setSelectedPack(pack)}
                       className={`px-5 py-2.5 rounded-xl border-2 font-bold transition-all cursor-pointer ${selectedPack === pack
-                          ? "border-pink-600 bg-pink-600 text-white shadow-md shadow-pink-200"
-                          : "border-gray-200 text-gray-600 bg-white hover:border-pink-300 hover:bg-pink-50"
+                        ? "border-pink-600 bg-pink-600 text-white shadow-md shadow-pink-200"
+                        : "border-gray-200 text-gray-600 bg-white hover:border-pink-300 hover:bg-pink-50"
                         }`}
                     >
                       {pack} Pack
