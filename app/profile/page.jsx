@@ -263,7 +263,7 @@ export default function ProfilePage() {
                     <select 
                       value={formData.gender} 
                       onChange={(e) => setFormData({...formData, gender: e.target.value})} 
-                      className="bg-transparent w-full outline-none text-gray-900 text-base font-bold cursor-pointer appearance-none z-10"
+                      className="bg-transparent w-full outline-none text-gray-900 text-base font-bold cursor-pointer appearance-none z-10 relative"
                     >
                       <option value="" disabled>Select Gender</option>
                       <option value="Male">Male</option>
@@ -372,7 +372,7 @@ export default function ProfilePage() {
                      <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">State</label>
                      <div className={`px-4 py-3.5 rounded-xl border-2 transition-all duration-300 ${isEditing ? (formData.state ? 'bg-gray-100 border-transparent cursor-not-allowed text-gray-500' : 'bg-white border-pink-200 focus-within:border-pink-500 shadow-sm') : 'bg-white border-gray-100 hover:border-pink-100'}`}>
                       {isEditing ? (
-                        <input type="text" placeholder="Delhi" readOnly={!!formData.state} value={formData.state} onChange={(e) => setFormData({...formData, state: e.target.value})} className={`bg-transparent w-full outline-none text-base font-bold focus:ring-0 ${formData.state ? 'text-gray-500' : 'text-gray-900'}`} title={formData.state ? "State is auto-filled and locked via Pincode" : ""} />
+                        <input type="text" placeholder="Delhi" readOnly={!!formData.state} value={formData.state} onChange={(e) => setFormData({...formData, state: e.target.value})} className={`bg-transparent w-full outline-none text-base font-bold focus:ring-0 ${formData.state ? 'text-gray-500 cursor-not-allowed' : 'text-gray-900 cursor-text'}`} title={formData.state ? "State is auto-filled and locked via Pincode" : ""} />
                       ) : (
                         (user?.state || profile?.state)
                           ? <span className="text-base font-bold text-gray-900">{user?.state || profile?.state}</span>

@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore";
 import PincodeChecker from "../../components/PincodeChecker";
+import LoginModal from "../../components/LoginModal";
 
 // Firebase Imports
 import { collection, addDoc, query, where, onSnapshot, doc, updateDoc } from "firebase/firestore";
@@ -48,6 +49,9 @@ export default function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState("M");
   const [selectedPack, setSelectedPack] = useState(1);
   const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
+  
+  // Login Modal State
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   // Gallery State
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -103,16 +107,24 @@ export default function ProductDetailPage() {
   };
 
   const handleBuyNow = () => {
+    console.log("handleBuyNow called, redirecting to cart");
     if (quantityInCart === 0) {
       handleAddToCart();
     }
-    router.push("/checkout");
+    // FIXED: Now correctly redirects to Cart page instead of checkout or home
+    try {
+      router.push("/cart");
+    } catch (error) {
+      console.error("Router push failed:", error);
+      window.location.href = "/cart";
+    }
   };
 
   // --- WISHLIST LOGIC ---
   const toggleWishlist = async () => {
     if (!user) {
       toast.error("Please log in to add items to your wishlist.");
+      setIsLoginModalOpen(true);
       return;
     }
 
@@ -159,6 +171,8 @@ export default function ProductDetailPage() {
       let fetchedReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       fetchedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setReviews(fetchedReviews);
+    }, (error) => {
+      console.error("Error fetching reviews:", error);
     });
 
     return () => unsubscribe();
@@ -202,215 +216,218 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-50 pb-12 relative font-sans">
-
-      {/* ---------------- BACK TO HOME BUTTON ---------------- */}
-      <div className="absolute top-4 left-4 md:top-6 md:left-8 z-50">
-        <button
-          onClick={() => router.push("/")}
-          className="flex items-center gap-2 bg-white/80 backdrop-blur-md border border-pink-100 text-pink-600 px-4 py-2 rounded-full shadow-md hover:bg-pink-600 hover:text-white hover:scale-105 transition-all duration-300 font-bold text-sm cursor-pointer"
-        >
-          <ArrowLeft size={18} /> Back to Home
-        </button>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-50 pb-12 relative font-sans overflow-hidden">
 
       {/* ---------------- PRODUCT TOP SECTION ---------------- */}
-      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start pt-20 md:pt-24 lg:pt-28 mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-
-        {/* LEFT COLUMN: RESPONSIVE IMAGE GALLERY */}
-        <div className="w-full flex flex-col md:flex-row gap-3 relative px-0 sm:px-6 lg:px-10">
-
-          <div className="hidden md:flex flex-col gap-2 w-20 flex-shrink-0 max-h-[450px] overflow-y-auto scrollbar-hide">
-            {MAIN_PRODUCT.images.map((img, idx) => (
-              <button
-                key={idx}
-                onMouseEnter={() => setActiveImageIndex(idx)}
-                onClick={() => setActiveImageIndex(idx)}
-                className={`relative w-full aspect-square rounded-xl overflow-hidden border-2 transition-all duration-300 cursor-pointer bg-white ${activeImageIndex === idx
-                    ? "border-pink-600 shadow-sm scale-105"
-                    : "border-transparent hover:border-pink-300"
-                  }`}
-              >
-                <Image src={img} alt={`Thumbnail ${idx}`} fill className="object-contain p-1" />
-              </button>
-            ))}
-          </div>
-
-          <div className="relative flex-1 w-full group">
-            {/* Desktop Main Image */}
-            <div className="hidden md:block relative w-full h-[400px] lg:h-[450px] bg-white rounded-[1.5rem] overflow-hidden border border-pink-100 shadow-lg transition-all duration-500">
-              <Image
-                src={MAIN_PRODUCT.images[activeImageIndex]}
-                alt={MAIN_PRODUCT.name}
-                fill
-                className="object-contain p-4 transition-transform duration-700 group-hover:scale-105"
-              />
-
-              <button
-                onClick={(e) => { e.preventDefault(); toggleWishlist(); }}
-                disabled={isWishlistLoading}
-                className={`absolute top-4 right-4 p-3 rounded-full bg-white/90 backdrop-blur shadow-md transition-all transform hover:scale-110 cursor-pointer z-10 ${isWishlistLoading ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-              >
-                <Heart
-                  size={22}
-                  className={`transition-colors ${isInWishlist ? "text-pink-500 fill-pink-500" : "text-gray-400 hover:text-pink-500"
-                    }`}
-                />
-              </button>
-            </div>
-
-            {/* Mobile Carousel */}
-            <div className="md:hidden relative w-full mt-4 sm:mt-0">
-              <button
-                onClick={(e) => { e.preventDefault(); toggleWishlist(); }}
-                disabled={isWishlistLoading}
-                className={`absolute top-4 right-4 p-2.5 rounded-full bg-white/90 backdrop-blur shadow-md transition-all transform active:scale-95 cursor-pointer z-10 ${isWishlistLoading ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-              >
-                <Heart
-                  size={20}
-                  className={`transition-colors ${isInWishlist ? "text-pink-500 fill-pink-500" : "text-gray-400"
-                    }`}
-                />
-              </button>
-
-              <div
-                className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide h-[320px] sm:h-[380px] w-full bg-white shadow-sm border-y border-pink-100"
-                onScroll={(e) => {
-                  const scrollPosition = e.target.scrollLeft;
-                  const itemWidth = e.target.offsetWidth;
-                  const currentIndex = Math.round(scrollPosition / itemWidth);
-                  setActiveImageIndex(currentIndex);
-                }}
-              >
-                {MAIN_PRODUCT.images.map((img, idx) => (
-                  <div key={idx} className="min-w-full snap-center relative h-full flex items-center justify-center">
-                    <Image src={img} alt={`${MAIN_PRODUCT.name} ${idx}`} fill className="object-contain p-4" />
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex justify-center gap-1.5 mt-3 flex-wrap absolute bottom-3 left-0 right-0 z-10">
-                {MAIN_PRODUCT.images.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveImageIndex(idx)}
-                    className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${activeImageIndex === idx ? "w-6 bg-pink-600 shadow-sm" : "w-1.5 bg-gray-300/80 backdrop-blur"
-                      }`}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+      {/* FIXED: Reduced pt-24 down to pt-8/pt-12 to perfectly create exactly ~1 cm gap below navbar */}
+      <div className="w-full max-w-[1400px] mx-auto pt-8 md:pt-10 lg:pt-12 mb-12">
+        
+        {/* ---------------- BACK TO HOME BUTTON (SCROLLS WITH PAGE) ---------------- */}
+        <div className="px-4 sm:px-6 lg:px-10 mb-6 md:mb-8 animate-in fade-in slide-in-from-left-4 duration-500">
+          <button
+            onClick={() => router.push("/")}
+            className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md border border-pink-200 text-pink-600 px-5 py-2.5 rounded-full shadow-sm hover:shadow-md hover:bg-pink-600 hover:text-white hover:-translate-y-0.5 transition-all duration-300 font-bold text-sm cursor-pointer"
+          >
+            <ArrowLeft size={18} /> Back to Home
+          </button>
         </div>
 
-        {/* RIGHT COLUMN: PRODUCT DETAILS CARD */}
-        <div className="w-full px-4 sm:px-6 lg:px-10 lg:pr-14">
-          <div className="bg-white/80 backdrop-blur-xl border border-pink-100 shadow-xl rounded-[1.5rem] p-5 lg:p-6 flex flex-col space-y-4 relative overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          {/* LEFT COLUMN: RESPONSIVE IMAGE GALLERY */}
+          <div className="w-full flex flex-col md:flex-row gap-3 relative px-0 sm:px-6 lg:px-10">
 
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-pink-600"></div>
-
-            <div>
-              <span className="inline-block bg-pink-100 text-pink-600 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-widest uppercase mb-1.5">Bestseller</span>
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-tight tracking-tight">{MAIN_PRODUCT.name}</h1>
-
-              {reviews.length > 0 && (
-                <div 
-                  className="flex items-center gap-1.5 mt-2 bg-gray-50 w-fit px-2.5 py-1 rounded-lg border border-gray-100 cursor-pointer hover:bg-gray-100 transition-colors"
-                  onClick={() => document.getElementById('reviews-section').scrollIntoView({ behavior: 'smooth' })}
-                >
-                  <div className="flex">{renderStars(Math.round(reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length))}</div>
-                  <span className="text-xs font-bold text-gray-700 hover:text-pink-600 transition">
-                    {reviews.length} Reviews
-                  </span>
-                </div>
-              )}
-
-              <p className="text-gray-600 mt-2 text-sm leading-relaxed font-medium">{MAIN_PRODUCT.description}</p>
-            </div>
-
-            {/* Pricing */}
-            <div className="flex items-end gap-2.5 border-b border-gray-100 pb-4 pt-1">
-              <span className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-pink-500">₹{totalPrice}</span>
-              <span className="text-lg text-gray-400 line-through mb-1 font-semibold">₹{originalPrice}</span>
-              <span className="text-xs font-bold text-white mb-1.5 bg-gradient-to-r from-green-500 to-emerald-500 shadow-sm px-2 py-0.5 rounded-md animate-pulse">{discount}</span>
-            </div>
-
-            {/* Size Selection */}
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-bold text-gray-900">Size: <span className="text-pink-600">{selectedSize}</span></span>
+            <div className="hidden md:flex flex-col gap-2 w-20 flex-shrink-0 max-h-[450px] overflow-y-auto scrollbar-hide">
+              {MAIN_PRODUCT.images.map((img, idx) => (
                 <button
-                  onClick={() => setIsSizeChartOpen(true)}
-                  className="text-[11px] text-pink-600 flex items-center gap-1 hover:underline font-bold cursor-pointer bg-pink-50 px-2 py-1 rounded-md"
+                  key={idx}
+                  onMouseEnter={() => setActiveImageIndex(idx)}
+                  onClick={() => setActiveImageIndex(idx)}
+                  className={`relative w-full aspect-square rounded-xl overflow-hidden border-2 transition-all duration-300 cursor-pointer bg-white ${activeImageIndex === idx
+                      ? "border-pink-600 shadow-sm scale-105"
+                      : "border-transparent hover:border-pink-300"
+                    }`}
                 >
-                  <Ruler size={14} /> Chart
+                  <Image src={img} alt={`Thumbnail ${idx}`} fill className="object-contain p-1" />
+                </button>
+              ))}
+            </div>
+
+            <div className="relative flex-1 w-full group">
+              {/* Desktop Main Image */}
+              <div className="hidden md:block relative w-full h-[400px] lg:h-[450px] bg-white rounded-[1.5rem] overflow-hidden border border-pink-100 shadow-lg transition-all duration-500">
+                <Image
+                  src={MAIN_PRODUCT.images[activeImageIndex]}
+                  alt={MAIN_PRODUCT.name}
+                  fill
+                  className="object-contain p-4 transition-transform duration-700 group-hover:scale-105"
+                />
+
+                <button
+                  onClick={(e) => { e.preventDefault(); toggleWishlist(); }}
+                  disabled={isWishlistLoading}
+                  className={`absolute top-4 right-4 p-3 rounded-full bg-white/90 backdrop-blur shadow-md transition-all transform hover:scale-110 cursor-pointer z-10 ${isWishlistLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                >
+                  <Heart
+                    size={22}
+                    className={`transition-colors ${isInWishlist ? "text-pink-500 fill-pink-500" : "text-gray-400 hover:text-pink-500"
+                      }`}
+                  />
                 </button>
               </div>
 
-              <div className="flex gap-2.5">
-                {MAIN_PRODUCT.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`w-11 h-11 rounded-xl font-black text-sm transition-all duration-300 cursor-pointer flex items-center justify-center ${selectedSize === size
-                        ? "bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-md shadow-pink-200 scale-105 border-none"
-                        : "bg-white border-2 border-gray-200 text-gray-600 hover:border-pink-300 hover:bg-pink-50"
+              {/* Mobile Carousel */}
+              <div className="md:hidden relative w-full sm:mt-0">
+                <button
+                  onClick={(e) => { e.preventDefault(); toggleWishlist(); }}
+                  disabled={isWishlistLoading}
+                  className={`absolute top-4 right-4 p-2.5 rounded-full bg-white/90 backdrop-blur shadow-md transition-all transform active:scale-95 cursor-pointer z-10 ${isWishlistLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                >
+                  <Heart
+                    size={20}
+                    className={`transition-colors ${isInWishlist ? "text-pink-500 fill-pink-500" : "text-gray-400"
                       }`}
-                  >
-                    {size}
-                  </button>
-                ))}
+                  />
+                </button>
+
+                <div
+                  className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide h-[320px] sm:h-[380px] w-full bg-white shadow-sm border-y border-pink-100"
+                  onScroll={(e) => {
+                    const scrollPosition = e.target.scrollLeft;
+                    const itemWidth = e.target.offsetWidth;
+                    const currentIndex = Math.round(scrollPosition / itemWidth);
+                    setActiveImageIndex(currentIndex);
+                  }}
+                >
+                  {MAIN_PRODUCT.images.map((img, idx) => (
+                    <div key={idx} className="min-w-full snap-center relative h-full flex items-center justify-center">
+                      <Image src={img} alt={`${MAIN_PRODUCT.name} ${idx}`} fill className="object-contain p-4" />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-center gap-1.5 mt-3 flex-wrap absolute bottom-3 left-0 right-0 z-10">
+                  {MAIN_PRODUCT.images.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImageIndex(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${activeImageIndex === idx ? "w-6 bg-pink-600 shadow-sm" : "w-1.5 bg-gray-300/80 backdrop-blur"
+                        }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
+          </div>
 
-            {/* Pack Selection */}
-            <div>
-              <p className="font-semibold text-gray-900 mb-3">Select Pack <span className="text-xs text-green-600 font-bold ml-1">(Save More!)</span></p>
-              <div className="flex flex-wrap gap-2.5">
-                {[1, 3, 5, 7].map((pack) => (
-                  <button
-                    key={pack}
-                    onClick={() => setSelectedPack(pack)}
-                    className={`px-4 py-2 rounded-xl font-bold text-sm transition-all duration-300 cursor-pointer ${selectedPack === pack
-                        ? "bg-gray-900 text-white shadow-md scale-105 border-none"
-                        : "bg-white border-2 border-gray-200 text-gray-600 hover:border-gray-900 hover:text-gray-900"
-                      }`}
+          {/* RIGHT COLUMN: PRODUCT DETAILS CARD */}
+          <div className="w-full px-4 sm:px-6 lg:px-10 lg:pr-14">
+            <div className="bg-white/80 backdrop-blur-xl border border-pink-100 shadow-xl rounded-[1.5rem] p-5 lg:p-6 flex flex-col space-y-4 relative overflow-hidden">
+
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-pink-600"></div>
+
+              <div>
+                <span className="inline-block bg-pink-100 text-pink-600 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-widest uppercase mb-1.5">Bestseller</span>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-tight tracking-tight">{MAIN_PRODUCT.name}</h1>
+
+                {reviews.length > 0 && (
+                  <div 
+                    className="flex items-center gap-1.5 mt-2 bg-gray-50 w-fit px-2.5 py-1 rounded-lg border border-gray-100 cursor-pointer hover:bg-gray-100 transition-colors"
+                    onClick={() => document.getElementById('reviews-section').scrollIntoView({ behavior: 'smooth' })}
                   >
-                    {pack} Pack
-                  </button>
-                ))}
+                    <div className="flex">{renderStars(Math.round(reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length))}</div>
+                    <span className="text-xs font-bold text-gray-700 hover:text-pink-600 transition">
+                      {reviews.length} Reviews
+                    </span>
+                  </div>
+                )}
+
+                <p className="text-gray-600 mt-2 text-sm leading-relaxed font-medium">{MAIN_PRODUCT.description}</p>
               </div>
-            </div>
 
-            {/* Pincode Check */}
-            <div className="pt-1">
-              <PincodeChecker />
-            </div>
+              {/* Pricing */}
+              <div className="flex items-end gap-2.5 border-b border-gray-100 pb-4 pt-1">
+                <span className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-pink-500">₹{totalPrice}</span>
+                <span className="text-lg text-gray-400 line-through mb-1 font-semibold">₹{originalPrice}</span>
+                <span className="text-xs font-bold text-white mb-1.5 bg-gradient-to-r from-green-500 to-emerald-500 shadow-sm px-2 py-0.5 rounded-md animate-pulse">{discount}</span>
+              </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              {quantityInCart > 0 ? (
-                <div className="flex-1 flex items-center justify-between border-2 border-pink-500 rounded-xl px-3 py-2 bg-gradient-to-r from-pink-50 to-white shadow-inner">
-                  <button onClick={() => updateQuantity(MAIN_PRODUCT.id, selectedSize, selectedPack, -1)} className="w-8 h-8 flex items-center justify-center bg-white border border-pink-200 rounded-lg text-pink-600 hover:bg-pink-100 hover:scale-105 transition-all shadow-sm cursor-pointer">
-                    <Minus size={16} />
-                  </button>
-                  <span className="font-black text-xl text-gray-900">{quantityInCart}</span>
-                  <button onClick={() => updateQuantity(MAIN_PRODUCT.id, selectedSize, selectedPack, 1)} className="w-8 h-8 flex items-center justify-center bg-white border border-pink-200 rounded-lg text-pink-600 hover:bg-pink-100 hover:scale-105 transition-all shadow-sm cursor-pointer">
-                    <Plus size={16} />
+              {/* Size Selection */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-bold text-gray-900">Size: <span className="text-pink-600">{selectedSize}</span></span>
+                  <button
+                    onClick={() => setIsSizeChartOpen(true)}
+                    className="text-[11px] text-pink-600 flex items-center gap-1 hover:underline font-bold cursor-pointer bg-pink-50 px-2 py-1 rounded-md"
+                  >
+                    <Ruler size={14} /> Chart
                   </button>
                 </div>
-              ) : (
-                <button onClick={handleAddToCart} className="flex-1 py-3 rounded-xl font-black text-base flex items-center justify-center gap-2 bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer">
-                  <ShoppingCart size={18} /> Add Cart
-                </button>
-              )}
 
-              <button onClick={handleBuyNow} className="flex-1 py-3 rounded-xl font-black text-base flex items-center justify-center gap-2 bg-gradient-to-r from-pink-600 to-pink-500 text-white hover:from-pink-700 hover:to-pink-600 transition-all duration-300 shadow-md shadow-pink-200 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">
-                <Zap size={18} fill="currentColor" /> Buy Now
-              </button>
+                <div className="flex gap-2.5">
+                  {MAIN_PRODUCT.sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`w-11 h-11 rounded-xl font-black text-sm transition-all duration-300 cursor-pointer flex items-center justify-center ${selectedSize === size
+                          ? "bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-md shadow-pink-200 scale-105 border-none"
+                          : "bg-white border-2 border-gray-200 text-gray-600 hover:border-pink-300 hover:bg-pink-50"
+                        }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Pack Selection */}
+              <div>
+                <p className="font-semibold text-gray-900 mb-3">Select Pack <span className="text-xs text-green-600 font-bold ml-1">(Save More!)</span></p>
+                <div className="flex flex-wrap gap-2.5">
+                  {[1, 3, 5, 7].map((pack) => (
+                    <button
+                      key={pack}
+                      onClick={() => setSelectedPack(pack)}
+                      className={`px-4 py-2 rounded-xl font-bold text-sm transition-all duration-300 cursor-pointer ${selectedPack === pack
+                          ? "bg-gray-900 text-white shadow-md scale-105 border-none"
+                          : "bg-white border-2 border-gray-200 text-gray-600 hover:border-gray-900 hover:text-gray-900"
+                        }`}
+                    >
+                      {pack} Pack
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Pincode Check */}
+              <div className="pt-1">
+                <PincodeChecker />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                {quantityInCart > 0 ? (
+                  <div className="flex-1 flex items-center justify-between border-2 border-pink-500 rounded-xl px-3 py-2 bg-gradient-to-r from-pink-50 to-white shadow-inner">
+                    <button onClick={() => updateQuantity(MAIN_PRODUCT.id, selectedSize, selectedPack, -1)} className="w-8 h-8 flex items-center justify-center bg-white border border-pink-200 rounded-lg text-pink-600 hover:bg-pink-100 hover:scale-105 transition-all shadow-sm cursor-pointer">
+                      <Minus size={16} />
+                    </button>
+                    <span className="font-black text-xl text-gray-900">{quantityInCart}</span>
+                    <button onClick={() => updateQuantity(MAIN_PRODUCT.id, selectedSize, selectedPack, 1)} className="w-8 h-8 flex items-center justify-center bg-white border border-pink-200 rounded-lg text-pink-600 hover:bg-pink-100 hover:scale-105 transition-all shadow-sm cursor-pointer">
+                      <Plus size={16} />
+                    </button>
+                  </div>
+                ) : (
+                  <button onClick={handleAddToCart} className="flex-1 py-3 rounded-xl font-black text-base flex items-center justify-center gap-2 bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer">
+                    <ShoppingCart size={18} /> Add Cart
+                  </button>
+                )}
+
+                <button onClick={handleBuyNow} className="flex-1 py-3 rounded-xl font-black text-base flex items-center justify-center gap-2 bg-gradient-to-r from-pink-600 to-pink-500 text-white hover:from-pink-700 hover:to-pink-600 transition-all duration-300 shadow-md shadow-pink-200 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">
+                  <Zap size={18} fill="currentColor" /> Buy Now
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -470,7 +487,11 @@ export default function ProductDetailPage() {
                 <div className="text-center py-6 bg-gray-50 rounded-xl border border-gray-100">
                   <UserCircle size={48} className="text-gray-300 mx-auto mb-3" />
                   <p className="text-gray-600 text-sm font-bold mb-5 px-4">Log in to share your thoughts.</p>
-                  <button onClick={() => router.push("/login")} className="w-full max-w-[180px] mx-auto py-2.5 bg-gradient-to-r from-gray-900 to-gray-800 text-white text-sm rounded-lg font-bold hover:shadow-lg transition-all cursor-pointer">
+                  
+                  <button 
+                    onClick={() => setIsLoginModalOpen(true)} 
+                    className="w-full max-w-[180px] mx-auto py-2.5 bg-gradient-to-r from-gray-900 to-gray-800 text-white text-sm rounded-lg font-bold hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer"
+                  >
                     Log In / Sign Up
                   </button>
                 </div>
@@ -516,8 +537,6 @@ export default function ProductDetailPage() {
                   >
                     {isSubmittingReview ? <Loader2 size={20} className="animate-spin" /> : "Submit Review"}
                   </button>
-                  <p className="text-[10px] text-gray-400 font-medium text-center mt-2">
-                  </p>
                 </form>
               )}
             </div>
@@ -577,6 +596,13 @@ export default function ProductDetailPage() {
           </div>
         </div>
       )}
+
+      {/* ---------------- LOGIN MODAL ---------------- */}
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+      />
+
     </div>
   );
 }

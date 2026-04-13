@@ -27,17 +27,22 @@ const Header = () => {
         setIsMounted(true);
     }, []);
 
+    // Close mobile menu automatically when route changes
+    useEffect(() => {
+        setMenuOpen(false);
+    }, [pathname]);
+
     const totalItems = cartItems?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
     // HIDES HEADER ON CHECKOUT, PROFILE, AND ADMIN PAGES
-    if (pathname === '/cart' || pathname?.startsWith('/profile') || pathname?.startsWith('/admin')) {
+    if (pathname === '/cart' || pathname?.startsWith('/profile') || pathname?.startsWith('/admin') || pathname?.startsWith('/checkout')) {
         return null;
     }
     
     return (
         <>
-            <header className="bg-gray-900 text-white px-5 py-3 sticky top-0 z-40">
-                <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <header className="bg-gray-900 text-white px-5 py-3 sticky top-0 z-50 shadow-md">
+                <div className="max-w-[1600px] mx-auto flex justify-between items-center">
 
                     {/* Logo */}
                     <Link href="/">
@@ -47,41 +52,42 @@ const Header = () => {
                             height={200}
                             width={200}
                             className="h-12 w-auto cursor-pointer"
+                            priority
                         />
                     </Link>
 
                     {/* Desktop Nav Links */}
-                    <nav className="hidden md:block font-semibold text-lg">
-                        <ul className="flex gap-8 items-center">
-                            <li><Link href="/" className="hover:text-pink-400 transition cursor-pointer">Home</Link></li>
-                            <li><Link href="/about-us" className="hover:text-pink-400 transition cursor-pointer">About Us</Link></li>
-                            <li><Link href="/products" className="hover:text-pink-400 transition cursor-pointer">Products</Link></li>
-                            <li><Link href="/contact-us" className="hover:text-pink-400 transition cursor-pointer">Contact Us</Link></li>
+                    <nav className="hidden md:block font-semibold text-[15px]">
+                        <ul className="flex gap-8 items-center tracking-wide">
+                            <li><Link href="/" className="hover:text-pink-400 transition-colors cursor-pointer">Home</Link></li>
+                            <li><Link href="/about-us" className="hover:text-pink-400 transition-colors cursor-pointer">About Us</Link></li>
+                            <li><Link href="/products" className="hover:text-pink-400 transition-colors cursor-pointer">Products</Link></li>
+                            <li><Link href="/contact-us" className="hover:text-pink-400 transition-colors cursor-pointer">Contact Us</Link></li>
                         </ul>
                     </nav>
 
                     {/* Right Side: Icons & Mobile Hamburger */}
-                    <div className="flex items-center gap-4 md:gap-6">
+                    <div className="flex items-center gap-5 md:gap-6">
 
                         {/* USER PROFILE ICON (Desktop & Mobile) */}
                         {isMounted && user ? (
-                            <Link href="/profile" className="hidden md:flex items-center justify-center w-10 h-10 bg-gray-800 rounded-full hover:bg-gray-700 transition cursor-pointer text-pink-400">
-                                <User size={20} />
+                            <Link href="/profile" className="hidden md:flex items-center justify-center w-10 h-10 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors cursor-pointer text-pink-400 border border-gray-700">
+                                <User size={18} />
                             </Link>
                         ) : (
                             <button
                                 onClick={() => setIsLoginModalOpen(true)}
-                                className="hidden md:flex items-center justify-center w-10 h-10 hover:bg-gray-800 rounded-full transition text-white cursor-pointer"
+                                className="hidden md:flex items-center justify-center w-10 h-10 hover:bg-gray-800 rounded-full transition-colors text-white cursor-pointer border border-transparent hover:border-gray-700"
                             >
-                                <User size={20} />
+                                <User size={18} />
                             </button>
                         )}
 
                         {/* CART ICON */}
-                        <Link href="/cart" className="relative cursor-pointer flex items-center transition hover:scale-105">
-                            <ShoppingCart className="w-6 h-6 text-white hover:text-pink-400 transition" />
+                        <Link href="/cart" className="relative cursor-pointer flex items-center transition-transform hover:scale-105">
+                            <ShoppingCart className="w-[22px] h-[22px] text-white hover:text-pink-400 transition-colors" />
                             {isMounted && totalItems > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full animate-pulse">
+                                <span className="absolute -top-2.5 -right-2.5 bg-pink-500 text-white text-[10px] font-black w-[18px] h-[18px] flex items-center justify-center rounded-full shadow-sm animate-in zoom-in duration-300">
                                     {totalItems}
                                 </span>
                             )}
@@ -89,10 +95,10 @@ const Header = () => {
 
                         {/* MOBILE HAMBURGER MENU BUTTON */}
                         <button
-                            className="md:hidden text-white cursor-pointer hover:text-pink-400 transition"
+                            className="md:hidden text-white cursor-pointer hover:text-pink-400 transition-colors"
                             onClick={() => setMenuOpen(!menuOpen)}
                         >
-                            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+                            {menuOpen ? <X size={26} /> : <Menu size={26} />}
                         </button>
                     </div>
 
@@ -100,20 +106,18 @@ const Header = () => {
 
                 {/* Mobile Dropdown Menu */}
                 {menuOpen && (
-                    <div className="md:hidden mt-4 bg-gray-800 rounded-xl p-5 shadow-xl border border-gray-700 animate-slide-up absolute w-[90%] left-[5%]">
-                        <ul className="flex flex-col gap-4 text-lg font-medium">
-                            <li><Link href="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-                            <li><Link href="/about-us" onClick={() => setMenuOpen(false)}>About Us</Link></li>
-                            <li><Link href="/products" onClick={() => setMenuOpen(false)}>Products</Link></li>
-                            <li><Link href="/contact-us" onClick={() => setMenuOpen(false)}>Contact Us</Link></li>
-
-                            <div className="h-px bg-gray-700 my-2"></div> {/* Divider */}
+                    <div className="md:hidden absolute top-full left-0 w-full bg-gray-900 border-t border-gray-800 shadow-2xl animate-in slide-in-from-top-2 duration-200 z-50">
+                        <ul className="flex flex-col text-base font-semibold">
+                            <li><Link href="/" className="block px-6 py-4 border-b border-gray-800 hover:bg-gray-800 hover:text-pink-400 transition-colors">Home</Link></li>
+                            <li><Link href="/about-us" className="block px-6 py-4 border-b border-gray-800 hover:bg-gray-800 hover:text-pink-400 transition-colors">About Us</Link></li>
+                            <li><Link href="/products" className="block px-6 py-4 border-b border-gray-800 hover:bg-gray-800 hover:text-pink-400 transition-colors">Products</Link></li>
+                            <li><Link href="/contact-us" className="block px-6 py-4 border-b border-gray-800 hover:bg-gray-800 hover:text-pink-400 transition-colors">Contact Us</Link></li>
 
                             {/* Mobile Auth Links */}
                             {isMounted && user ? (
                                 <li>
-                                    <Link href="/profile" onClick={() => setMenuOpen(false)} className="text-white flex items-center gap-2 cursor-pointer">
-                                        <User size={20} className="text-pink-400" /> My Dashboard
+                                    <Link href="/profile" className="flex items-center gap-3 px-6 py-4 text-pink-400 hover:bg-gray-800 transition-colors">
+                                        <User size={18} /> My Dashboard
                                     </Link>
                                 </li>
                             ) : (
@@ -123,9 +127,9 @@ const Header = () => {
                                             setMenuOpen(false);
                                             setIsLoginModalOpen(true);
                                         }}
-                                        className="text-white flex items-center gap-2 w-full text-left cursor-pointer"
+                                        className="flex items-center gap-3 w-full text-left px-6 py-4 text-pink-400 hover:bg-gray-800 transition-colors cursor-pointer"
                                     >
-                                        <User size={20} className="text-pink-400" /> Login / Sign Up
+                                        <User size={18} /> Login / Sign Up
                                     </button>
                                 </li>
                             )}
