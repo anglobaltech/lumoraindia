@@ -73,38 +73,26 @@ const page = () => {
 
   return (
     <div className="bg-pink-50 text-gray-800 overflow-x-hidden">
-      
-      {/* 🌸 TOP BANNER: Natural height (h-auto), ZERO padding, ZERO gap with Navbar */}
-      <section className="w-full bg-pink-100/50 flex items-start justify-center m-0 p-0 leading-none border-b border-pink-100/50">
-        <div className="w-full lg:w-1/2 flex items-start justify-center m-0 p-0">
-          <Image
-            src="/bg.png"
-            alt="About Lumora India"
-            width={1920}
-            height={600}
-            priority
-            className="w-full h-auto object-contain block m-0 p-0"
-          />
-        </div>
-      </section>
 
-      {/* 🌸 ABOUT / JOURNEY */}
-      <section className="pt-8 pb-10 lg:pt-12 lg:pb-16 bg-gradient-to-b from-pink-50 to-white">
-        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Text */}
-          <div data-aos="fade-right">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
-              Our <span className="text-pink-500">Journey</span>
-            </h2>
+      {/* 🌸 ABOUT / JOURNEY - Starts exactly ~1cm below Navbar */}
+      <section className="pt-8 md:pt-10 pb-10 lg:pb-16 bg-gradient-to-b from-pink-50 to-white">
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid md:grid-cols-2 gap-8 lg:gap-16 items-stretch">
+          
+          {/* Text Content - Flex-col and space-y to stretch top-to-bottom aligned with the image */}
+          <div data-aos="fade-right" className="flex flex-col justify-between h-full space-y-4 py-2">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
+                Our <span className="text-pink-500">Journey</span>
+              </h2>
+              <div className="w-16 h-1 bg-pink-500 mt-4 mb-2 rounded-full"></div>
+            </div>
 
-            <div className="w-16 h-1 bg-pink-500 mt-4 mb-6 rounded-full"></div>
-
-            <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-4 sm:mb-5">
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
               Our journey began with a simple yet powerful vision — to redefine
               feminine hygiene with care, comfort, and confidence.
             </p>
 
-            <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-4 sm:mb-5">
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
               At{" "}
               <span className="font-semibold text-pink-500">Lumora India</span>,
               we understand that every woman deserves products that not only
@@ -116,15 +104,29 @@ const page = () => {
               With innovation, premium materials, and thoughtful design, we
               ensure every product reflects safety, softness, and trust.
             </p>
+
+            {/* Added Easy-to-Understand Content */}
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
+              We started by talking to women about their real struggles. Many faced 
+              rashes, leaks, and heavy discomfort during their periods. We knew it was 
+              time to step up and create a better, softer solution.
+            </p>
+
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
+              We tested the softest cotton and the most advanced leak-proof layers. 
+              Our goal was to create a pad that keeps you dry, fresh, and happy all day long. 
+              Today, we are proud to support women everywhere so your period never 
+              stops you from doing what you love.
+            </p>
           </div>
 
           {/* Image */}
-          <div className="relative group overflow-hidden rounded-3xl" data-aos="fade-left">
+          <div className="relative group overflow-hidden rounded-3xl flex-1 min-h-[400px] md:min-h-full" data-aos="fade-left">
             {/* Glow Background */}
             <div className="absolute inset-0 bg-pink-200 blur-3xl opacity-30 rounded-full group-hover:opacity-50 transition duration-500"></div>
 
-            {/* Image Container */}
-            <div className="relative h-64 sm:h-80 md:h-[400px] lg:h-[450px] w-full overflow-hidden rounded-3xl bg-white border border-pink-50 shadow-sm flex items-center justify-center">
+            {/* Image Container - Stretches to match text height */}
+            <div className="relative w-full h-full min-h-[350px] md:min-h-[500px] overflow-hidden rounded-3xl bg-white border border-pink-50 shadow-sm flex items-center justify-center">
               <Image
                 src="/15.jpeg"
                 alt="Lumora India Journey"
@@ -314,7 +316,7 @@ const page = () => {
               {slide.features.map((feature, index) => (
                 <div
                   key={index}
-                  className="bg-pink-50 border border-pink-100 px-5 py-4 rounded-xl shadow-sm hover:shadow-md transition font-semibold text-gray-800 flex items-center gap-2"
+                  className="bg-pink-50 border border-pink-100 px-5 py-4 rounded-xl shadow-sm hover:shadow-md transition font-semibold text-gray-800 flex items-center gap-2 cursor-default"
                   data-aos="zoom-in"
                   data-aos-delay={index * 100}
                 >
@@ -369,7 +371,7 @@ const page = () => {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">🛡️</div>
               <h3 className="font-bold text-xl text-gray-900">Leak Proof Protection</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
@@ -377,7 +379,7 @@ const page = () => {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">🌸</div>
               <h3 className="font-bold text-xl text-gray-900">Ultra Soft Comfort</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
@@ -385,7 +387,7 @@ const page = () => {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">🦠</div>
               <h3 className="font-bold text-xl text-gray-900">Anti-Bacterial Layer</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
@@ -393,7 +395,7 @@ const page = () => {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">💧</div>
               <h3 className="font-bold text-xl text-gray-900">High Absorption</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
@@ -401,7 +403,7 @@ const page = () => {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">🌿</div>
               <h3 className="font-bold text-xl text-gray-900">Skin Friendly</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
@@ -409,7 +411,7 @@ const page = () => {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">📏</div>
               <h3 className="font-bold text-xl text-gray-900">Extra Long Pads</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">

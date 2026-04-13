@@ -1,8 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "react-toastify";
@@ -13,44 +10,39 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const router = useRouter();
-  const { profile, loading } = useAuthStore();
+  
+  const { adminProfile, adminLoading, adminLogin } = useAuthStore();
 
-  // If already logged in as admin, push to dashboard
   useEffect(() => {
-    if (!loading && profile?.role === "admin") {
+    // If already logged in as admin, push to dashboard
+    if (!adminLoading && adminProfile?.role === "admin") {
       router.push("/admin");
     }
-  }, [profile, loading, router]);
+  }, [adminProfile, adminLoading, router]);
 
   const handleAdminLogin = async (e) => {
     e.preventDefault();
     setIsLoggingIn(true);
 
     try {
-      // 1. Authenticate with Firebase
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      // 1. Authenticate using the fixed store function
+      const res = await adminLogin(email, password);
       
-      // 2. STRICT CHECK: Are they in the admins collection?
-      const adminRef = doc(db, "admins", userCredential.user.email.toLowerCase());
-      const adminSnap = await getDoc(adminRef);
-
-      if (adminSnap.exists() && adminSnap.data().role === "admin") {
+      // 2. The store function already checks if they are a real admin
+      if (res.success) {
         toast.success("Welcome to the Lumora Control Panel");
-        // The authStore's initAuthListener will pick up the state change
         router.push("/admin");
       } else {
-        // They are a valid user, but NOT an admin. Kick them out.
-        await auth.signOut();
-        toast.error("Unauthorized. This portal is for Lumora staff only.");
+        toast.error(res.error || "Invalid credentials.");
       }
     } catch (error) {
-      toast.error("Invalid admin credentials.");
+      toast.error("An error occurred during login.");
     } finally {
       setIsLoggingIn(false);
     }
   };
 
-  if (loading) return (
+  if (adminLoading) return (
     <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center">
       <Loader2 className="animate-spin text-pink-500 mb-4" size={48} />
       <p className="text-gray-400 font-bold tracking-widest uppercase text-sm animate-pulse">Verifying Security Clearance...</p>
@@ -60,7 +52,6 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden font-sans">
       
-      {/* Ambient Glowing Orbs */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-pink-600/20 blur-[150px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none"></div>
 
@@ -81,7 +72,6 @@ export default function AdminLogin() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-100">
         <div className="bg-slate-800/60 backdrop-blur-xl py-8 px-6 shadow-2xl sm:rounded-[2rem] sm:px-10 border border-slate-700/50 relative overflow-hidden">
           
-          {/* Subtle top edge highlight */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 to-purple-500"></div>
 
           <form className="space-y-6" onSubmit={handleAdminLogin}>
@@ -97,7 +87,7 @@ export default function AdminLogin() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@lumora.com"
-                  className="block w-full pl-11 pr-4 py-3.5 border border-slate-600/50 rounded-xl shadow-sm placeholder-gray-500 bg-slate-900/50 text-white font-medium focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all sm:text-sm"
+                  className="block w-full pl-11 pr-4 py-3.5 border border-slate-600/50 rounded-xl shadow-sm placeholder-gray-500 bg-slate-900/50 text-white font-medium focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all sm:text-sm cursor-text"
                 />
               </div>
             </div>
@@ -114,7 +104,7 @@ export default function AdminLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="block w-full pl-11 pr-4 py-3.5 border border-slate-600/50 rounded-xl shadow-sm placeholder-gray-500 bg-slate-900/50 text-white font-medium focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all sm:text-sm"
+                  className="block w-full pl-11 pr-4 py-3.5 border border-slate-600/50 rounded-xl shadow-sm placeholder-gray-500 bg-slate-900/50 text-white font-medium focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all sm:text-sm cursor-text"
                 />
               </div>
             </div>

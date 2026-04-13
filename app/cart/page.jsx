@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation"; 
-import { Trash2, Plus, Minus, ArrowRight, ArrowLeft } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, ArrowLeft, ShoppingBag } from "lucide-react";
 
 import { useCartStore } from "../../store/cartStore"; 
 import { useAuthStore } from "../../store/authStore"; 
@@ -11,7 +11,7 @@ import LoginModal from "../../components/LoginModal";
 
 // Firebase Imports
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../lib/firebase"; // Ensure this path matches your project structure
+import { db } from "../../lib/firebase";
 
 const CartPage = () => {
   const router = useRouter(); 
@@ -34,7 +34,6 @@ const CartPage = () => {
     const syncCartToDB = async () => {
       try {
         const userRef = doc(db, "users", user.uid);
-        // Overwrite the 'cart' field in the user's document with the current Zustand state
         await updateDoc(userRef, { cart: cartItems });
         console.log("Cart successfully synced to Firebase!");
       } catch (error) {
@@ -42,111 +41,123 @@ const CartPage = () => {
       }
     };
 
-    // Debounce: Wait 1.5 seconds after the user stops making changes before writing to DB
     const timeoutId = setTimeout(() => {
       syncCartToDB();
     }, 1500);
 
-    // Cleanup function clears the timeout if cartItems change again before 1.5s
     return () => clearTimeout(timeoutId);
   }, [cartItems, user, isMounted]);
 
   if (!isMounted) return null; 
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-5 text-black">
-      <div className="max-w-5xl mx-auto">
-        
-        {/* BACK BUTTON */}
-        <div className="mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-50 pb-16 relative text-gray-900 font-sans">
+      
+      {/* Subtle Background Glow */}
+      <div className="absolute top-0 right-0 w-full max-w-2xl h-[400px] bg-pink-300/20 blur-[120px] pointer-events-none rounded-full"></div>
+
+      {/* AGGRESSIVELY REDUCED PADDING: pt-8 md:pt-10 is exactly ~32px to 40px (1cm) */}
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 md:pt-10 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+
+        {/* ---------------- BACK TO STORE BUTTON (SCROLLS WITH PAGE) ---------------- */}
+        <div className="mb-6 md:mb-8 animate-in fade-in slide-in-from-left-4 duration-500">
           <Link 
             href="/products" 
-            className="inline-flex items-center text-sm font-medium text-pink-600 hover:text-pink-700 transition-colors"
+            className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md border border-pink-200 text-pink-600 px-5 py-2.5 rounded-full shadow-md hover:shadow-lg hover:bg-pink-600 hover:text-white hover:-translate-y-0.5 transition-all duration-300 font-bold text-sm cursor-pointer"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Store
+            <ArrowLeft size={18} /> Back to Store
           </Link>
         </div>
 
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-          Your Shopping Cart
-        </h1>
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-12 h-12 bg-gradient-to-br from-pink-100 to-pink-200 rounded-full flex items-center justify-center text-pink-600 shadow-inner">
+            <ShoppingBag size={24} />
+          </div>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">
+            Your Shopping Cart
+          </h1>
+        </div>
 
         {cartItems.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-sm p-12 text-center border border-gray-100">
-            <h2 className="text-2xl font-semibold text-gray-600 mb-4">Your cart is empty</h2>
-            <p className="text-gray-500 mb-8">Looks like you haven't added any Lumora products yet.</p>
+          <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-xl p-12 md:p-20 text-center border border-pink-100 flex flex-col items-center justify-center">
+            <div className="w-24 h-24 bg-pink-50 rounded-full flex items-center justify-center mb-6 shadow-inner">
+              <ShoppingBag size={40} className="text-pink-300" />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3">Your cart is empty</h2>
+            <p className="text-gray-500 text-lg mb-8 font-medium">Looks like you haven't added any Lumora products yet.</p>
             <Link href="/products">
-              <button className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full font-semibold transition shadow-lg hover:shadow-xl cursor-pointer">
+              <button className="bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white px-10 py-4 rounded-xl font-bold transition-all shadow-lg shadow-pink-200 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
                 Browse Products
               </button>
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
             
-            <div className="lg:col-span-2 space-y-4">
+            {/* CART ITEMS LIST */}
+            <div className="lg:col-span-2 space-y-5">
               {cartItems.map((item) => (
-                <div key={`${item.id}-${item.size}-${item.pack}`} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center gap-6 relative">
+                <div key={`${item.id}-${item.size}-${item.pack}`} className="bg-white/90 backdrop-blur-xl p-5 md:p-6 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-pink-100 flex flex-col sm:flex-row items-center gap-6 relative group">
                   
                   <button 
                     onClick={() => removeFromCart(item.id, item.size, item.pack)}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition cursor-pointer"
+                    className="absolute top-4 right-4 text-gray-300 hover:text-red-500 transition-colors cursor-pointer bg-red-50 p-2 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
                   >
-                    <Trash2 size={20} />
+                    <Trash2 size={18} />
                   </button>
 
-                  <div className="w-24 h-24 bg-pink-50 rounded-xl flex items-center justify-center shrink-0">
-                     <Image src={item.image || "/12.jpeg"} alt={item.name} width={80} height={80} className="object-cover rounded-lg" />
+                  <div className="w-28 h-28 bg-pink-50/50 rounded-2xl flex items-center justify-center shrink-0 border border-pink-50 p-2">
+                     <Image src={item.image || "/12.jpeg"} alt={item.name} width={100} height={100} className="object-contain rounded-xl drop-shadow-sm" />
                   </div>
 
                   <div className="flex-1 text-center sm:text-left">
-                    <h3 className="text-lg font-bold text-gray-900">{item.name}</h3>
-                    <p className="text-sm text-gray-500 mb-2">
-                      Size: <span className="font-semibold text-gray-700">{item.size}</span> | 
-                      Pack: <span className="font-semibold text-gray-700">{item.pack}</span>
+                    <h3 className="text-lg md:text-xl font-extrabold text-gray-900 mb-1">{item.name}</h3>
+                    <p className="text-sm text-gray-500 mb-3 font-medium">
+                      Size: <span className="font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded-md mx-1">{item.size}</span> | 
+                      Pack: <span className="font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded-md mx-1">{item.pack}</span>
                     </p>
-                    <p className="text-pink-600 font-bold">₹{item.price}</p>
+                    <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-pink-500 font-black">₹{item.price}</p>
                   </div>
 
-                  <div className="flex items-center gap-3 bg-gray-50 px-3 py-2 rounded-full border border-gray-200">
+                  <div className="flex items-center gap-3 bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-200 shadow-inner">
                     <button 
                       onClick={() => updateQuantity(item.id, item.size, item.pack, -1)}
-                      className="text-gray-600 hover:text-pink-600 cursor-pointer"
+                      className="text-gray-400 hover:text-pink-600 hover:bg-white p-1 rounded-md transition-colors cursor-pointer"
                     >
-                      <Minus size={16} />
+                      <Minus size={18} />
                     </button>
                     
-                    <span className="font-semibold w-6 text-center">{item.quantity}</span>
+                    <span className="font-black text-lg text-gray-900 w-8 text-center">{item.quantity}</span>
                     
                     <button 
                       onClick={() => updateQuantity(item.id, item.size, item.pack, 1)} 
-                      className="text-gray-600 hover:text-pink-600 cursor-pointer"
+                      className="text-gray-400 hover:text-pink-600 hover:bg-white p-1 rounded-md transition-colors cursor-pointer"
                     >
-                      <Plus size={16} />
+                      <Plus size={18} />
                     </button>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-fit sticky top-24">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
+            {/* ORDER SUMMARY */}
+            <div className="bg-white/90 backdrop-blur-xl p-8 rounded-[2rem] shadow-xl border border-pink-100 h-fit sticky top-28">
+              <h3 className="text-2xl font-extrabold text-gray-900 mb-6">Order Summary</h3>
               
-              <div className="space-y-3 text-gray-600 mb-6 border-b border-gray-100 pb-6">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span className="font-semibold text-gray-900">₹{getTotalPrice()}</span>
+              <div className="space-y-4 text-gray-600 mb-6 border-b border-gray-100 pb-6">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">Subtotal</span>
+                  <span className="font-bold text-gray-900 text-lg">₹{getTotalPrice()}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Shipping</span>
-                  <span className="text-pink-500 font-medium">Calculated at checkout</span>
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">Shipping</span>
+                  <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-100">Calculated at checkout</span>
                 </div>
               </div>
 
-              <div className="flex justify-between text-xl font-bold text-gray-900 mb-8">
-                <span>Total</span>
-                <span>₹{getTotalPrice()}</span>
+              <div className="flex justify-between items-end text-gray-900 mb-8">
+                <span className="text-lg font-bold">Total</span>
+                <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-pink-500">₹{getTotalPrice()}</span>
               </div>
 
               <button 
@@ -157,10 +168,14 @@ const CartPage = () => {
                     setIsLoginModalOpen(true);
                   }
                 }}
-                className="w-full bg-gray-900 hover:bg-black text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition hover:shadow-lg cursor-pointer"
+                className="w-full bg-gradient-to-r from-pink-600 to-pink-500 text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-300 shadow-lg shadow-pink-200 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
               >
                 Proceed to Checkout <ArrowRight size={20} />
               </button>
+              
+              <p className="text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-6">
+                🔒 Secure and Encrypted Checkout
+              </p>
             </div>
           </div>
         )}
