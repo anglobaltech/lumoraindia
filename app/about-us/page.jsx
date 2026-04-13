@@ -74,14 +74,13 @@ const page = () => {
   return (
     <div className="bg-pink-50 text-gray-800 overflow-x-hidden">
 
-      {/* 🌸 ABOUT / JOURNEY - Starts exactly ~1cm below Navbar */}
+      {/* 🌸 ABOUT / JOURNEY */}
       <section className="pt-8 md:pt-10 pb-10 lg:pb-16 bg-gradient-to-b from-pink-50 to-white">
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid md:grid-cols-2 gap-8 lg:gap-16 items-stretch">
-          
-          {/* Text Content - Flex-col and space-y to stretch top-to-bottom aligned with the image */}
+
           <div data-aos="fade-right" className="flex flex-col justify-between h-full space-y-4 py-2">
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
+              <h2 className="text-3xl md:text-4xl font-semibold text-gray-700 leading-tight">
                 Our <span className="text-pink-500">Journey</span>
               </h2>
               <div className="w-16 h-1 bg-pink-500 mt-4 mb-2 rounded-full"></div>
@@ -105,27 +104,23 @@ const page = () => {
               ensure every product reflects safety, softness, and trust.
             </p>
 
-            {/* Added Easy-to-Understand Content */}
             <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-              We started by talking to women about their real struggles. Many faced 
-              rashes, leaks, and heavy discomfort during their periods. We knew it was 
+              We started by talking to women about their real struggles. Many faced
+              rashes, leaks, and heavy discomfort during their periods. We knew it was
               time to step up and create a better, softer solution.
             </p>
 
             <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-              We tested the softest cotton and the most advanced leak-proof layers. 
-              Our goal was to create a pad that keeps you dry, fresh, and happy all day long. 
-              Today, we are proud to support women everywhere so your period never 
+              We tested the softest cotton and the most advanced leak-proof layers.
+              Our goal was to create a pad that keeps you dry, fresh, and happy all day long.
+              Today, we are proud to support women everywhere so your period never
               stops you from doing what you love.
             </p>
           </div>
 
-          {/* Image */}
           <div className="relative group overflow-hidden rounded-3xl flex-1 min-h-[400px] md:min-h-full" data-aos="fade-left">
-            {/* Glow Background */}
             <div className="absolute inset-0 bg-pink-200 blur-3xl opacity-30 rounded-full group-hover:opacity-50 transition duration-500"></div>
 
-            {/* Image Container - Stretches to match text height */}
             <div className="relative w-full h-full min-h-[350px] md:min-h-[500px] overflow-hidden rounded-3xl bg-white border border-pink-50 shadow-sm flex items-center justify-center">
               <Image
                 src="/15.jpeg"
@@ -134,15 +129,13 @@ const page = () => {
                 className="object-contain p-4 transition duration-700 ease-in-out group-hover:scale-105"
               />
 
-              {/* Overlay on Hover */}
               <div
                 className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent 
                     opacity-0 group-hover:opacity-100 transition duration-500 rounded-3xl pointer-events-none"
               ></div>
 
-              {/* Text on Hover */}
               <div className="absolute bottom-6 left-6 text-white opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none z-10">
-                <p className="text-xl font-bold tracking-wide drop-shadow-md">
+                <p className="text-lg font-semibold tracking-wide drop-shadow-md">
                   Lumora India
                 </p>
                 <p className="text-sm text-gray-200 font-medium drop-shadow-md">
@@ -157,9 +150,8 @@ const page = () => {
       {/* 💖 MISSION */}
       <section className="py-10 lg:py-16 bg-white">
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Left Card */}
           <div className="bg-gradient-to-br from-pink-50 to-pink-100 p-8 sm:p-10 rounded-3xl shadow-lg border border-pink-100" data-aos="zoom-in">
-            <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">
+            <h3 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-6">
               What Drives Us
             </h3>
 
@@ -178,9 +170,8 @@ const page = () => {
             </ul>
           </div>
 
-          {/* Right Content */}
           <div data-aos="fade-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-semibold text-gray-700 leading-tight">
               Our <span className="text-pink-500">Mission</span>
             </h2>
 
@@ -212,9 +203,8 @@ const page = () => {
       {/* TRUST */}
       <section className="py-16 bg-gradient-to-b from-white to-pink-50">
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
-          {/* HEADING */}
           <div className="text-center max-w-3xl mx-auto" data-aos="fade-up">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700">
               Trusted & <span className="text-pink-500">Empowering Women</span>
             </h2>
             <p className="text-gray-600 mt-4 text-base sm:text-lg">
@@ -223,7 +213,6 @@ const page = () => {
             </p>
           </div>
 
-          {/* TRUST BADGES */}
           <div className="flex flex-wrap justify-center gap-3 sm:gap-5 mt-10" data-aos="fade-up" data-aos-delay="100">
             {[
               "Dermatologically Tested",
@@ -234,7 +223,7 @@ const page = () => {
               <div
                 key={i}
                 className="group px-5 sm:px-6 py-3 bg-white border border-pink-200 rounded-full 
-          text-sm font-bold text-pink-600 cursor-pointer
+          text-sm font-semibold text-pink-600 cursor-pointer
           hover:bg-pink-500 hover:text-white hover:scale-105 
           transition-all duration-300 shadow-sm hover:shadow-md"
               >
@@ -243,7 +232,6 @@ const page = () => {
             ))}
           </div>
 
-          {/* AWARENESS SECTION */}
           <div className="mt-16 grid sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10">
             {[
               {
@@ -266,19 +254,15 @@ const page = () => {
                 className="group bg-white p-8 rounded-2xl shadow-sm border border-pink-100 
           hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer"
               >
-                {/* ICON */}
                 <div className="text-4xl mb-5 transition group-hover:scale-110">
                   🌸
                 </div>
-                {/* TITLE */}
-                <h3 className="font-bold text-lg sm:text-xl text-gray-800 group-hover:text-pink-500 transition">
+                <h3 className="font-semibold text-base sm:text-lg text-gray-700 group-hover:text-pink-500 transition">
                   {item.title}
                 </h3>
-                {/* DESC */}
                 <p className="text-gray-600 text-sm sm:text-base mt-3 leading-relaxed">
                   {item.desc}
                 </p>
-                {/* HOVER LINE */}
                 <div className="h-[3px] w-0 group-hover:w-full bg-pink-500 transition-all duration-300 mt-4 rounded-full" />
               </div>
             ))}
@@ -289,8 +273,7 @@ const page = () => {
       {/* PRODUCTS SLIDER */}
       <section className="relative py-16 overflow-hidden bg-white">
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
-          
-          {/* Image Side */}
+
           <div key={slide.image} data-aos="fade-right" className="w-full flex justify-center md:justify-start">
             <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl h-[350px] sm:h-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-pink-100 bg-pink-50/30 flex items-center justify-center">
               <Image
@@ -302,21 +285,20 @@ const page = () => {
             </div>
           </div>
 
-          {/* Text Side */}
           <div key={slide.title} className="space-y-8" data-aos="fade-left">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-800 leading-tight">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-700 leading-tight">
               {slide.title}
             </h2>
 
             <p className="text-gray-600 text-lg lg:text-xl leading-relaxed">
               {slide.desc}
             </p>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {slide.features.map((feature, index) => (
                 <div
                   key={index}
-                  className="bg-pink-50 border border-pink-100 px-5 py-4 rounded-xl shadow-sm hover:shadow-md transition font-semibold text-gray-800 flex items-center gap-2 cursor-default"
+                  className="bg-pink-50 border border-pink-100 px-5 py-4 rounded-xl shadow-sm hover:shadow-md transition font-semibold text-gray-700 flex items-center gap-2 cursor-default"
                   data-aos="zoom-in"
                   data-aos-delay={index * 100}
                 >
@@ -324,32 +306,31 @@ const page = () => {
                 </div>
               ))}
             </div>
-            
+
             <div className="flex flex-wrap gap-4 pt-4">
-              <Link href="/contact-us">
-                <button className="px-8 py-3.5 bg-pink-500 cursor-pointer text-white font-bold rounded-full shadow-lg shadow-pink-200 hover:bg-pink-600 hover:scale-105 transition-all">
+              <Link href="/contact-us" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto px-8 py-3.5 bg-pink-500 border-2 border-transparent cursor-pointer text-white font-semibold rounded-2xl shadow-lg shadow-pink-200 hover:bg-pink-600 hover:scale-105 transition-all">
                   Contact For Order
                 </button>
               </Link>
-              <Link href="/products">
-                <button className="px-8 py-3.5 cursor-pointer border-2 border-pink-500 text-pink-500 font-bold rounded-full hover:bg-pink-50 transition-all">
+              <Link href="/products" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto px-8 py-3.5 cursor-pointer border-2 border-pink-500 text-pink-500 font-semibold rounded-2xl hover:bg-pink-50 hover:scale-105 transition-all">
                   View Products
                 </button>
               </Link>
             </div>
 
-            {/* Slider Controls */}
             <div className="flex gap-4 pt-6 border-t border-gray-100">
               <button
                 onClick={prevSlide}
-                className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-pink-500 hover:bg-pink-50 hover:text-pink-600 transition-all cursor-pointer font-bold text-xl"
+                className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-pink-500 hover:bg-pink-50 hover:text-pink-600 transition-all cursor-pointer font-semibold text-xl"
               >
                 ←
               </button>
 
               <button
                 onClick={nextSlide}
-                className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-pink-500 hover:bg-pink-50 hover:text-pink-600 transition-all cursor-pointer font-bold text-xl"
+                className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-pink-500 hover:bg-pink-50 hover:text-pink-600 transition-all cursor-pointer font-semibold text-xl"
               >
                 →
               </button>
@@ -362,7 +343,7 @@ const page = () => {
       <section className="py-16 bg-pink-50">
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="text-center mb-14" data-aos="fade-up">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-700">
               Why Choose <span className="text-pink-500">Lumora India?</span>
             </h2>
             <p className="text-gray-600 mt-4 text-base sm:text-lg">
@@ -373,7 +354,7 @@ const page = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">🛡️</div>
-              <h3 className="font-bold text-xl text-gray-900">Leak Proof Protection</h3>
+              <h3 className="font-semibold text-lg text-gray-700">Leak Proof Protection</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
                 Advanced absorbent layers keep you dry and protected during heavy flow.
               </p>
@@ -381,7 +362,7 @@ const page = () => {
 
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">🌸</div>
-              <h3 className="font-bold text-xl text-gray-900">Ultra Soft Comfort</h3>
+              <h3 className="font-semibold text-lg text-gray-700">Ultra Soft Comfort</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
                 Soft cotton surface ensures maximum comfort for sensitive skin.
               </p>
@@ -389,7 +370,7 @@ const page = () => {
 
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">🦠</div>
-              <h3 className="font-bold text-xl text-gray-900">Anti-Bacterial Layer</h3>
+              <h3 className="font-semibold text-lg text-gray-700">Anti-Bacterial Layer</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
                 Helps prevent bacteria growth and reduces unwanted odour.
               </p>
@@ -397,7 +378,7 @@ const page = () => {
 
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">💧</div>
-              <h3 className="font-bold text-xl text-gray-900">High Absorption</h3>
+              <h3 className="font-semibold text-lg text-gray-700">High Absorption</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
                 Multiple absorbent layers quickly lock in fluid and prevent leakage.
               </p>
@@ -405,7 +386,7 @@ const page = () => {
 
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">🌿</div>
-              <h3 className="font-bold text-xl text-gray-900">Skin Friendly</h3>
+              <h3 className="font-semibold text-lg text-gray-700">Skin Friendly</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
                 Breathable materials keep skin irritation free and comfortable.
               </p>
@@ -413,7 +394,7 @@ const page = () => {
 
             <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition hover:-translate-y-1 border border-transparent hover:border-pink-100 cursor-default">
               <div className="text-pink-500 text-4xl mb-4">📏</div>
-              <h3 className="font-bold text-xl text-gray-900">Extra Long Pads</h3>
+              <h3 className="font-semibold text-lg text-gray-700">Extra Long Pads</h3>
               <p className="text-gray-600 text-base mt-3 leading-relaxed">
                 Extra coverage gives confidence and protection day and night.
               </p>
@@ -425,9 +406,8 @@ const page = () => {
       {/* OUR PROMISE SECTION */}
       <section className="py-16 bg-white">
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
-          {/* Heading */}
           <div className="text-center mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-700">
               Our Promise to <span className="text-pink-500">Women</span>
             </h2>
             <p className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
@@ -436,14 +416,12 @@ const page = () => {
             </p>
           </div>
 
-          {/* Cards */}
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-            {/* Card 1 */}
             <div className="group bg-pink-50/50 p-10 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-2 cursor-default">
               <div className="text-5xl mb-6 transition group-hover:scale-110">
                 💖
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+              <h3 className="text-xl font-semibold text-gray-700 mb-3">
                 Care & Comfort
               </h3>
               <p className="text-gray-600 text-base leading-relaxed">
@@ -452,12 +430,11 @@ const page = () => {
               </p>
             </div>
 
-            {/* Card 2 */}
             <div className="group bg-pink-50/50 p-10 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-2 cursor-default">
               <div className="text-5xl mb-6 transition group-hover:scale-110">
                 🔒
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+              <h3 className="text-xl font-semibold text-gray-700 mb-3">
                 Safety First
               </h3>
               <p className="text-gray-600 text-base leading-relaxed">
@@ -466,12 +443,11 @@ const page = () => {
               </p>
             </div>
 
-            {/* Card 3 */}
             <div className="group bg-pink-50/50 p-10 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-2 cursor-default">
               <div className="text-5xl mb-6 transition group-hover:scale-110">
                 🌸
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+              <h3 className="text-xl font-semibold text-gray-700 mb-3">
                 Confidence Everyday
               </h3>
               <p className="text-gray-600 text-base leading-relaxed">
@@ -485,7 +461,7 @@ const page = () => {
 
       {/* CTA */}
       <section className="py-20 text-center bg-gray-900 text-white px-4 sm:px-6">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" data-aos="fade-up">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight" data-aos="fade-up">
           Because You Deserve Better 💖
         </h2>
 
@@ -493,30 +469,26 @@ const page = () => {
           Switch to Lumora and experience comfort, confidence, and care like never before.
         </p>
 
-        {/* BUTTONS */}
         <div className="mt-10 flex flex-col sm:flex-row justify-center gap-5" data-aos="fade-up" data-aos-delay="200">
-          {/* Shop Now */}
           <Link href="/products">
             <button
-              className="cursor-pointer w-full sm:w-auto px-10 py-4 bg-pink-600 text-white rounded-full font-bold text-lg
+              className="cursor-pointer w-full sm:w-auto px-10 py-4 bg-pink-600 text-white rounded-full font-semibold text-lg
       hover:scale-105 hover:bg-pink-500 transition-all duration-300 shadow-lg shadow-pink-600/30"
             >
               Shop Now
             </button>
           </Link>
 
-          {/* Contact */}
           <Link href="/contact-us">
             <button
-              className="cursor-pointer w-full sm:w-auto px-10 py-4 border-2 border-gray-600 text-white rounded-full font-bold text-lg
+              className="cursor-pointer w-full sm:w-auto px-10 py-4 border-2 border-gray-600 text-white rounded-full font-semibold text-lg
       hover:bg-white hover:text-gray-900 hover:border-white transition-all duration-300"
             >
               Contact Us
             </button>
           </Link>
         </div>
-        
-        {/* TRUST LINE */}
+
         <p className="mt-10 text-sm font-semibold text-gray-400 tracking-wide uppercase cursor-default">
           Trusted by 1000+ women across India 🇮🇳
         </p>

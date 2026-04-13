@@ -127,17 +127,17 @@ const Page = () => {
   };
 
   return (
-    <div className="bg-pink-50 text-gray-800 w-full overflow-hidden">
+    <div className="bg-pink-50 text-gray-700 w-full overflow-hidden">
       
       {/* 1. HERO + MAP & FORM SECTION */}
       <section className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 pt-12 pb-12 lg:pb-16 flex flex-col">
         
         <div className="text-center mb-10 shrink-0 animate-in fade-in slide-in-from-top-4 duration-1000">
-          <span className="inline-block text-[10px] sm:text-xs font-bold tracking-widest uppercase text-pink-500 border border-pink-300 bg-white px-4 py-1.5 rounded-full mb-4 shadow-sm">
+          <span className="inline-block text-[10px] sm:text-xs font-semibold tracking-widest uppercase text-pink-500 border border-pink-300 bg-white px-4 py-1.5 rounded-full mb-4 shadow-sm">
             Lumora India
           </span>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-gray-700 leading-tight mb-4 tracking-tight">
             Get in <span className="text-pink-500">Touch</span>
           </h1>
 
@@ -170,7 +170,7 @@ const Page = () => {
               <div className="w-full">
                 <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
                   <div className="text-center mb-6">
-                    <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-800">
+                    <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
                       Send a Message
                     </h2>
                     <p className="text-gray-500 text-sm mt-2 font-medium">
@@ -188,13 +188,13 @@ const Page = () => {
                         value={form.name}
                         onChange={handleChange}
                         placeholder="Enter your name"
-                        className="w-full border-2 border-pink-50 rounded-xl px-5 py-3.5 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-pink-500/10 focus:border-pink-400 transition-all shadow-sm font-bold text-gray-900 placeholder-gray-400"
+                        className="w-full border-2 border-pink-50 rounded-xl px-5 py-3.5 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-pink-500/10 focus:border-pink-400 transition-all shadow-sm font-semibold text-gray-700 placeholder-gray-400"
                       />
                     </div>
 
                     {/* Phone with +91 fixed */}
                     <div className="flex-1 relative flex items-center border-2 border-pink-50 rounded-xl bg-white shadow-sm focus-within:ring-4 focus-within:ring-pink-500/10 focus-within:border-pink-400 transition-all overflow-hidden">
-                      <span className="pl-5 pr-4 py-3.5 text-gray-500 text-sm font-black border-r border-gray-100 bg-gray-50 select-none">
+                      <span className="pl-5 pr-4 py-3.5 text-gray-500 text-sm font-semibold border-r border-gray-100 bg-gray-50 select-none">
                         +91
                       </span>
                       <input
@@ -204,7 +204,7 @@ const Page = () => {
                         value={form.phone}
                         onChange={handlePhoneChange}
                         placeholder="10-digit number"
-                        className="w-full px-4 py-3.5 bg-transparent text-sm focus:outline-none font-bold text-gray-900 placeholder-gray-400"
+                        className="w-full px-4 py-3.5 bg-transparent text-sm focus:outline-none font-semibold text-gray-700 placeholder-gray-400"
                       />
                     </div>
                   </div>
@@ -218,7 +218,7 @@ const Page = () => {
                       value={form.email}
                       onChange={handleChange}
                       placeholder="Enter your email address"
-                      className="w-full border-2 border-pink-50 rounded-xl px-5 py-3.5 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-pink-500/10 focus:border-pink-400 transition-all shadow-sm font-bold text-gray-900 placeholder-gray-400"
+                      className="w-full border-2 border-pink-50 rounded-xl px-5 py-3.5 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-pink-500/10 focus:border-pink-400 transition-all shadow-sm font-semibold text-gray-700 placeholder-gray-400"
                     />
                   </div>
 
@@ -231,14 +231,14 @@ const Page = () => {
                       value={form.message}
                       onChange={handleChange}
                       placeholder="How can we help you?"
-                      className="w-full border-2 border-pink-50 rounded-xl px-5 py-4 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-pink-500/10 focus:border-pink-400 transition-all shadow-sm resize-none font-bold text-gray-900 placeholder-gray-400 custom-scrollbar"
+                      className="w-full border-2 border-pink-50 rounded-xl px-5 py-4 bg-white text-sm focus:outline-none focus:ring-4 focus:ring-pink-500/10 focus:border-pink-400 transition-all shadow-sm resize-none font-semibold text-gray-700 placeholder-gray-400 custom-scrollbar"
                     ></textarea>
                   </div>
 
                   {/* Status Messages */}
                   {status.message && (
                     <p
-                      className={`text-sm font-bold text-center animate-in fade-in zoom-in-95 duration-300 ${
+                      className={`text-sm font-semibold text-center animate-in fade-in zoom-in-95 duration-300 ${
                         status.type === "success"
                           ? "text-emerald-600 bg-emerald-50 py-3 rounded-xl border border-emerald-200"
                           : "text-red-500 bg-red-50 py-3 rounded-xl border border-red-200"
@@ -252,12 +252,12 @@ const Page = () => {
                   <button
                     type="submit"
                     disabled={status.type === "loading"}
-                    className="cursor-pointer w-full bg-gradient-to-r from-pink-600 to-pink-500 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-pink-200 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="cursor-pointer w-full bg-gradient-to-r from-pink-600 to-pink-500 text-white py-4 rounded-xl font-semibold text-base shadow-lg shadow-pink-200 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {status.type === "loading" ? "Sending..." : "Submit Message"}
                   </button>
                 </form>
-                <div className="mt-6 text-center text-xs font-bold text-gray-400 uppercase tracking-widest">
+                <div className="mt-6 text-center text-xs font-semibold text-gray-400 uppercase tracking-widest">
                   🔒 Your information is safe with us. We respect your privacy.
                 </div>
               </div>
@@ -281,7 +281,7 @@ const Page = () => {
                   <Icon className="w-6 h-6 text-pink-600 group-hover:text-white transition-colors duration-300" />
                 </div>
                 <div>
-                  <p className="text-[11px] sm:text-xs font-black tracking-widest uppercase text-gray-400 mb-2">
+                  <p className="text-[11px] sm:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-2">
                     {label}
                   </p>
                   {href ? (
@@ -289,12 +289,12 @@ const Page = () => {
                       href={href}
                       target={href.startsWith("http") ? "_blank" : undefined}
                       rel="noopener noreferrer"
-                      className="text-base sm:text-lg font-extrabold text-gray-900 hover:text-pink-600 transition-colors"
+                      className="text-base sm:text-lg font-semibold text-gray-700 hover:text-pink-600 transition-colors"
                     >
                       {value}
                     </a>
                   ) : (
-                    <p className="text-base sm:text-lg font-extrabold text-gray-900">
+                    <p className="text-base sm:text-lg font-semibold text-gray-700">
                       {value}
                     </p>
                   )}
@@ -317,7 +317,7 @@ const Page = () => {
 
           {/* Left Text Content */}
           <div className="lg:w-5/12 space-y-6 text-center lg:text-left relative z-10">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-700 tracking-tight leading-tight">
               Why Reach Out to <span className="text-pink-600 block sm:inline mt-1 sm:mt-0">Lumora?</span>
             </h2>
             <p className="text-gray-600 text-base sm:text-lg leading-relaxed max-w-md mx-auto lg:mx-0 font-medium">
@@ -333,7 +333,7 @@ const Page = () => {
                 className="flex items-center gap-4 bg-white p-5 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 border border-transparent hover:border-pink-200 cursor-default"
               >
                 <div className="text-xl sm:text-2xl drop-shadow-sm flex-shrink-0">🌸</div>
-                <span className="text-gray-800 font-extrabold text-sm sm:text-base tracking-tight">{item}</span>
+                <span className="text-gray-700 font-semibold text-sm sm:text-base tracking-tight">{item}</span>
               </div>
             ))}
           </div>

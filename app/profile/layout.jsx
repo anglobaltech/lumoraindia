@@ -27,7 +27,7 @@ export default function ProfileLayout({ children }) {
           <div className="w-14 h-14 bg-gradient-to-br from-pink-100 to-pink-200 rounded-full flex items-center justify-center text-pink-600 shadow-inner border border-pink-50">
             <UserCircle size={32} />
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-700 tracking-tight">
             My Account
           </h1>
         </div>
