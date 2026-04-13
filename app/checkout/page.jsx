@@ -1,11 +1,11 @@
 "use client";
-import { doc, updateDoc, arrayUnion, collection, addDoc } from "firebase/firestore"; 
+import { doc, setDoc, collection, addDoc } from "firebase/firestore"; 
 import { db } from "../../lib/firebase";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore";
-import { MapPin, CheckCircle2, ShieldCheck, ArrowRight, Plus, X, Loader2, Banknote, CreditCard, ShoppingBag } from "lucide-react";
+import { MapPin, CheckCircle2, ShieldCheck, ArrowRight, Plus, X, Loader2, Banknote, CreditCard, ShoppingBag, Edit2, Trash2 } from "lucide-react";
 import { fetchLocationFromPincode } from "../../app/actions/location";
 
 export default function CheckoutPage() {
@@ -23,7 +23,7 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   
-  // NEW: Success States
+  // Success States
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [placedOrderId, setPlacedOrderId] = useState("");
 
@@ -31,13 +31,13 @@ export default function CheckoutPage() {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isFetchingLocation, setIsFetchingLocation] = useState(false);
+  const [editingAddressIndex, setEditingAddressIndex] = useState(null); // Tracks which address is being edited
   const [formData, setFormData] = useState({
     houseNo: "", area: "", landmark: "", city: "", state: "", pincode: ""
   });
 
   useEffect(() => {
     setIsMounted(true);
-    // FIX: Only redirect to home if the cart is empty AND they haven't just placed an order
     if (isMounted && !orderSuccess && (!user || cartItems.length === 0)) {
       router.push("/");
     }
@@ -83,20 +83,99 @@ export default function CheckoutPage() {
     }
   };
 
+  const handleEditAddress = (index, address, e) => {
+    e.stopPropagation();
+    
+    // If it's an old string address, we can't cleanly edit it, but if it's an object:
+    if (typeof address === "object") {
+      setFormData({
+        houseNo: address.houseNo || "",
+        area: address.area || "",
+        landmark: address.landmark || "",
+        city: address.city || "",
+        state: address.state || "",
+        pincode: address.pincode || ""
+      });
+    } else {
+      setFormData({ houseNo: "", area: "", landmark: "", city: "", state: "", pincode: "" });
+    }
+    
+    setEditingAddressIndex(index);
+    setShowAddressForm(true);
+  };
+
+  const handleDeleteAddress = async (index, e) => {
+    e.stopPropagation();
+    if (!window.confirm("Are you sure you want to delete this address?")) return;
+    
+    try {
+      const updatedAddresses = [...(user.addresses || [])];
+      updatedAddresses.splice(index, 1);
+      
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, { addresses: updatedAddresses }, { merge: true });
+      
+      // Update global store
+      useAuthStore.setState((state) => ({
+        user: { ...state.user, addresses: updatedAddresses }
+      }));
+
+      // Reset selection if needed
+      if (selectedAddressIndex === index) {
+        setSelectedAddressIndex(0);
+      } else if (selectedAddressIndex > index) {
+        setSelectedAddressIndex(prev => prev - 1);
+      }
+    } catch(err) {
+       console.error("Error deleting address", err);
+       alert("Failed to delete. Please try again.");
+    }
+  };
+
   const handleSaveAddress = async (e) => {
     e.preventDefault();
     setIsSaving(true);
-    const newAddressString = `${formData.houseNo}, ${formData.area}, ${formData.landmark ? formData.landmark + ", " : ""}${formData.city}, ${formData.state}, ${formData.pincode}`;
+    
+    const newAddressObj = { ...formData };
 
     try {
       const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, { addresses: arrayUnion(newAddressString) });
+      let updatedAddresses = user.addresses ? [...user.addresses] : [];
 
-      if (!user.addresses) user.addresses = [];
-      user.addresses.push(newAddressString);
+      if (editingAddressIndex !== null) {
+        updatedAddresses[editingAddressIndex] = newAddressObj; // Update existing
+      } else {
+        updatedAddresses.push(newAddressObj); // Add new
+      }
 
-      setSelectedAddressIndex(user.addresses.length - 1);
+      // Sync to Firebase (Also save flat fields so the Profile Page sees it natively!)
+      await setDoc(userRef, { 
+        addresses: updatedAddresses,
+        houseNo: formData.houseNo,
+        area: formData.area,
+        landmark: formData.landmark,
+        city: formData.city,
+        state: formData.state,
+        pincode: formData.pincode
+      }, { merge: true });
+
+      // Update Local Store Instantly
+      useAuthStore.setState((state) => ({
+        user: { 
+          ...state.user, 
+          addresses: updatedAddresses,
+          houseNo: formData.houseNo,
+          area: formData.area,
+          landmark: formData.landmark,
+          city: formData.city,
+          state: formData.state,
+          pincode: formData.pincode
+        }
+      }));
+
+      setSelectedAddressIndex(editingAddressIndex !== null ? editingAddressIndex : updatedAddresses.length - 1);
       setShowAddressForm(false);
+      setEditingAddressIndex(null);
       setFormData({ houseNo: "", area: "", landmark: "", city: "", state: "", pincode: "" });
     } catch (error) {
       console.error("Failed to save address:", error);
@@ -115,10 +194,14 @@ export default function CheckoutPage() {
     setIsPlacingOrder(true);
 
     try {
-      // 1. Generate Order ID
       const orderId = `LUM-${Math.floor(100000 + Math.random() * 900000)}`;
 
-      // 2. Prepare Order Data
+      // Use the selected address object or string
+      const selectedAddr = user?.addresses?.[selectedAddressIndex];
+      const addressString = typeof selectedAddr === "object" 
+        ? `${selectedAddr.houseNo}, ${selectedAddr.area}, ${selectedAddr.landmark ? selectedAddr.landmark + ", " : ""}${selectedAddr.city}, ${selectedAddr.state}, ${selectedAddr.pincode}`
+        : selectedAddr;
+
       const orderPayload = {
         orderId: orderId,
         userId: user?.uid || "guest_user", 
@@ -127,7 +210,7 @@ export default function CheckoutPage() {
           email: user?.email || "no-email@provided.com", 
           phone: user?.phone || "Not provided" 
         },
-        address: user?.addresses?.[selectedAddressIndex] || "No Address Provided",
+        address: addressString || "No Address Provided",
         cartItems: cartItems,
         totals: { totalAmount, shippingFee, finalAmount },
         paymentMethod: "COD",
@@ -135,18 +218,14 @@ export default function CheckoutPage() {
         createdAt: new Date().toISOString()
       };
 
-      // 3. Save to Firebase Orders Collection
       await addDoc(collection(db, "orders"), orderPayload);
 
-      // NEW 3.5: Update the specific user's document so it reflects in "My Orders"
       if (user?.uid) {
         const userRef = doc(db, "users", user.uid);
-        await updateDoc(userRef, { 
-          myOrders: arrayUnion(orderId) // Appends this order to their profile history
-        });
+        // Append order to their history
+        await setDoc(userRef, { myOrders: [...(user.myOrders || []), orderId] }, { merge: true });
       }
 
-      // 4. Send email via API
       const response = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -156,7 +235,6 @@ export default function CheckoutPage() {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        // FIX: Set success states before clearing the cart to prevent the redirect bug
         setPlacedOrderId(orderId);
         setOrderSuccess(true); 
         if (clearCart) clearCart(); 
@@ -171,7 +249,7 @@ export default function CheckoutPage() {
     }
   };
 
-  // NEW: Success Screen UI
+  // Success Screen
   if (orderSuccess) {
     return (
       <div className="min-h-[70vh] bg-gray-50 flex flex-col items-center justify-center py-10 px-5">
@@ -200,7 +278,7 @@ export default function CheckoutPage() {
     );
   }
 
-  // Original Checkout UI Below
+  // Checkout UI
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-5">
       <div className="max-w-6xl mx-auto">
@@ -214,17 +292,26 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
+            
+            {/* ADDRESS SECTION */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Select Delivery Address</h2>
-                <button onClick={() => setShowAddressForm(!showAddressForm)} className="text-pink-600 font-bold flex items-center gap-1 hover:text-pink-800 transition cursor-pointer">
+                <button 
+                  onClick={() => {
+                    setFormData({ houseNo: "", area: "", landmark: "", city: "", state: "", pincode: "" });
+                    setEditingAddressIndex(null);
+                    setShowAddressForm(!showAddressForm);
+                  }} 
+                  className="text-pink-600 font-bold flex items-center gap-1 hover:text-pink-800 transition cursor-pointer"
+                >
                   {showAddressForm ? <><X size={16} /> Cancel</> : <><Plus size={16} /> Add New</>}
                 </button>
               </div>
 
               {showAddressForm && (
                 <form onSubmit={handleSaveAddress} className="mb-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
-                  <h3 className="font-bold text-gray-900 mb-4">Add New Address</h3>
+                  <h3 className="font-bold text-gray-900 mb-4">{editingAddressIndex !== null ? "Edit Address" : "Add New Address"}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input required type="text" name="houseNo" placeholder="Flat / House No." value={formData.houseNo} onChange={handleInputChange} className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none" />
                     <input required type="text" name="area" placeholder="Area / Sector" value={formData.area} onChange={handleInputChange} className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none" />
@@ -245,13 +332,40 @@ export default function CheckoutPage() {
               {user.addresses && user.addresses.length > 0 ? (
                 <div className="space-y-4">
                   {user.addresses.map((address, index) => {
-                    const displayAddress = typeof address === "string" ? address : `${address.houseNo || ""}, ${address.area || ""}, ${address.landmark ? address.landmark + ", " : ""}${address.city || ""}, ${address.state || ""}, ${address.pincode || ""}`;
+                    const displayAddress = typeof address === "object" 
+                      ? `${address.houseNo}, ${address.area}, ${address.landmark ? address.landmark + ", " : ""}${address.city}, ${address.state}, ${address.pincode}`
+                      : address;
+
                     return (
-                      <div key={index} onClick={() => setSelectedAddressIndex(index)} className={`relative p-5 rounded-xl border-2 cursor-pointer transition-all ${selectedAddressIndex === index ? "border-pink-500 bg-pink-50 shadow-sm" : "border-gray-200 hover:border-pink-300"}`}>
+                      <div 
+                        key={index} 
+                        onClick={() => setSelectedAddressIndex(index)} 
+                        className={`relative p-5 rounded-xl border-2 cursor-pointer transition-all ${selectedAddressIndex === index ? "border-pink-500 bg-pink-50 shadow-sm" : "border-gray-200 hover:border-pink-300"}`}
+                      >
                         {selectedAddressIndex === index && <div className="absolute top-4 right-4 text-pink-500"><CheckCircle2 size={24} className="fill-pink-100" /></div>}
+                        
                         <h3 className="font-bold text-gray-900 mb-2">{user.name || "Customer"}</h3>
-                        <p className="text-gray-600 text-sm w-11/12 leading-relaxed">{displayAddress}</p>
+                        <p className="text-gray-600 text-sm w-10/12 leading-relaxed pr-10">{displayAddress}</p>
                         <p className="text-gray-900 font-semibold mt-3 text-sm flex items-center gap-2">Mobile: {user.phone || "Not provided"}</p>
+                        
+                        {/* Edit & Delete Action Buttons */}
+                        <div className="absolute bottom-4 right-4 flex gap-3">
+                          <button 
+                            onClick={(e) => handleEditAddress(index, address, e)} 
+                            className="text-gray-400 hover:text-pink-600 transition-colors p-2 bg-white rounded-full shadow-sm border border-gray-100 cursor-pointer"
+                            title="Edit Address"
+                          >
+                            <Edit2 size={16} />
+                          </button>
+                          <button 
+                            onClick={(e) => handleDeleteAddress(index, e)} 
+                            className="text-gray-400 hover:text-red-500 transition-colors p-2 bg-white rounded-full shadow-sm border border-gray-100 cursor-pointer"
+                            title="Delete Address"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+
                       </div>
                     );
                   })}
@@ -267,6 +381,7 @@ export default function CheckoutPage() {
               )}
             </div>
 
+            {/* PAYMENT SECTION */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Payment Method</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -284,6 +399,7 @@ export default function CheckoutPage() {
             </div>
           </div>
 
+          {/* TOTALS & PLACE ORDER */}
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-fit sticky top-24">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Price Details</h3>
             <div className="space-y-4 text-gray-600 mb-6 border-b border-gray-100 pb-6">
@@ -300,7 +416,11 @@ export default function CheckoutPage() {
               <span>Total Payable</span>
               <span>₹{finalAmount}</span>
             </div>
-            <button onClick={handleProceedToPayment} disabled={!user.addresses || user.addresses.length === 0 || isPlacingOrder} className="w-full bg-gray-900 hover:bg-black disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition hover:shadow-lg cursor-pointer">
+            <button 
+              onClick={handleProceedToPayment} 
+              disabled={!user.addresses || user.addresses.length === 0 || isPlacingOrder} 
+              className="w-full bg-gray-900 hover:bg-black disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition hover:shadow-lg cursor-pointer"
+            >
               {isPlacingOrder ? <><Loader2 className="animate-spin" size={20} /> Processing...</> : <>{paymentMethod === "COD" ? "Place Order (COD)" : "Continue to Payment"} <ArrowRight size={20} /></>}
             </button>
             <p className="text-xs text-gray-400 text-center mt-4 flex items-center justify-center gap-1">
