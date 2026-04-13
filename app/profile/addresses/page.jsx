@@ -73,7 +73,7 @@ export default function AddressesPage() {
   if (!user) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh]">
         <Loader2 className="animate-spin text-pink-500 mb-4" size={48} />
-        <p className="text-gray-500 font-bold animate-pulse text-lg tracking-wide">Loading your addresses...</p>
+        <p className="text-gray-500 font-semibold animate-pulse text-lg tracking-wide">Loading your addresses...</p>
     </div>
   );
 
@@ -199,7 +199,7 @@ export default function AddressesPage() {
               <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 shadow-inner">
                 <AlertCircle className="text-red-500 w-7 h-7" />
               </div>
-              <h3 className="text-xl font-extrabold text-gray-900">Remove Address?</h3>
+              <h3 className="text-lg font-semibold text-gray-700">Remove Address?</h3>
             </div>
             
             <p className="text-gray-500 text-sm leading-relaxed mb-8 font-medium">
@@ -209,13 +209,13 @@ export default function AddressesPage() {
             <div className="flex justify-end gap-3 w-full">
               <button 
                 onClick={() => setAddressToDelete(null)} 
-                className="flex-1 px-5 py-3 bg-white text-gray-700 border-2 border-gray-200 rounded-xl text-sm font-bold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+                className="flex-1 px-5 py-3 bg-white text-gray-700 border-2 border-gray-200 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
               >
                 Cancel
               </button>
               <button 
                 onClick={confirmRemove} 
-                className="flex-1 px-5 py-3 bg-red-500 text-white rounded-xl text-sm font-bold hover:bg-red-600 shadow-lg shadow-red-200 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
+                className="flex-1 px-5 py-3 bg-red-500 text-white rounded-xl text-sm font-semibold hover:bg-red-600 shadow-lg shadow-red-200 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
               >
                 Yes, Remove
               </button>
@@ -232,11 +232,11 @@ export default function AddressesPage() {
 
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-pink-100/50 gap-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Saved Addresses</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 tracking-tight">Saved Addresses</h2>
             <p className="text-gray-500 text-sm mt-1.5 font-medium">Manage where we deliver your premium orders.</p>
           </div>
           {!isFormOpen && (
-            <button onClick={handleAddNew} className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-pink-500 text-white rounded-xl text-sm font-bold hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
+            <button onClick={handleAddNew} className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-pink-500 text-white rounded-xl text-sm font-semibold hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
               <Plus size={18} /> Add New Address
             </button>
           )}
@@ -244,7 +244,7 @@ export default function AddressesPage() {
 
         {isFormOpen ? (
           <form onSubmit={handleSaveAddress} className="bg-gradient-to-br from-pink-50/50 to-white rounded-3xl p-6 md:p-8 border border-pink-100 shadow-sm mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
-            <h3 className="text-xl font-extrabold text-gray-900 mb-6 flex items-center gap-3">
+            <h3 className="text-lg font-semibold text-gray-700 mb-6 flex items-center gap-3">
                <div className="p-2.5 bg-pink-100 rounded-xl text-pink-600 shadow-inner">
                   {editingContext ? <Edit2 size={22} /> : <MapPin size={22} />}
                </div>
@@ -254,50 +254,50 @@ export default function AddressesPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
               
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Pincode</label>
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest ml-1">Pincode</label>
                 <div className="relative flex items-center px-4 py-3.5 bg-white rounded-xl border-2 border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm transition-all duration-300">
-                  <input type="text" maxLength={6} required placeholder="e.g. 110001" value={formData.pincode} onChange={handlePincodeChange} className="bg-transparent w-full outline-none text-gray-900 text-base font-bold placeholder-gray-300" />
+                  <input type="text" maxLength={6} required placeholder="e.g. 110001" value={formData.pincode} onChange={handlePincodeChange} className="bg-transparent w-full outline-none text-gray-700 text-base font-semibold placeholder-gray-300" />
                   {isFetchingLocation && <Loader2 size={18} className="absolute right-4 text-pink-500 animate-spin" />}
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">House / Flat No.</label>
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest ml-1">House / Flat No.</label>
                 <div className="flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl border-2 border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm transition-all duration-300">
                   <Home size={18} className="text-pink-400" />
-                  <input type="text" required placeholder="Flat 401, Building B" value={formData.houseNo} onChange={(e) => setFormData({...formData, houseNo: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-900 font-bold placeholder-gray-300" />
+                  <input type="text" required placeholder="Flat 401, Building B" value={formData.houseNo} onChange={(e) => setFormData({...formData, houseNo: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-700 font-semibold placeholder-gray-300" />
                 </div>
               </div>
 
               <div className="space-y-1.5 md:col-span-2">
-                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Area / Street</label>
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest ml-1">Area / Street</label>
                 <div className="flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl border-2 border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm transition-all duration-300">
                   <Navigation size={18} className="text-pink-400" />
-                  <input type="text" required placeholder="Sector 62, Main Road" value={formData.area} onChange={(e) => setFormData({...formData, area: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-900 font-bold placeholder-gray-300" />
+                  <input type="text" required placeholder="Sector 62, Main Road" value={formData.area} onChange={(e) => setFormData({...formData, area: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-700 font-semibold placeholder-gray-300" />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">City</label>
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest ml-1">City</label>
                 <div className="flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl border-2 border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm transition-all duration-300">
                   <Map size={18} className="text-pink-400" />
-                  <input type="text" required placeholder="City" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-900 font-bold placeholder-gray-300" />
+                  <input type="text" required placeholder="City" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="bg-transparent w-full outline-none text-base text-gray-700 font-semibold placeholder-gray-300" />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">State</label>
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest ml-1">State</label>
                 <div className={`px-4 py-3.5 rounded-xl border-2 transition-all duration-300 ${formData.state ? 'bg-gray-100 border-transparent cursor-not-allowed' : 'bg-white border-pink-200 focus-within:border-pink-500 focus-within:ring-4 focus-within:ring-pink-100 shadow-sm'}`}>
-                  <input type="text" required readOnly={!!formData.state} placeholder="State" value={formData.state} onChange={(e) => setFormData({...formData, state: e.target.value})} className={`bg-transparent w-full outline-none text-base font-bold focus:ring-0 ${formData.state ? 'text-gray-500' : 'text-gray-900'}`} />
+                  <input type="text" required readOnly={!!formData.state} placeholder="State" value={formData.state} onChange={(e) => setFormData({...formData, state: e.target.value})} className={`bg-transparent w-full outline-none text-base font-semibold focus:ring-0 ${formData.state ? 'text-gray-500' : 'text-gray-700'}`} />
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row justify-end gap-3 mt-8 pt-6 border-t border-pink-100/50">
-              <button type="button" onClick={() => setIsFormOpen(false)} disabled={isSaving} className="w-full sm:w-auto px-6 py-3.5 bg-white text-gray-600 rounded-xl text-sm font-bold border-2 border-gray-200 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 cursor-pointer flex justify-center gap-2 items-center">
+              <button type="button" onClick={() => setIsFormOpen(false)} disabled={isSaving} className="w-full sm:w-auto px-6 py-3.5 bg-white text-gray-600 rounded-xl text-sm font-semibold border-2 border-gray-200 hover:bg-gray-50 hover:text-gray-700 transition-all duration-300 cursor-pointer flex justify-center gap-2 items-center">
                 <X size={16} /> Cancel
               </button>
-              <button type="submit" disabled={isSaving} className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-pink-600 to-pink-500 text-white rounded-xl text-sm font-bold hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex justify-center gap-2 items-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
+              <button type="submit" disabled={isSaving} className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-pink-600 to-pink-500 text-white rounded-xl text-sm font-semibold hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex justify-center gap-2 items-center cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
                 {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Check size={18} />} 
                 {isSaving ? 'Saving...' : (editingContext ? 'Update Address' : 'Save Address')}
               </button>
@@ -316,14 +316,14 @@ export default function AddressesPage() {
                 )}
 
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3 text-gray-900 font-extrabold text-lg">
+                  <div className="flex items-center gap-3 text-gray-700 font-semibold text-base">
                     <div className="p-2 bg-pink-50 rounded-lg text-pink-500 group-hover:scale-110 transition-transform">
                        <Home size={20} />
                     </div>
                     Address {index + 1}
                   </div>
                   {addr.isDefault && (
-                    <span className="bg-gradient-to-r from-pink-100 to-pink-50 text-pink-600 border border-pink-200 text-[10px] uppercase tracking-widest font-black px-3 py-1.5 rounded-full shadow-sm">
+                    <span className="bg-gradient-to-r from-pink-100 to-pink-50 text-pink-600 border border-pink-200 text-[10px] uppercase tracking-widest font-semibold px-3 py-1.5 rounded-full shadow-sm">
                       Default
                     </span>
                   )}
@@ -336,13 +336,13 @@ export default function AddressesPage() {
                 <div className="flex items-center gap-4 border-t border-pink-50 pt-5 mt-auto">
                   <button 
                     onClick={() => handleEdit(addr)} 
-                    className="flex-1 text-sm font-bold text-pink-600 bg-pink-50 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-pink-100 hover:text-pink-700 cursor-pointer transition-colors"
+                    className="flex-1 text-sm font-semibold text-pink-600 bg-pink-50 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-pink-100 hover:text-pink-700 cursor-pointer transition-colors"
                   >
                     <Edit2 size={16} /> Edit
                   </button>
                   <button 
                     onClick={() => triggerDelete(addr)} 
-                    className="flex-1 text-sm font-bold text-red-500 bg-red-50 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-red-100 hover:text-red-700 cursor-pointer transition-colors"
+                    className="flex-1 text-sm font-semibold text-red-500 bg-red-50 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-red-100 hover:text-red-700 cursor-pointer transition-colors"
                   >
                     <Trash2 size={16} /> Remove
                   </button>
@@ -355,7 +355,7 @@ export default function AddressesPage() {
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-pink-100 mb-4">
                   <MapPin size={28} className="text-pink-300" />
                 </div>
-                <h3 className="text-lg font-extrabold text-gray-900 mb-1">No Addresses Found</h3>
+                <h3 className="text-base font-semibold text-gray-700 mb-1">No Addresses Found</h3>
                 <p className="font-medium text-gray-500 text-sm">Add a delivery address to make checkout faster.</p>
               </div>
             )

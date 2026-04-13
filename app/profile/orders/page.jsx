@@ -59,7 +59,7 @@ export default function OrdersPage() {
   if (!user) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh]">
         <Loader2 className="animate-spin text-pink-500 mb-4" size={48} />
-        <p className="text-gray-500 font-bold animate-pulse text-lg tracking-wide">Authenticating...</p>
+        <p className="text-gray-500 font-semibold animate-pulse text-lg tracking-wide">Authenticating...</p>
     </div>
   );
 
@@ -74,8 +74,8 @@ export default function OrdersPage() {
             {/* Modal Header */}
             <div className="flex justify-between items-start mb-6 pb-6 border-b border-pink-100/50">
               <div>
-                <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight">Order Details</h3>
-                <p className="text-sm text-gray-500 font-bold mt-1.5 flex items-center gap-1.5">
+                <h3 className="text-xl font-semibold text-gray-700 tracking-tight">Order Details</h3>
+                <p className="text-sm text-gray-500 font-semibold mt-1.5 flex items-center gap-1.5">
                   <span className="bg-gray-100 text-gray-600 px-2.5 py-0.5 rounded-md font-mono text-xs">ID: {selectedOrder.id}</span>
                 </p>
               </div>
@@ -91,9 +91,9 @@ export default function OrdersPage() {
             <div className="flex flex-wrap gap-4 mb-8">
               <div className="flex items-center gap-2.5 bg-gray-50 border border-gray-100 px-4 py-2.5 rounded-xl shadow-sm">
                 <Calendar size={18} className="text-gray-400" />
-                <span className="text-sm font-extrabold text-gray-700">{selectedOrder.date}</span>
+                <span className="text-sm font-semibold text-gray-700">{selectedOrder.date}</span>
               </div>
-              <div className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-extrabold shadow-sm border ${
+              <div className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-sm border ${
                 selectedOrder.status === 'Delivered' ? 'bg-green-50 text-green-700 border-green-100' : 
                 selectedOrder.status === 'Order Placed' ? 'bg-blue-50 text-blue-700 border-blue-100' : 
                 'bg-orange-50 text-orange-700 border-orange-100'
@@ -105,7 +105,7 @@ export default function OrdersPage() {
 
             {/* Items List */}
             <div className="mb-8 bg-gray-50/50 p-5 md:p-6 rounded-3xl border border-gray-100">
-              <h4 className="text-[11px] font-black text-gray-500 mb-5 flex items-center gap-2 uppercase tracking-widest">
+              <h4 className="text-[11px] font-semibold text-gray-500 mb-5 flex items-center gap-2 uppercase tracking-widest">
                 <Package size={16} className="text-pink-500" /> Items in this Order
               </h4>
               <div className="space-y-4">
@@ -117,11 +117,11 @@ export default function OrdersPage() {
                            <img src={item.image || item.images?.[0] || "/placeholder.jpg"} alt={item.name} className="w-full h-full object-cover" />
                         </div>
                         <div>
-                          <p className="font-extrabold text-gray-900 text-sm md:text-base line-clamp-1">{item.name}</p>
-                          <p className="text-xs font-bold text-gray-500 mt-1 bg-gray-100 inline-block px-2 py-0.5 rounded-md">Qty: {item.quantity}</p>
+                          <p className="font-semibold text-gray-700 text-sm md:text-base line-clamp-1">{item.name}</p>
+                          <p className="text-xs font-semibold text-gray-500 mt-1 bg-gray-100 inline-block px-2 py-0.5 rounded-md">Qty: {item.quantity}</p>
                         </div>
                       </div>
-                      <p className="font-black text-gray-900 text-lg">₹{item.price * item.quantity}</p>
+                      <p className="font-semibold text-gray-700 text-base md:text-lg">₹{item.price * item.quantity}</p>
                     </div>
                   ))
                 ) : (
@@ -133,29 +133,29 @@ export default function OrdersPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Shipping Address */}
               <div className="p-6 border border-gray-100 rounded-3xl bg-white shadow-sm flex flex-col">
-                <h4 className="text-[11px] font-black text-gray-400 mb-4 uppercase tracking-widest flex items-center gap-2">
+                <h4 className="text-[11px] font-semibold text-gray-400 mb-4 uppercase tracking-widest flex items-center gap-2">
                   <MapPin size={16} className="text-pink-400" /> Shipping Address
                 </h4>
-                <p className="text-sm text-gray-700 font-bold leading-relaxed flex-grow">
+                <p className="text-sm text-gray-700 font-semibold leading-relaxed flex-grow">
                   {selectedOrder.shippingAddress}
                 </p>
               </div>
 
               {/* Order Summary */}
               <div className="p-6 border border-pink-100 rounded-3xl bg-gradient-to-br from-pink-50/50 to-white shadow-sm">
-                <h4 className="text-[11px] font-black text-gray-400 mb-4 uppercase tracking-widest flex items-center gap-2">
+                <h4 className="text-[11px] font-semibold text-gray-400 mb-4 uppercase tracking-widest flex items-center gap-2">
                   <Receipt size={16} className="text-pink-400" /> Payment Summary
                 </h4>
-                <div className="space-y-3 text-sm text-gray-600 font-bold mb-4 pb-4 border-b border-pink-100/50">
-                  <div className="flex justify-between"><span>Subtotal</span> <span className="text-gray-900">₹{selectedOrder.subtotal}</span></div>
+                <div className="space-y-3 text-sm text-gray-600 font-semibold mb-4 pb-4 border-b border-pink-100/50">
+                  <div className="flex justify-between"><span>Subtotal</span> <span className="text-gray-700">₹{selectedOrder.subtotal}</span></div>
                   <div className="flex justify-between">
                     <span>Shipping</span> 
-                    <span className={selectedOrder.shippingFee === 0 ? "text-green-600 bg-green-50 px-2 py-0.5 rounded-md" : "text-gray-900"}>
+                    <span className={selectedOrder.shippingFee === 0 ? "text-green-600 bg-green-50 px-2 py-0.5 rounded-md" : "text-gray-700"}>
                       {selectedOrder.shippingFee === 0 ? "FREE" : `₹${selectedOrder.shippingFee}`}
                     </span>
                   </div>
                 </div>
-                <div className="flex justify-between font-black text-gray-900 text-xl items-center">
+                <div className="flex justify-between font-semibold text-gray-700 text-lg md:text-xl items-center">
                   <span>Total</span>
                   <span className="text-pink-600">₹{selectedOrder.total}</span>
                 </div>
@@ -173,14 +173,14 @@ export default function OrdersPage() {
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-pink-600"></div>
 
         <div className="mb-8 pb-6 border-b border-pink-100/50">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">My Orders</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 tracking-tight">My Orders</h2>
           <p className="text-gray-500 text-sm mt-1.5 font-medium">Track your active shipments and view past purchases.</p>
         </div>
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="animate-spin text-pink-500 mb-5" size={48} />
-            <p className="text-gray-500 font-bold text-sm tracking-widest uppercase">Fetching your orders...</p>
+            <p className="text-gray-500 font-semibold text-sm tracking-widest uppercase">Fetching your orders...</p>
           </div>
         ) : (
           <div className="space-y-5">
@@ -198,7 +198,7 @@ export default function OrdersPage() {
                 <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm border border-pink-100 mb-5">
                    <Package size={36} className="text-pink-300" />
                 </div>
-                <h3 className="text-xl font-extrabold text-gray-900 mb-2">No orders yet</h3>
+                <h3 className="text-lg font-semibold text-gray-700 mb-2">No orders yet</h3>
                 <p className="text-sm text-gray-500 font-medium max-w-sm mx-auto">Looks like you haven't made a premium purchase yet. Your orders will appear here.</p>
               </div>
             )}
