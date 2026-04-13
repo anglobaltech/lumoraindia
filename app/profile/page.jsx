@@ -118,7 +118,7 @@ export default function ProfilePage() {
       if (!user || !user.uid) throw new Error("Cannot save: User ID is missing.");
       const userRef = doc(db, "users", user.uid);
       
-      // Save to Firebase
+      // FIXED: Using setDoc with { merge: true } safely creates the document if it's missing!
       await setDoc(userRef, formData, { merge: true });
       
       // Optimistic UI Update globally

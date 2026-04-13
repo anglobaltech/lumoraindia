@@ -9,8 +9,8 @@ import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore"; 
 import LoginModal from "../../components/LoginModal";
 
-// Firebase Imports
-import { doc, updateDoc } from "firebase/firestore";
+// FIXED: Imported setDoc instead of updateDoc
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 
 const CartPage = () => {
@@ -22,19 +22,18 @@ const CartPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  // 1. Mark component as mounted
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // 2. Firebase Database Sync (Debounced)
   useEffect(() => {
     if (!isMounted || !user || !user.uid) return;
 
     const syncCartToDB = async () => {
       try {
         const userRef = doc(db, "users", user.uid);
-        await updateDoc(userRef, { cart: cartItems });
+        // FIXED: Using setDoc with merge: true guarantees the document is created if missing
+        await setDoc(userRef, { cart: cartItems }, { merge: true });
         console.log("Cart successfully synced to Firebase!");
       } catch (error) {
         console.error("Failed to sync cart to Firebase:", error);
@@ -53,13 +52,10 @@ const CartPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-50 pb-16 relative text-gray-900 font-sans">
       
-      {/* Subtle Background Glow */}
       <div className="absolute top-0 right-0 w-full max-w-2xl h-[400px] bg-pink-300/20 blur-[120px] pointer-events-none rounded-full"></div>
 
-      {/* AGGRESSIVELY REDUCED PADDING: pt-8 md:pt-10 is exactly ~32px to 40px (1cm) */}
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 md:pt-10 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
 
-        {/* ---------------- BACK TO STORE BUTTON (SCROLLS WITH PAGE) ---------------- */}
         <div className="mb-6 md:mb-8 animate-in fade-in slide-in-from-left-4 duration-500">
           <Link 
             href="/products" 
@@ -94,7 +90,6 @@ const CartPage = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
             
-            {/* CART ITEMS LIST */}
             <div className="lg:col-span-2 space-y-5">
               {cartItems.map((item) => (
                 <div key={`${item.id}-${item.size}-${item.pack}`} className="bg-white/90 backdrop-blur-xl p-5 md:p-6 rounded-3xl shadow-sm hover:shadow-md transition-shadow border border-pink-100 flex flex-col sm:flex-row items-center gap-6 relative group">
@@ -140,7 +135,6 @@ const CartPage = () => {
               ))}
             </div>
 
-            {/* ORDER SUMMARY */}
             <div className="bg-white/90 backdrop-blur-xl p-8 rounded-[2rem] shadow-xl border border-pink-100 h-fit sticky top-28">
               <h3 className="text-2xl font-extrabold text-gray-900 mb-6">Order Summary</h3>
               

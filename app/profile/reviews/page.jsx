@@ -59,7 +59,8 @@ export default function ReviewsPage() {
         isPublished: false 
       });
 
-      toast.success("Review updated! It is pending admin approval.");
+      // FIXED: Removed "pending admin approval" wording for better UX
+      toast.success("Review updated successfully!");
       setEditingReviewId(null);
     } catch (error) {
       console.error("Error updating review:", error);
@@ -111,14 +112,14 @@ export default function ReviewsPage() {
                           <span className="truncate">{review.productName}</span>
                         </h3>
                         
-                        {/* Responsive Badges */}
+                        {/* FIXED: Replaced "Pending Approval" with a positive "Saved" badge */}
                         {review.isPublished ? (
                           <span className="flex items-center gap-1 text-[10px] sm:text-xs font-black tracking-widest uppercase text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
                             <CheckCircle size={12} /> Verified
                           </span>
                         ) : (
-                          <span className="flex items-center gap-1 text-[10px] sm:text-xs font-black tracking-widest uppercase text-yellow-600 bg-yellow-50 border border-yellow-100 px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
-                            Pending Approval
+                          <span className="flex items-center gap-1 text-[10px] sm:text-xs font-black tracking-widest uppercase text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-full whitespace-nowrap shadow-sm">
+                            <CheckCircle size={12} /> Saved
                           </span>
                         )}
                       </div>
