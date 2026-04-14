@@ -26,6 +26,7 @@ export default function CheckoutPage() {
   // Success States
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [placedOrderId, setPlacedOrderId] = useState("");
+  const [placedOrderAmount, setPlacedOrderAmount] = useState(0); // FIXED: Captures exact amount before cart clears!
 
   // States for Address Form
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -236,6 +237,7 @@ export default function CheckoutPage() {
 
       if (response.ok && result.success) {
         setPlacedOrderId(orderId);
+        setPlacedOrderAmount(finalAmount); // FIXED: Freeze exact dynamic amount before cart clears!
         setOrderSuccess(true); 
         if (clearCart) clearCart(); 
       } else {
@@ -257,19 +259,20 @@ export default function CheckoutPage() {
           <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 size={40} className="fill-green-100" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Congratulations!</h1>
+          <h1 className="text-3xl font-semibold text-gray-700 mb-2">Congratulations!</h1>
           <p className="text-gray-600 mb-6 text-lg">Your order has been placed successfully.</p>
           
           <div className="bg-gray-50 rounded-xl p-4 mb-8 border border-gray-200 text-left">
             <p className="text-sm text-gray-500 mb-1">Order ID</p>
-            <p className="font-bold text-gray-900">{placedOrderId}</p>
+            <p className="font-semibold text-gray-700">{placedOrderId}</p>
             <p className="text-sm text-gray-500 mt-3 mb-1">Total Amount</p>
-            <p className="font-bold text-gray-900">₹{finalAmount}</p>
+            {/* FIXED: Uses the frozen snapshot value! */}
+            <p className="font-semibold text-gray-700">₹{placedOrderAmount}</p> 
           </div>
 
           <button 
             onClick={() => router.push("/")} 
-            className="w-full bg-pink-600 hover:bg-pink-700 text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition hover:shadow-lg cursor-pointer"
+            className="w-full bg-pink-600 hover:bg-pink-700 text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 transition hover:shadow-lg cursor-pointer"
           >
             <ShoppingBag size={20} /> Continue Shopping
           </button>
@@ -282,10 +285,10 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-5">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-center gap-4 mb-10 text-sm font-bold text-gray-400">
+        <div className="flex items-center justify-center gap-4 mb-10 text-sm font-semibold text-gray-400">
           <span className="text-pink-600 flex items-center gap-1"><CheckCircle2 size={16} /> Cart</span>
           <span className="w-10 h-px bg-pink-600"></span>
-          <span className="text-gray-900 flex items-center gap-1 border-b-2 border-gray-900 pb-1"><MapPin size={16} /> Delivery</span>
+          <span className="text-gray-700 flex items-center gap-1 border-b-2 border-gray-700 pb-1"><MapPin size={16} /> Delivery</span>
           <span className="w-10 h-px bg-gray-300"></span>
           <span className="flex items-center gap-1"><ShieldCheck size={16} /> Payment</span>
         </div>
@@ -296,14 +299,14 @@ export default function CheckoutPage() {
             {/* ADDRESS SECTION */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Select Delivery Address</h2>
+                <h2 className="text-2xl font-semibold text-gray-700">Select Delivery Address</h2>
                 <button 
                   onClick={() => {
                     setFormData({ houseNo: "", area: "", landmark: "", city: "", state: "", pincode: "" });
                     setEditingAddressIndex(null);
                     setShowAddressForm(!showAddressForm);
                   }} 
-                  className="text-pink-600 font-bold flex items-center gap-1 hover:text-pink-800 transition cursor-pointer"
+                  className="text-pink-600 font-semibold flex items-center gap-1 hover:text-pink-800 transition cursor-pointer"
                 >
                   {showAddressForm ? <><X size={16} /> Cancel</> : <><Plus size={16} /> Add New</>}
                 </button>
@@ -311,7 +314,7 @@ export default function CheckoutPage() {
 
               {showAddressForm && (
                 <form onSubmit={handleSaveAddress} className="mb-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
-                  <h3 className="font-bold text-gray-900 mb-4">{editingAddressIndex !== null ? "Edit Address" : "Add New Address"}</h3>
+                  <h3 className="font-semibold text-gray-700 mb-4">{editingAddressIndex !== null ? "Edit Address" : "Add New Address"}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input required type="text" name="houseNo" placeholder="Flat / House No." value={formData.houseNo} onChange={handleInputChange} className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none" />
                     <input required type="text" name="area" placeholder="Area / Sector" value={formData.area} onChange={handleInputChange} className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none" />
@@ -323,7 +326,7 @@ export default function CheckoutPage() {
                     <input required type="text" name="city" placeholder="City" value={formData.city} onChange={handleInputChange} className={`w-full border rounded-lg p-3 text-sm outline-none transition-colors ${isFetchingLocation ? 'bg-gray-100 border-gray-200 text-gray-500' : 'border-gray-300 focus:ring-2 focus:ring-pink-500'}`} />
                     <input required type="text" name="state" placeholder="State" value={formData.state} onChange={handleInputChange} className={`w-full border rounded-lg p-3 text-sm outline-none transition-colors ${isFetchingLocation ? 'bg-gray-100 border-gray-200 text-gray-500' : 'border-gray-300 focus:ring-2 focus:ring-pink-500'}`} />
                   </div>
-                  <button type="submit" disabled={isSaving} className="mt-4 bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg transition disabled:bg-pink-300 cursor-pointer">
+                  <button type="submit" disabled={isSaving} className="mt-4 bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition disabled:bg-pink-300 cursor-pointer">
                     {isSaving ? "Saving..." : "Save Address"}
                   </button>
                 </form>
@@ -344,9 +347,9 @@ export default function CheckoutPage() {
                       >
                         {selectedAddressIndex === index && <div className="absolute top-4 right-4 text-pink-500"><CheckCircle2 size={24} className="fill-pink-100" /></div>}
                         
-                        <h3 className="font-bold text-gray-900 mb-2">{user.name || "Customer"}</h3>
+                        <h3 className="font-semibold text-gray-700 mb-2">{user.name || "Customer"}</h3>
                         <p className="text-gray-600 text-sm w-10/12 leading-relaxed pr-10">{displayAddress}</p>
-                        <p className="text-gray-900 font-semibold mt-3 text-sm flex items-center gap-2">Mobile: {user.phone || "Not provided"}</p>
+                        <p className="text-gray-700 font-semibold mt-3 text-sm flex items-center gap-2">Mobile: {user.phone || "Not provided"}</p>
                         
                         {/* Edit & Delete Action Buttons */}
                         <div className="absolute bottom-4 right-4 flex gap-3">
@@ -375,7 +378,7 @@ export default function CheckoutPage() {
                   <div className="text-center py-10 bg-gray-50 rounded-xl border border-gray-200">
                     <MapPin size={32} className="mx-auto text-gray-400 mb-3" />
                     <p className="text-gray-600">You haven't saved any addresses yet.</p>
-                    <button onClick={() => setShowAddressForm(true)} className="mt-4 text-pink-600 font-bold hover:underline cursor-pointer">Add one now</button>
+                    <button onClick={() => setShowAddressForm(true)} className="mt-4 text-pink-600 font-semibold hover:underline cursor-pointer">Add one now</button>
                   </div>
                 )
               )}
@@ -383,16 +386,16 @@ export default function CheckoutPage() {
 
             {/* PAYMENT SECTION */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Payment Method</h2>
+              <h2 className="text-xl font-semibold text-gray-700 mb-4">Payment Method</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div onClick={() => setPaymentMethod("COD")} className={`relative p-4 rounded-xl border-2 cursor-pointer flex items-center gap-3 transition-all ${paymentMethod === "COD" ? "border-pink-500 bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
                   <Banknote className={paymentMethod === "COD" ? "text-pink-600" : "text-gray-400"} />
-                  <span className="font-bold text-gray-800">Cash on Delivery</span>
+                  <span className="font-semibold text-gray-700">Cash on Delivery</span>
                   {paymentMethod === "COD" && <CheckCircle2 size={20} className="absolute right-4 text-pink-500 fill-pink-100" />}
                 </div>
                 <div onClick={() => setPaymentMethod("ONLINE")} className={`relative p-4 rounded-xl border-2 cursor-pointer flex items-center gap-3 transition-all ${paymentMethod === "ONLINE" ? "border-pink-500 bg-pink-50" : "border-gray-200 hover:border-pink-300"}`}>
                   <CreditCard className={paymentMethod === "ONLINE" ? "text-pink-600" : "text-gray-400"} />
-                  <span className="font-bold text-gray-800">Pay Online</span>
+                  <span className="font-semibold text-gray-700">Pay Online</span>
                   <span className="text-[10px] bg-gray-200 text-gray-600 px-2 py-1 rounded-full absolute right-4">Coming Soon</span>
                 </div>
               </div>
@@ -401,25 +404,25 @@ export default function CheckoutPage() {
 
           {/* TOTALS & PLACE ORDER */}
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-fit sticky top-24">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Price Details</h3>
+            <h3 className="text-xl font-semibold text-gray-700 mb-6">Price Details</h3>
             <div className="space-y-4 text-gray-600 mb-6 border-b border-gray-100 pb-6">
               <div className="flex justify-between">
                 <span>Items ({cartItems.length})</span>
-                <span className="font-medium text-gray-900">₹{totalAmount}</span>
+                <span className="font-medium text-gray-700">₹{totalAmount}</span>
               </div>
               <div className="flex justify-between">
                 <span>Delivery Charges</span>
-                {shippingFee === 0 ? <span className="text-green-500 font-bold">FREE</span> : <span className="font-medium text-gray-900">₹{shippingFee}</span>}
+                {shippingFee === 0 ? <span className="text-green-500 font-semibold">FREE</span> : <span className="font-medium text-gray-700">₹{shippingFee}</span>}
               </div>
             </div>
-            <div className="flex justify-between text-xl font-bold text-gray-900 mb-8">
+            <div className="flex justify-between text-xl font-semibold text-gray-700 mb-8">
               <span>Total Payable</span>
               <span>₹{finalAmount}</span>
             </div>
             <button 
               onClick={handleProceedToPayment} 
               disabled={!user.addresses || user.addresses.length === 0 || isPlacingOrder} 
-              className="w-full bg-gray-900 hover:bg-black disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition hover:shadow-lg cursor-pointer"
+              className="w-full bg-gray-700 hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 transition hover:shadow-lg cursor-pointer"
             >
               {isPlacingOrder ? <><Loader2 className="animate-spin" size={20} /> Processing...</> : <>{paymentMethod === "COD" ? "Place Order (COD)" : "Continue to Payment"} <ArrowRight size={20} /></>}
             </button>

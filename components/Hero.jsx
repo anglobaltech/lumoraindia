@@ -213,10 +213,10 @@
 
 //   return (
 //     <div className="bg-white text-gray-700">
-//       {/* 1. TOP HERO SECTION */}
+      
 //       {/* 1. TOP HERO SECTION */}
 //       <section className="bg-gradient-to-br min-h-screen from-pink-100 via-white to-pink-50 w-full pt-8 sm:pt-12 pb-20 lg:pb-24 relative overflow-hidden">
-//         <div className="w-full max-w-[1600px] mx-auto px-4  xl:px-20 grid lg:grid-cols-2 gap-12 lg:gap-16 relative z-10">
+//         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-20 grid lg:grid-cols-2 gap-12 lg:gap-16 relative z-10">
           
 //           {/* LEFT SIDE: Text and Stats */}
 //           <div className="space-y-5 sm:space-y-6 w-full relative z-10 flex flex-col justify-center">
@@ -239,6 +239,7 @@
 //               </span>
 //             </h1>
 
+//             {/* Pulled the paragraph up slightly to fix empty space issue */}
 //             <div className="text-gray-600 text-base sm:text-lg xl:text-xl leading-relaxed max-w-lg xl:max-w-xl space-y-2 !mt-2 sm:!mt-3">
 //               <p>Lumora India offers premium sanitary pads made with breathable cotton and advanced leak-proof technology.</p>
 //               <p className="font-semibold text-pink-600">Move freely, sleep peacefully, and forget about leaks and rashes!</p>
@@ -250,16 +251,16 @@
 //               ))}
 //             </div>
 
-//             {/* BUTTONS: Fixed sizes and responsive wrapping */}
+//             {/* BUTTONS: Perfectly sized and wrapped */}
 //             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-3">
-//               <Link href="/products" className="w-full sm:w-auto">
-//                 <button className="w-full sm:w-auto px-8 py-3.5 bg-pink-600 text-white rounded-2xl text-sm sm:text-base font-semibold shadow-md shadow-pink-200 border-2 border-transparent hover:bg-pink-700 hover:scale-105 transition-all cursor-pointer flex justify-center items-center">
-//                   Shop Now
+//               <Link href="/contact-us" className="w-full sm:w-auto">
+//                 <button className="w-full sm:w-auto px-8 py-3.5 bg-pink-500 text-white rounded-2xl text-sm sm:text-base font-semibold shadow-md shadow-pink-200 border-2 border-transparent hover:bg-pink-600 hover:scale-105 transition-all cursor-pointer flex justify-center items-center">
+//                   Contact For Order
 //                 </button>
 //               </Link>
-//               <Link href="/about-us" className="w-full sm:w-auto">
+//               <Link href="/products" className="w-full sm:w-auto">
 //                 <button className="w-full sm:w-auto px-8 py-3.5 bg-white text-gray-700 border-2 border-gray-200 rounded-2xl text-sm sm:text-base font-semibold hover:bg-gray-50 hover:border-gray-300 hover:scale-105 transition-all cursor-pointer shadow-sm flex justify-center items-center">
-//                   Learn More
+//                   View Products
 //                 </button>
 //               </Link>
 //             </div>
@@ -272,7 +273,6 @@
 //               ))}
 //             </div>
 
-//             {/* STATS: Adjusted for mobile wrapping */}
 //             <div className="grid grid-cols-3 gap-2 sm:gap-6 xl:gap-12 pt-6 border-t border-gray-100 mt-6 text-center sm:text-left">
 //               {[
 //                 { value: "50K+", label: "Happy Women" },
@@ -289,10 +289,10 @@
 //             </div>
 //           </div>
 
-//           {/* RIGHT SIDE: Image Slider & bg2.jpg */}
-//           <div className="flex flex-col items-center lg:items-end relative w-full mt-12 lg:mt-0">
+//           {/* RIGHT SIDE: Centered and strictly contained */}
+//           <div className="flex flex-col items-center justify-center relative w-full mt-12 lg:mt-0 min-w-0">
             
-//             <div className="relative w-full max-w-[340px] sm:max-w-md lg:max-w-lg xl:max-w-[500px] h-[300px] sm:h-[380px] lg:h-[420px] xl:h-[460px]">
+//             <div className="relative w-full max-w-[280px] sm:max-w-[360px] md:max-w-[400px] lg:max-w-[420px] xl:max-w-[480px] h-[320px] sm:h-[400px] lg:h-[440px] xl:h-[480px] mx-auto">
 //               <div className="absolute inset-0 bg-gradient-to-tr from-pink-300 to-purple-200 blur-3xl rounded-full opacity-40 transform scale-95" />
               
 //               <Swiper
@@ -314,7 +314,6 @@
 //                 ))}
 //               </Swiper>
               
-//               {/* RESPONSIVE PILL: Added width limits so it doesn't overflow small screens */}
 //               <div onClick={scrollToReviews} className="absolute -bottom-6 sm:-bottom-8 left-1/2 transform -translate-x-1/2 bg-white p-2.5 sm:p-3 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] z-20 flex items-center justify-center gap-2 sm:gap-3 border border-gray-100 w-[90%] sm:w-max max-w-[320px] cursor-pointer hover:-translate-y-1 transition-all duration-300 animate-in fade-in slide-in-from-bottom-8 delay-300">
 //                 <div className="flex -space-x-2 shrink-0">
 //                   <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-white bg-pink-100 flex items-center justify-center text-pink-600 font-semibold text-xs">P</div>
@@ -334,7 +333,7 @@
 //               </div>
 //             </div>
             
-//             <div className="mt-14 sm:mt-16 lg:mt-12 relative w-full max-w-[340px] sm:max-w-md lg:max-w-lg xl:max-w-[500px] h-[100px] sm:h-[130px] xl:h-[150px] rounded-2xl overflow-hidden shadow-sm border border-pink-100 group flex items-center justify-center bg-white/40 backdrop-blur-sm">
+//             <div className="mt-14 sm:mt-16 lg:mt-12 relative w-full max-w-[280px] sm:max-w-[360px] md:max-w-[400px] lg:max-w-[420px] xl:max-w-[480px] h-[100px] sm:h-[130px] xl:h-[150px] mx-auto rounded-2xl overflow-hidden shadow-sm border border-pink-100 group flex items-center justify-center bg-white/40 backdrop-blur-sm">
 //               <Image src="/bg2.jpg" alt="Lumora Comfort" fill className="object-contain group-hover:scale-105 transition-transform duration-700 p-2" />
 //             </div>
 
@@ -386,7 +385,7 @@
 //       </section>
 
 //       {/* 3. WHY CHOOSE LUMORA INDIA */}
-//       <section className="relative pb-16 bg-pink-50 overflow-hidden">
+//       <section className="relative py-20 bg-pink-50 overflow-hidden">
 //         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
 //           <div className="text-center mb-16" data-aos="fade-up">
 //             <h2 className="text-2xl md:text-3xl font-semibold text-gray-700">
@@ -583,10 +582,10 @@
 
 //       {/* 7. UPGRADED & DYNAMIC FAQ SECTION - Renders ONLY if DB has FAQs */}
 //       {dynamicFaqs.length > 0 && (
-//         <section className="py-16 bg-gradient-to-b from-pink-50 to-white relative">
+//         <section className="py-24 bg-gradient-to-b from-pink-50 to-white relative">
 //           <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-pink-200 to-transparent"></div>
           
-//           <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12" data-aos="fade-up">
+//           <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12" data-aos="fade-up">
 //             <div className="text-center mb-14">
 //               <span className="text-pink-600 font-semibold tracking-wider uppercase text-sm mb-3 block">Got Questions?</span>
 //               <h2 className="text-2xl md:text-3xl font-semibold text-gray-700">
@@ -608,10 +607,10 @@
 //                     }`}
 //                   >
 //                     <button
-//                       className="w-full flex items-center justify-between p-3 focus:outline-none cursor-pointer group"
+//                       className="w-full flex items-center justify-between p-6 focus:outline-none cursor-pointer group"
 //                       onClick={() => toggleFAQ(index)}
 //                     >
-//                       <span className={`text-left font-semibold text-lg pr-8 flex items-center gap-2 transition-colors duration-300 ${
+//                       <span className={`text-left font-semibold text-lg pr-8 flex items-center gap-4 transition-colors duration-300 ${
 //                         isActive ? 'text-pink-600' : 'text-gray-700 group-hover:text-pink-500'
 //                       }`}>
 //                         <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm ${
@@ -712,6 +711,8 @@
 // };
 
 // export default Hero;
+
+
 
 
 
@@ -970,7 +971,7 @@ const Hero = () => {
               ))}
             </div>
 
-            {/* BUTTONS: Perfectly sized and wrapped */}
+            {/* BUTTONS: Perfectly sized, wrapped, and "Learn More" added */}
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-3">
               <Link href="/contact-us" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto px-8 py-3.5 bg-pink-500 text-white rounded-2xl text-sm sm:text-base font-semibold shadow-md shadow-pink-200 border-2 border-transparent hover:bg-pink-600 hover:scale-105 transition-all cursor-pointer flex justify-center items-center">
@@ -980,6 +981,11 @@ const Hero = () => {
               <Link href="/products" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto px-8 py-3.5 bg-white text-gray-700 border-2 border-gray-200 rounded-2xl text-sm sm:text-base font-semibold hover:bg-gray-50 hover:border-gray-300 hover:scale-105 transition-all cursor-pointer shadow-sm flex justify-center items-center">
                   View Products
+                </button>
+              </Link>
+              <Link href="/about-us" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto px-8 py-3.5 bg-pink-50 text-pink-600 border-2 border-pink-200 rounded-2xl text-sm sm:text-base font-semibold hover:bg-pink-100 hover:border-pink-300 hover:scale-105 transition-all cursor-pointer shadow-sm flex justify-center items-center">
+                  Learn More
                 </button>
               </Link>
             </div>
@@ -1368,7 +1374,7 @@ const Hero = () => {
           Join thousands of women who have switched to a healthier, rash-free period.
         </p>
         <Link href="/products" data-aos="zoom-in" data-aos-delay="200">
-          <button className="bg-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-lg hover:bg-pink-700 hover:scale-105 transition-all cursor-pointer">
+          <button className="bg-pink-600 text-white px-10 py-4 rounded-2xl font-semibold text-lg shadow-lg hover:bg-pink-700 hover:scale-105 transition-all cursor-pointer">
             Buy Now
           </button>
         </Link>
