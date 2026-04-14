@@ -116,7 +116,7 @@ export default function AdminFAQ() {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center animate-in fade-in duration-500">
         <Loader2 className="animate-spin text-pink-500 mb-5" size={48} />
-        <p className="text-gray-500 font-bold text-sm tracking-widest uppercase">Loading FAQs...</p>
+        <p className="text-gray-500 font-semibold text-sm tracking-widest uppercase">Loading FAQs...</p>
       </div>
     );
   }
@@ -127,7 +127,7 @@ export default function AdminFAQ() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/80 backdrop-blur-xl p-6 lg:p-8 rounded-[2rem] shadow-sm border border-gray-100">
         <div>
-          <h1 className="text-3xl font-black text-gray-900 tracking-tight flex items-center gap-3">
+          <h1 className="text-2xl font-semibold text-gray-700 tracking-tight flex items-center gap-3">
              <div className="p-2 bg-pink-100 text-pink-600 rounded-xl shadow-inner">
                <HelpCircle size={28} />
              </div>
@@ -137,7 +137,7 @@ export default function AdminFAQ() {
         </div>
         <button 
           onClick={openAddModal}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-pink-600 to-pink-500 text-white font-bold rounded-xl hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-pink-600 to-pink-500 text-white font-semibold rounded-xl hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
         >
           <Plus size={20} /> Add New FAQ
         </button>
@@ -150,9 +150,9 @@ export default function AdminFAQ() {
             <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm border border-gray-100 mb-5">
                <MessageSquareHeart size={36} className="text-pink-300" />
             </div>
-            <h3 className="text-xl font-extrabold text-gray-900 mb-2">No FAQs found</h3>
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">No FAQs found</h3>
             <p className="text-sm text-gray-500 font-medium max-w-sm mx-auto mb-6">Create your first FAQ to help customers find answers quickly on your website.</p>
-            <button onClick={openAddModal} className="px-6 py-3 bg-white border-2 border-pink-100 text-pink-600 font-bold rounded-xl hover:bg-pink-50 transition-all cursor-pointer shadow-sm">
+            <button onClick={openAddModal} className="px-6 py-3 bg-white border-2 border-pink-100 text-pink-600 font-semibold rounded-xl hover:bg-pink-50 transition-all cursor-pointer shadow-sm">
                Add First Question
             </button>
           </div>
@@ -160,25 +160,25 @@ export default function AdminFAQ() {
           faqs.map((faq) => (
             <div key={faq.id} className="group bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-pink-200 transition-all duration-300 flex flex-col md:flex-row justify-between gap-6">
               <div className="flex-1">
-                <h3 className="text-lg font-extrabold text-gray-900 mb-2 flex items-start gap-3">
-                  <span className="text-pink-500 text-xl leading-none font-black">Q.</span> 
+                <h3 className="text-base font-semibold text-gray-700 mb-2 flex items-start gap-3">
+                  <span className="text-pink-500 text-xl leading-none font-semibold">Q.</span> 
                   {faq.question}
                 </h3>
                 <p className="text-gray-600 font-medium leading-relaxed flex items-start gap-3 pl-1">
-                  <span className="text-gray-300 text-xl leading-none font-black opacity-50">A.</span> 
+                  <span className="text-gray-300 text-xl leading-none font-semibold opacity-50">A.</span> 
                   {faq.answer}
                 </p>
               </div>
               <div className="flex items-start gap-3 shrink-0 pt-1">
                 <button 
                   onClick={() => openEditModal(faq)}
-                  className="px-4 py-2 bg-pink-50 text-pink-600 rounded-xl font-bold hover:bg-pink-100 hover:text-pink-700 transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
+                  className="px-4 py-2 bg-pink-50 text-pink-600 rounded-xl font-semibold hover:bg-pink-100 hover:text-pink-700 transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
                 >
                   <Edit2 size={16} /> Edit
                 </button>
                 <button 
                   onClick={() => handleDelete(faq.id)}
-                  className="px-4 py-2 bg-red-50 text-red-500 rounded-xl font-bold hover:bg-red-100 hover:text-red-600 transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
+                  className="px-4 py-2 bg-red-50 text-red-500 rounded-xl font-semibold hover:bg-red-100 hover:text-red-600 transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
                 >
                   <Trash2 size={16} /> Delete
                 </button>
@@ -200,7 +200,7 @@ export default function AdminFAQ() {
               <X size={20} />
             </button>
 
-            <h2 className="text-2xl font-black text-gray-900 mb-6 flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-gray-700 mb-6 flex items-center gap-2">
               <HelpCircle className="text-pink-500" />
               {editingFaq ? "Edit FAQ" : "Add New FAQ"}
             </h2>
@@ -208,19 +208,19 @@ export default function AdminFAQ() {
             <form onSubmit={handleSave} className="space-y-5">
               
               <div className="space-y-1.5">
-                <label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest ml-1">The Question</label>
+                <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-widest ml-1">The Question</label>
                 <input 
                   type="text" 
                   value={formData.question}
                   onChange={(e) => setFormData({...formData, question: e.target.value})}
                   placeholder="e.g., Does it cause rashes?"
-                  className="w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none text-gray-900 font-bold transition-all shadow-sm"
+                  className="w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none text-gray-700 font-semibold transition-all shadow-sm"
                   required
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest ml-1">The Answer</label>
+                <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-widest ml-1">The Answer</label>
                 <textarea 
                   value={formData.answer}
                   onChange={(e) => setFormData({...formData, answer: e.target.value})}
@@ -235,14 +235,14 @@ export default function AdminFAQ() {
                 <button 
                   type="button" 
                   onClick={closeModal}
-                  className="flex-1 px-4 py-3.5 bg-white border-2 border-gray-200 text-gray-600 font-bold rounded-xl hover:bg-gray-50 transition-colors cursor-pointer"
+                  className="flex-1 px-4 py-3.5 bg-white border-2 border-gray-200 text-gray-600 font-semibold rounded-xl hover:bg-gray-50 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
                   disabled={isSaving}
-                  className="flex-[2] px-4 py-3.5 bg-gradient-to-r from-pink-600 to-pink-500 text-white font-bold rounded-xl hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:-translate-y-0.5 transition-all flex justify-center items-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="flex-[2] px-4 py-3.5 bg-gradient-to-r from-pink-600 to-pink-500 text-white font-semibold rounded-xl hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:-translate-y-0.5 transition-all flex justify-center items-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isSaving ? <Loader2 className="animate-spin" size={18} /> : <Check size={18} />}
                   {isSaving ? "Saving..." : "Save FAQ"}
