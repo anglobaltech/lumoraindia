@@ -124,7 +124,7 @@ export default function AdminProduct() {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center animate-in fade-in duration-500">
         <Loader2 className="animate-spin text-pink-500 mb-5" size={48} />
-        <p className="text-gray-500 font-bold text-sm tracking-widest uppercase">Fetching Product Data...</p>
+        <p className="text-gray-500 font-semibold text-sm tracking-widest uppercase">Fetching Product Data...</p>
       </div>
     );
   }
@@ -135,13 +135,13 @@ export default function AdminProduct() {
       {/* Sticky Header */}
       <div className="sticky top-0 z-40 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/80 backdrop-blur-xl p-6 lg:p-8 rounded-[2rem] shadow-sm border border-gray-100">
         <div>
-          <h1 className="text-3xl font-black text-gray-900 tracking-tight">Product Control</h1>
+          <h1 className="text-2xl font-semibold text-gray-700 tracking-tight">Product Control</h1>
           <p className="text-gray-500 text-sm mt-1.5 font-medium">Manage pricing, inventory, and dynamic image galleries.</p>
         </div>
         <button 
           onClick={handleSave}
           disabled={isSaving}
-          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-pink-600 to-pink-500 text-white font-bold rounded-xl hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-70 cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-pink-600 to-pink-500 text-white font-semibold rounded-xl hover:from-pink-700 hover:to-pink-600 shadow-lg shadow-pink-200 hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-70 cursor-pointer"
         >
           {isSaving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
           {isSaving ? "Publishing..." : "Publish Changes"}
@@ -152,7 +152,7 @@ export default function AdminProduct() {
         
         {/* Left Column: Image Gallery Management */}
         <div className="lg:col-span-1 bg-white p-6 lg:p-8 rounded-[2rem] shadow-sm border border-gray-100 h-fit">
-          <h2 className="text-xl font-extrabold text-gray-900 mb-6 flex items-center gap-3">
+          <h2 className="text-lg font-semibold text-gray-700 mb-6 flex items-center gap-3">
              <div className="p-2.5 bg-pink-50 rounded-xl text-pink-500 shadow-inner">
                <ImageIcon size={22} /> 
              </div>
@@ -179,7 +179,7 @@ export default function AdminProduct() {
             {/* Display New Image Previews */}
             {previewUrls.map((url, index) => (
               <div key={`new-${index}`} className="relative group aspect-square rounded-2xl overflow-hidden border-2 border-pink-400 shadow-sm">
-                <div className="absolute top-1 left-1 bg-pink-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md z-10 uppercase tracking-widest shadow-sm">New</div>
+                <div className="absolute top-1 left-1 bg-pink-500 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded-md z-10 uppercase tracking-widest shadow-sm">New</div>
                 <img src={url} alt={`Preview ${index}`} className="object-cover w-full h-full" />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
                   <button 
@@ -198,7 +198,7 @@ export default function AdminProduct() {
               <div className="p-3 bg-white rounded-full shadow-sm group-hover:scale-110 transition-transform mb-2">
                  <Plus size={24} />
               </div>
-              <span className="text-xs font-bold">Add Image</span>
+              <span className="text-xs font-semibold">Add Image</span>
               <input 
                 type="file" 
                 accept="image/*"
@@ -213,7 +213,7 @@ export default function AdminProduct() {
 
         {/* Right Column: Product Details Form */}
         <div className="lg:col-span-2 bg-white p-6 lg:p-8 rounded-[2rem] shadow-sm border border-gray-100">
-           <h2 className="text-xl font-extrabold text-gray-900 mb-6 flex items-center gap-3">
+           <h2 className="text-lg font-semibold text-gray-700 mb-6 flex items-center gap-3">
              <div className="p-2.5 bg-blue-50 rounded-xl text-blue-500 shadow-inner">
                <Tag size={22} /> 
              </div>
@@ -223,7 +223,7 @@ export default function AdminProduct() {
           <form className="space-y-6">
             {/* Product Name */}
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest ml-1">Product Name</label>
+              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-widest ml-1">Product Name</label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Tag size={18} className="text-gray-400 group-focus-within:text-pink-500 transition-colors" />
@@ -233,7 +233,7 @@ export default function AdminProduct() {
                   name="name"
                   value={product.name}
                   onChange={handleChange}
-                  className="w-full pl-11 pr-4 py-3.5 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none bg-gray-50 font-bold text-gray-900 transition-all shadow-sm"
+                  className="w-full pl-11 pr-4 py-3.5 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none bg-gray-50 font-semibold text-gray-700 transition-all shadow-sm"
                 />
               </div>
             </div>
@@ -241,7 +241,7 @@ export default function AdminProduct() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Selling Price */}
               <div className="space-y-1.5">
-                <label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest ml-1">Selling Price (₹)</label>
+                <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-widest ml-1">Selling Price (₹)</label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <IndianRupee size={18} className="text-gray-400 group-focus-within:text-pink-500 transition-colors" />
@@ -251,14 +251,14 @@ export default function AdminProduct() {
                     name="price"
                     value={product.price}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-3.5 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none bg-gray-50 font-black text-gray-900 text-lg transition-all shadow-sm"
+                    className="w-full pl-11 pr-4 py-3.5 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none bg-gray-50 font-semibold text-gray-700 text-lg transition-all shadow-sm"
                   />
                 </div>
               </div>
 
               {/* MRP */}
               <div className="space-y-1.5">
-                <label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest ml-1">MRP (₹)</label>
+                <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-widest ml-1">MRP (₹)</label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <IndianRupee size={18} className="text-gray-400 group-focus-within:text-gray-600 transition-colors" />
@@ -268,7 +268,7 @@ export default function AdminProduct() {
                     name="mrp"
                     value={product.mrp}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-3.5 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-gray-200 focus:border-gray-400 outline-none bg-gray-50 text-gray-500 font-bold line-through transition-all shadow-sm"
+                    className="w-full pl-11 pr-4 py-3.5 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-gray-200 focus:border-gray-400 outline-none bg-gray-50 text-gray-500 font-semibold line-through transition-all shadow-sm"
                   />
                 </div>
               </div>
@@ -276,7 +276,7 @@ export default function AdminProduct() {
 
             {/* Stock Level */}
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest ml-1">Current Stock Level</label>
+              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-widest ml-1">Current Stock Level</label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Package size={18} className="text-gray-400 group-focus-within:text-pink-500 transition-colors" />
@@ -286,14 +286,14 @@ export default function AdminProduct() {
                   name="stock"
                   value={product.stock}
                   onChange={handleChange}
-                  className="w-full pl-11 pr-4 py-3.5 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none bg-gray-50 font-black text-gray-900 transition-all shadow-sm"
+                  className="w-full pl-11 pr-4 py-3.5 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 outline-none bg-gray-50 font-semibold text-gray-700 transition-all shadow-sm"
                 />
               </div>
             </div>
 
             {/* Description */}
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest ml-1">Product Description</label>
+              <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-widest ml-1">Product Description</label>
               <textarea 
                 name="description"
                 value={product.description}

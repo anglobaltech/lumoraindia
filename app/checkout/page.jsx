@@ -203,6 +203,7 @@ export default function CheckoutPage() {
         ? `${selectedAddr.houseNo}, ${selectedAddr.area}, ${selectedAddr.landmark ? selectedAddr.landmark + ", " : ""}${selectedAddr.city}, ${selectedAddr.state}, ${selectedAddr.pincode}`
         : selectedAddr;
 
+      // Construct the EXACT payload the Admin Dashboard expects
       const orderPayload = {
         orderId: orderId,
         userId: user?.uid || "guest_user", 
@@ -211,38 +212,50 @@ export default function CheckoutPage() {
           email: user?.email || "no-email@provided.com", 
           phone: user?.phone || "Not provided" 
         },
+        customerEmail: user?.email || "", // Added for Admin Table search
+        customerPhone: user?.phone || "", // Added for Admin Table search
         address: addressString || "No Address Provided",
         cartItems: cartItems,
         totals: { totalAmount, shippingFee, finalAmount },
         paymentMethod: "COD",
-        status: "Order Placed", 
+        status: "processing", // Changed to lowercase 'processing' to match Admin Badges
         createdAt: new Date().toISOString()
       };
 
+      // 1. Securely Save Order to Firebase
       await addDoc(collection(db, "orders"), orderPayload);
 
+      // 2. Append order to User's Order History
       if (user?.uid) {
         const userRef = doc(db, "users", user.uid);
-        // Append order to their history
         await setDoc(userRef, { myOrders: [...(user.myOrders || []), orderId] }, { merge: true });
       }
 
-      const response = await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderPayload),
-      });
+      // 3. Attempt API route (e.g., for sending Emails), but fail gracefully if missing
+      try {
+        const response = await fetch("/api/order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderPayload),
+        });
 
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        setPlacedOrderId(orderId);
-        setPlacedOrderAmount(finalAmount); // FIXED: Freeze exact dynamic amount before cart clears!
-        setOrderSuccess(true); 
-        if (clearCart) clearCart(); 
-      } else {
-        throw new Error(result.error || "Failed to send confirmation email");
+        // Only try to parse JSON if the response headers say it IS json
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          const result = await response.json();
+          if (!result.success) console.warn("API route responded, but reported failure.");
+        }
+      } catch (apiError) {
+        console.warn("API route /api/order failed (likely missing), but order was still placed in Firebase successfully.");
+        // We ignore this error because the Firebase save already worked!
       }
+
+      // 4. Always show Success Screen and Clear Cart
+      setPlacedOrderId(orderId);
+      setPlacedOrderAmount(finalAmount); 
+      setOrderSuccess(true); 
+      if (clearCart) clearCart(); 
+
     } catch (error) {
       console.error("Order error:", error);
       alert("Something went wrong placing your order. Please check console for details.");
