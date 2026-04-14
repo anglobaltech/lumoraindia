@@ -79,7 +79,7 @@ export default function AdminReviews() {
     <div className="space-y-6">
       {/* Header */}
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h1 className="text-2xl font-extrabold text-gray-900 flex items-center gap-2">
+        <h1 className="text-xl font-semibold text-gray-700 flex items-center gap-2">
           <MessageSquare className="text-pink-600" /> Customer Reviews
         </h1>
         <p className="text-gray-500 text-sm mt-1">Monitor, approve, and manage feedback from your customers.</p>
@@ -91,7 +91,7 @@ export default function AdminReviews() {
           <div className="bg-gray-50 p-4 rounded-full mb-4">
             <MessageSquare size={32} className="text-gray-400" />
           </div>
-          <h3 className="text-lg font-bold text-gray-900">No reviews yet</h3>
+          <h3 className="text-base font-semibold text-gray-700">No reviews yet</h3>
           <p className="text-gray-500 mt-1">When customers leave reviews, they will appear here dynamically.</p>
         </div>
       ) : (
@@ -102,12 +102,12 @@ export default function AdminReviews() {
               {/* Reviewer Info & Rating */}
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-pink-50 rounded-full flex items-center justify-center text-pink-600 font-bold uppercase shrink-0">
+                  <div className="w-10 h-10 bg-pink-50 rounded-full flex items-center justify-center text-pink-600 font-semibold uppercase shrink-0">
                     {review.userName ? review.userName.charAt(0) : <User size={18} />}
                   </div>
                   <div>
                     {/* Fetching and displaying the dynamic Username */}
-                    <h3 className="font-bold text-gray-900 truncate max-w-[150px]" title={review.userName}>
+                    <h3 className="font-semibold text-gray-700 truncate max-w-[150px]" title={review.userName}>
                       {review.userName || "User"}
                     </h3>
                     <p className="text-xs text-gray-500">
@@ -135,7 +135,7 @@ export default function AdminReviews() {
               <div className="flex items-center gap-3 pt-4 border-t border-gray-100 mt-auto">
                 <button
                   onClick={() => togglePublishStatus(review.id, review.isPublished)}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors cursor-pointer ${
+                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
                     review.isPublished 
                       ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100" 
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"

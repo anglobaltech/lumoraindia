@@ -60,7 +60,7 @@ export default function AdminDashboard() {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center animate-in fade-in duration-500">
         <Loader2 className="animate-spin text-pink-500 mb-5" size={48} />
-        <p className="text-gray-500 font-bold text-sm tracking-widest uppercase">Crunching your numbers...</p>
+        <p className="text-gray-500 font-semibold text-sm tracking-widest uppercase">Crunching your numbers...</p>
       </div>
     );
   }
@@ -110,10 +110,10 @@ export default function AdminDashboard() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-white/60 backdrop-blur-md p-6 rounded-[2rem] border border-gray-100 shadow-sm">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 border border-pink-100 text-pink-600 text-[10px] font-black uppercase tracking-widest mb-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 border border-pink-100 text-pink-600 text-[10px] font-semibold uppercase tracking-widest mb-3">
             <Sparkles size={12} className="text-pink-500" /> Executive Summary
           </div>
-          <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Dashboard Overview</h1>
+          <h1 className="text-2xl md:text-3xl font-semibold text-gray-700 tracking-tight">Dashboard Overview</h1>
           <p className="text-gray-500 mt-2 font-medium">Welcome back! Here is what's happening with Lumora today.</p>
         </div>
       </div>
@@ -131,8 +131,8 @@ export default function AdminDashboard() {
               
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-1">{stat.title}</p>
-                  <h3 className="text-3xl font-black text-gray-900 tracking-tight">{stat.value}</h3>
+                  <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">{stat.title}</p>
+                  <h3 className="text-2xl font-semibold text-gray-700 tracking-tight">{stat.value}</h3>
                 </div>
                 <div className={`p-3.5 rounded-2xl ${stat.bgColor} ${stat.color} border ${stat.borderColor} shadow-lg ${stat.glow} group-hover:scale-110 transition-transform duration-300`}>
                   <Icon size={24} />
@@ -156,7 +156,7 @@ export default function AdminDashboard() {
             <div className="p-3 bg-pink-100 rounded-xl shadow-inner group-hover:scale-110 transition-transform">
               <TrendingUp size={24} />
             </div>
-            <h2 className="text-2xl font-black text-gray-900 tracking-tight">Recent Activity</h2>
+            <h2 className="text-xl font-semibold text-gray-700 tracking-tight">Recent Activity</h2>
           </div>
           
           <p className="text-gray-600 font-medium mb-8 relative z-10 flex-grow">
@@ -165,7 +165,7 @@ export default function AdminDashboard() {
           
           <Link 
             href="/admin/orders" 
-            className="w-fit inline-flex items-center gap-2 px-6 py-3.5 bg-white text-pink-600 font-bold border-2 border-pink-100 rounded-xl hover:bg-pink-600 hover:text-white hover:border-pink-600 transition-all shadow-sm cursor-pointer relative z-10"
+            className="w-fit inline-flex items-center gap-2 px-6 py-3.5 bg-white text-pink-600 font-semibold border-2 border-pink-100 rounded-xl hover:bg-pink-600 hover:text-white hover:border-pink-600 transition-all shadow-sm cursor-pointer relative z-10"
           >
             View Orders <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
             <div className="p-3 bg-blue-100 rounded-xl shadow-inner group-hover:scale-110 transition-transform">
               <Package size={24} />
             </div>
-            <h2 className="text-2xl font-black text-gray-900 tracking-tight">Inventory Health</h2>
+            <h2 className="text-xl font-semibold text-gray-700 tracking-tight">Inventory Health</h2>
           </div>
           
           <p className="text-gray-600 font-medium mb-8 relative z-10 flex-grow">
@@ -190,7 +190,7 @@ export default function AdminDashboard() {
           
           <Link 
             href="/admin/products" 
-            className="w-fit inline-flex items-center gap-2 px-6 py-3.5 bg-white text-blue-600 font-bold border-2 border-blue-100 rounded-xl hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all shadow-sm cursor-pointer relative z-10"
+            className="w-fit inline-flex items-center gap-2 px-6 py-3.5 bg-white text-blue-600 font-semibold border-2 border-blue-100 rounded-xl hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all shadow-sm cursor-pointer relative z-10"
           >
             Manage Product <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -206,7 +206,7 @@ export default function AdminDashboard() {
             <div className="p-3 bg-purple-100 rounded-xl shadow-inner group-hover:scale-110 transition-transform">
               <HelpCircle size={24} />
             </div>
-            <h2 className="text-2xl font-black text-gray-900 tracking-tight">FAQ Control</h2>
+            <h2 className="text-xl font-semibold text-gray-700 tracking-tight">FAQ Control</h2>
           </div>
           
           <p className="text-gray-600 font-medium mb-8 relative z-10 flex-grow">
@@ -215,7 +215,7 @@ export default function AdminDashboard() {
           
           <Link 
             href="/admin/faq" 
-            className="w-fit inline-flex items-center gap-2 px-6 py-3.5 bg-white text-purple-600 font-bold border-2 border-purple-100 rounded-xl hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all shadow-sm cursor-pointer relative z-10"
+            className="w-fit inline-flex items-center gap-2 px-6 py-3.5 bg-white text-purple-600 font-semibold border-2 border-purple-100 rounded-xl hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all shadow-sm cursor-pointer relative z-10"
           >
             Manage FAQs <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
