@@ -266,7 +266,7 @@ const Page = () => {
         </div>
       </section>
 
-      {/* 2. CONTACT CARDS SECTION */}
+      {/* 2. CONTACT CARDS SECTION - FIXED OVERFLOW FOR LONG EMAILS */}
       <section className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 pb-12 lg:pb-16 mt-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {contactItems.map(({ icon: Icon, label, value, sub, href }, index) => (
@@ -274,31 +274,33 @@ const Page = () => {
               key={label}
               data-aos="fade-up"
               data-aos-delay={index * 100}
-              className="bg-white rounded-3xl p-6 lg:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:border-pink-200 hover:-translate-y-1 transition-all duration-300 group cursor-default"
+              className="bg-white rounded-3xl p-6 lg:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:border-pink-200 hover:-translate-y-1 transition-all duration-300 group cursor-default w-full overflow-hidden"
             >
-              <div className="flex flex-col items-start gap-5">
+              <div className="flex flex-col items-start gap-5 w-full">
                 <div className="w-14 h-14 shrink-0 rounded-2xl bg-pink-50 border border-pink-100 flex items-center justify-center group-hover:bg-pink-500 transition-colors duration-300">
                   <Icon className="w-6 h-6 text-pink-600 group-hover:text-white transition-colors duration-300" />
                 </div>
-                <div>
+                <div className="w-full">
                   <p className="text-[11px] sm:text-xs font-semibold tracking-widest uppercase text-gray-400 mb-2">
                     {label}
                   </p>
+                  {/* ADDED break-words and break-all to prevent long emails from escaping the box */}
                   {href ? (
                     <a
                       href={href}
                       target={href.startsWith("http") ? "_blank" : undefined}
                       rel="noopener noreferrer"
-                      className="text-base sm:text-lg font-semibold text-gray-700 hover:text-pink-600 transition-colors"
+                      className="text-base sm:text-lg font-semibold text-gray-700 hover:text-pink-600 transition-colors break-words sm:break-all lg:break-words block"
                     >
                       {value}
                     </a>
                   ) : (
-                    <p className="text-base sm:text-lg font-semibold text-gray-700">
+                    <p className="text-base sm:text-lg font-semibold text-gray-700 break-words block">
                       {value}
                     </p>
                   )}
-                  <p className="text-sm text-gray-500 mt-1 font-medium">{sub}</p>
+                  {/* Added break-words here just in case the sub-text is also long */}
+                  <p className="text-sm text-gray-500 mt-1 font-medium break-words block">{sub}</p>
                 </div>
               </div>
             </div>
