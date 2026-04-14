@@ -2,15 +2,20 @@
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "../../../store/authStore";
 import OrderCard from "../../../components/dashboard/OrderCard";
-import { X, Package, MapPin, Calendar, Receipt, Truck, CheckCircle, Loader2 } from "lucide-react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { X, Package, MapPin, Calendar, Receipt, Truck, CheckCircle, Loader2, XCircle, AlertCircle } from "lucide-react";
+import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
+import { toast } from "react-toastify";
 
 export default function OrdersPage() {
   const user = useAuthStore((state) => state.user);
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // New States for the Beautiful Cancel Modal
+  const [orderToCancelPrompt, setOrderToCancelPrompt] = useState(null);
+  const [isCancelling, setIsCancelling] = useState(false);
 
   useEffect(() => {
     const fetchMyOrders = async () => {
@@ -56,6 +61,61 @@ export default function OrdersPage() {
     fetchMyOrders();
   }, [user]);
 
+  // Handle Order Cancellation (FIXED: Uses a safe query to prevent undefined errors)
+  const handleCancelOrder = async () => {
+    if (!orderToCancelPrompt) return;
+    setIsCancelling(true);
+    
+    try {
+      // 1. SAFELY Find the exact document in Firestore using the orderId
+      const ordersRef = collection(db, "orders");
+      const q = query(ordersRef, where("orderId", "==", orderToCancelPrompt.id));
+      const snapshot = await getDocs(q);
+      
+      if (snapshot.empty) {
+        throw new Error("Order not found in database.");
+      }
+      
+      // Get the actual physical document ID
+      const actualDocId = snapshot.docs[0].id;
+      const orderRef = doc(db, "orders", actualDocId);
+      
+      // 2. Update status to Cancelled
+      await updateDoc(orderRef, {
+        status: "Cancelled",
+        updatedAt: new Date().toISOString()
+      });
+
+      // 3. Call API to trigger the cancellation email
+      await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "cancel",
+          orderId: orderToCancelPrompt.id,
+          user: user
+        }),
+      });
+
+      // 4. Update the local UI immediately
+      setOrders(prevOrders => 
+        prevOrders.map(o => o.id === orderToCancelPrompt.id ? { ...o, status: "Cancelled" } : o)
+      );
+
+      if (selectedOrder && selectedOrder.id === orderToCancelPrompt.id) {
+        setSelectedOrder({ ...selectedOrder, status: "Cancelled" });
+      }
+
+      toast.success("Order cancelled successfully.");
+      setOrderToCancelPrompt(null); // Close Modal
+    } catch (error) {
+      console.error("Error cancelling order:", error);
+      toast.error("Failed to cancel order. Please try again.");
+    } finally {
+      setIsCancelling(false);
+    }
+  };
+
   if (!user) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh]">
         <Loader2 className="animate-spin text-pink-500 mb-4" size={48} />
@@ -66,6 +126,41 @@ export default function OrdersPage() {
   return (
     <div className="w-full animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
       
+      {/* BEAUTIFUL CANCEL CONFIRMATION MODAL */}
+      {orderToCancelPrompt && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white rounded-[2rem] p-6 md:p-8 max-w-sm w-full shadow-2xl shadow-pink-900/20 animate-in zoom-in-95 duration-300 border border-pink-50">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 shadow-inner">
+                <AlertCircle className="text-red-500 w-7 h-7" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-700">Cancel Order?</h3>
+            </div>
+            
+            <p className="text-gray-500 text-sm leading-relaxed mb-8 font-medium">
+              Are you sure you want to cancel order <span className="font-semibold text-gray-700">#{orderToCancelPrompt.id}</span>? This action cannot be undone.
+            </p>
+            
+            <div className="flex justify-end gap-3 w-full">
+              <button 
+                onClick={() => setOrderToCancelPrompt(null)}
+                className="flex-1 px-5 py-3 bg-white text-gray-700 border-2 border-gray-200 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+                disabled={isCancelling}
+              >
+                Go Back
+              </button>
+              <button 
+                onClick={handleCancelOrder}
+                disabled={isCancelling}
+                className="flex-1 px-5 py-3 bg-red-500 text-white rounded-xl text-sm font-semibold hover:bg-red-600 shadow-lg shadow-red-200 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex justify-center items-center disabled:opacity-70"
+              >
+                {isCancelling ? <Loader2 size={18} className="animate-spin" /> : "Yes, Cancel"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ORDER DETAILS MODAL */}
       {selectedOrder && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-gray-900/60 backdrop-blur-sm animate-in fade-in duration-300">
@@ -95,10 +190,11 @@ export default function OrdersPage() {
               </div>
               <div className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-sm border ${
                 selectedOrder.status === 'Delivered' ? 'bg-green-50 text-green-700 border-green-100' : 
+                selectedOrder.status === 'Cancelled' ? 'bg-red-50 text-red-600 border-red-200' : 
                 selectedOrder.status === 'Order Placed' ? 'bg-blue-50 text-blue-700 border-blue-100' : 
                 'bg-orange-50 text-orange-700 border-orange-100'
               }`}>
-                {selectedOrder.status === 'Delivered' ? <CheckCircle size={18} /> : <Truck size={18} />}
+                {selectedOrder.status === 'Delivered' ? <CheckCircle size={18} /> : selectedOrder.status === 'Cancelled' ? <XCircle size={18} /> : <Truck size={18} />}
                 {selectedOrder.status}
               </div>
             </div>
@@ -190,6 +286,7 @@ export default function OrdersPage() {
                   <OrderCard 
                     order={order} 
                     onViewDetails={() => setSelectedOrder(order)} 
+                    onCancelPrompt={setOrderToCancelPrompt} 
                   />
                 </div>
               ))

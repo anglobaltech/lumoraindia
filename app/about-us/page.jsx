@@ -472,7 +472,7 @@ const page = () => {
         <div className="mt-10 flex flex-col sm:flex-row justify-center gap-5" data-aos="fade-up" data-aos-delay="200">
           <Link href="/products">
             <button
-              className="cursor-pointer w-full sm:w-auto px-10 py-4 bg-pink-600 text-white rounded-full font-semibold text-lg
+              className="cursor-pointer w-full sm:w-auto px-10 py-4 bg-pink-600 text-white rounded-2xl font-semibold text-lg
       hover:scale-105 hover:bg-pink-500 transition-all duration-300 shadow-lg shadow-pink-600/30"
             >
               Shop Now
@@ -481,7 +481,7 @@ const page = () => {
 
           <Link href="/contact-us">
             <button
-              className="cursor-pointer w-full sm:w-auto px-10 py-4 border-2 border-gray-600 text-white rounded-full font-semibold text-lg
+              className="cursor-pointer w-full sm:w-auto px-10 py-4 border-2 border-gray-600 text-white rounded-2xl font-semibold text-lg
       hover:bg-white hover:text-gray-900 hover:border-white transition-all duration-300"
             >
               Contact Us
